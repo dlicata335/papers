@@ -1,24 +1,13 @@
-%% literate Agda
-\newcommand{\ignore}[1]{}
-\newcommand{\noagda}[0]{} %% a marker to tell literate agda to ignore the code block
 
-\newcommand{\FIXME}[1]{\textbf{FIXME:} #1}
+\newcommand{\wfjudg}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{judg}^{#3}_{\dcd{#4}}}}
+\newcommand{\ofjudg}[5]{\ensuremath{\ctx{#1} \vdash^{#2}_{\dcd{#3}} \dcd{#4} : \dcd{#5}}}
+\newcommand{\Apn}[3]{\ensuremath{\dsd{Ap}^{#1} \: {#2} \: {#3}}}
+\newcommand{\apn}[3]{\ensuremath{\dsd{ap}^{#1} \: {#2} \: {#3}}}
 
-\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\wfdiag}[2]{\ensuremath{\ctx{#1} \: \dsd{diag}_{#2}}}
+\newcommand{\wfdsubst}[3]{\ensuremath{\ctx{#1} \vdash #2 : {\ctx{#3}}}}
 
-%% polarity
-\newcommand{\ep}{\ensuremath{^{\text{\tiny +}}}}
-\newcommand{\en}{\ensuremath{^{\text{\small -}}}}
-\newcommand{\epn}{\ensuremath{^{\text{\tiny $\pm$}}}}
-\newcommand\downshift[0]{\uparrow}
-\newcommand\upshift[0]{\downarrow}
-
-\newcommand\definit[0]{\: \mathbin{\text{iff}} \: }
-
-\newcommand\co[1]{\ensuremath{\dcd{#1}\ep}}
-\newcommand\contra[1]{\ensuremath{\dcd{#1}\en}}
-\newcommand\cocon[1]{\ensuremath{#1 \epn}}
-\newcommand\conco[1]{\ensuremath{#1 ^\mp}}
+\newcommand{\coh}[3]{\ensuremath{\dsd{coh}_{#1} \dcd{(#2;#3)}}}
 
 \newcommand\cons[3]{\ensuremath{#1 \mathbin{,} \tptmns{#2}{#3}}}
 \newcommand\ctx[1]{\text{\ensuremath{#1}}}
@@ -50,6 +39,30 @@
 
 \newcommand{\deq}[3]{\ensuremath{#1\,\vdash\,\tp{#2} \, \equiv \, \tp{#3}}}
 \newcommand{\deqctx}[2]{\ensuremath{#1 \equiv #2}}
+
+
+%% literate Agda
+\newcommand{\ignore}[1]{}
+\newcommand{\noagda}[0]{} %% a marker to tell literate agda to ignore the code block
+
+\newcommand{\FIXME}[1]{\textbf{FIXME:} #1}
+
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+%% polarity
+\newcommand{\ep}{\ensuremath{^{\text{\tiny +}}}}
+\newcommand{\en}{\ensuremath{^{\text{\small -}}}}
+\newcommand{\epn}{\ensuremath{^{\text{\tiny $\pm$}}}}
+\newcommand\downshift[0]{\uparrow}
+\newcommand\upshift[0]{\downarrow}
+
+\newcommand\definit[0]{\: \mathbin{\text{iff}} \: }
+
+\newcommand\co[1]{\ensuremath{\dcd{#1}\ep}}
+\newcommand\contra[1]{\ensuremath{\dcd{#1}\en}}
+\newcommand\cocon[1]{\ensuremath{#1 \epn}}
+\newcommand\conco[1]{\ensuremath{#1 ^\mp}}
+
 
 %% for categorical semantics
 \newcommand\functp[2]{\ensuremath{#1 \longrightarrow #2}}
