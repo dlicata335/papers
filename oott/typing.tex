@@ -71,13 +71,24 @@
 \\ \\
 \infer{\ofjudg{\Gamma}{n}{\picl{x}{A}{B}}{\ulam{x}{\alpha}}{J}}
       {\ofjudg{\Gamma,\tptm{x}{A}}{n}{B}{\alpha}{\Apn{n}{(f.\app{f}{x})}{J}}}
-
+\qquad
+\infer{\ofjudg{\Gamma}{1}{\dsd{S^1}}{\lp{1}}{\homj{\dsd{S^1}}{\base{1}}{\base{1}}}}
+      {}
+\qquad
+\infer{\ofjudg{\Gamma}{2}{\dsd{S^1}}{\lp{2}}{\homj{\homj{\dsd{S^2}}{\base{2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}}}
+      {}
 \\ \\
+
+\text{\idt{A}{M} is \coh{x:X.\homj{X}{x}{x}}{A}{M/x}} \\ \\
 
 \begin{array}{rcl}
 \apn{n}{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
 \alpha & \equiv & \ulam{x}{\apn{n}{(f.\app f x)}{\alpha}} \\
-\coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\apn{}{(f.\app f x)}{\delta}}}
+\coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\apn{}{(f.\app f x)}{\delta}}} \\
+\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^1}}{\delta}} & \equiv & 
+\coh{\Delta.J}{C}{\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\delta}} \\
+\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^2}}{\delta}} & \equiv & 
+\coh{\Delta.J}{C}{\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\delta}} \\
 \end{array}
 \\ \\
 
@@ -90,8 +101,9 @@
 \begin{array}{rcl}
 A,M & ::= & \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \idtp{A}{M}{N} \mid
 \typ{i} \mid
-\dsd{S}^n \mid \dsd{2} \\ 
-& & \mid \app M N
+\dsd{S^1}\mid \dsd{S^2} \mid \dsd{2} \\ 
+& & \mid \app M N \mid \base{1} \mid \srec{1}{C}{M}{\alpha}{N} \mid
+\base{2} \mid \srec{2}{C}{M}{\alpha}{N} 
 \end{array}
 
 
