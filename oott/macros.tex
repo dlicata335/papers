@@ -30,10 +30,11 @@
 \newcommand\abort[1]{\ensuremath{\dsd{abort} \, \dcd{#1}}}
 
 \newcommand\wfsub[3]{\ensuremath{#1 \vdash #2 : #3}}
-\newcommand\homj[3]{\ensuremath{#2 \simeq_{#1} #3}}
+\newcommand\homj[3]{\ensuremath{#2 =_{#1} #3}}
 
-\newcommand\ofhomj[4]{\ensuremath{#1 : \homj{#2}{#3}{#4}}}
-\newcommand\ofhom[5]{\ensuremath{#1 \vdash #2 : \homj{#3}{#4}{#5}}}
+%% \newcommand\ofhomj[4]{\ensuremath{#1 : \homj{#2}{#3}{#4}}}
+%% \newcommand\ofhom[5]{\ensuremath{#1 \vdash #2 : \homj{#3}{#4}{#5}}}
+
 \newcommand\transport[3]{\ensuremath{\dsd{transport}_{#1} \ #2 \ #3}}
 
 \newcommand\set[0]{\dsd{set}}
@@ -78,7 +79,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % basic expressions
 
-% dan's code
 % mathit for metavars
 \newcommand{\dcd}[1]{\ensuremath{\mathit{#1}}}
 % mathsf for operators
@@ -88,8 +88,8 @@
 \newcommand{\drd}[1]{\ensuremath{\mathrm{#1}}}
 
 % term : type
-\newcommand{\tptm}[2]{\ensuremath{\tm{#1} \, \dcd{:} \, \tp{#2}}}
-\newcommand{\tptmns}[2]{\ensuremath{\tm{#1} \dcd{:} \tp{#2}}}
+\newcommand{\tptm}[2]{\ensuremath{\dcd{#1} \, \dcd{:} \, \dcd{#2}}}
+\newcommand{\tptmns}[2]{\ensuremath{\dcd{#1} \dcd{:} \dcd{#2}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % constructing types and kinds
@@ -111,10 +111,10 @@
 \newcommand{\sm}[2]{\ensuremath{\dcd{#1} + \dcd{#2}}}
 
 % an untyped lambda 
-\newcommand{\ulam}[2]{\tm{\lambda\,#1.\,#2}}
+\newcommand{\ulam}[2]{\dcd{\lambda\,#1.\,#2}}
 
 % a typed lambda
-\newcommand{\lam}[3]{\tm{\lambda\,\tptmns{#1}{#2}.\,#3}}
+\newcommand{\lam}[3]{\dcd{\lambda\,\tptmns{#1}{#2}.\,#3}}
 
 % juxtaposition with spacing
 % this doesn't get used just for application--also for some primitive
@@ -192,7 +192,7 @@
 \newcommand{\subtp}[2]{\ensuremath{\dcd{#1} <: \dcd{#2}}}
 
 % definitional equality
-\newcommand{\deqtm}[4]{\ensuremath{#1\,\vdash\,\tm{#2} \, \equiv \, \tm{#3} \, \dcd{:} \, \tp{#4}}}
+\newcommand{\deqtm}[4]{\ensuremath{#1\,\vdash\,\dcd{#2} \, \equiv \, \dcd{#3} \, \dcd{:} \, \tp{#4}}}
 
 %types
 \newcommand{\deqtp}[3]{\ensuremath{#1\,\vdash\,\tp{#2} \, \equiv \, \tp{#3} \, \dsd{type}}}

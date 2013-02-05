@@ -1,8 +1,112 @@
 
+\newcommand{\wfjudg}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{judg}^{#3}_{\dcd{#4}}}}
+\newcommand{\ofjudg}[5]{\ensuremath{\ctx{#1} \vdash^{#2}_{\dcd{#3}} \dcd{#4} : \dcd{#5}}}
+\newcommand{\Apn}[3]{\ensuremath{\dsd{Ap}^{#1} \: {#2} \: {#3}}}
+\newcommand{\apn}[3]{\ensuremath{\dsd{ap}^{#1} \: {#2} \: {#3}}}
+
+\newcommand{\wfdiag}[2]{\ensuremath{\ctx{#1} \: \dsd{diag}_{#2}}}
+\newcommand{\wfdsubst}[3]{\ensuremath{\ctx{#1} \vdash #2 : {\ctx{#3}}}}
+
+\newcommand{\coh}[3]{\ensuremath{\dsd{coh}_{#1} \dcd{(#2;#3)}}}
+
+\begin{small}
 \[
 \begin{array}{l}
 
-\infer{}{}\\
+\framebox{\wfdiag{\Delta}{X}} \\ \\
+
+\infer{\wfdiag{x:X}{X}}{} 
+\qquad
+\infer{\wfdiag{\Delta,\tptm{y}{J},\tptm{p}{\homj{J}{x}{y}}}{X}}
+      {\wfjudg{\Delta}{J}{n}{X} &
+       \tptm{x}{J} \in \Delta &
+      } \\
+\text{\FIXME{what's allowed to occur in J?}}
+\\ \\
+
+\framebox{\wfdsubst{\Gamma}{\delta}{\Delta}} \\ \\
+
+\infer{\wfdsubst{\Gamma}{M/x}{x:A}}{} 
+\qquad
+\infer{\wfdsubst{\Gamma}{\delta,\alpha/y,\beta/p}{\Delta,\tptm{y}{J^n_A},\tptm{p}{\homj{J}{x}{y}}}}
+      {\wfdsubst{\Gamma}{\delta}{\Delta} &
+       \ofjudg{\Gamma}{n}{A}{\alpha}{\tsubst{J}{\delta}} &
+       \ofjudg{\Gamma}{n+1}{A}{\beta}{\homj{\tsubst{J}{\delta}}{\delta(x)}{\delta(y)}} &
+      } \\ \\
+
+\text{\FIXME{need \tsubst{J}{\delta}}}
+
+\\ \\
+
+\framebox{\wfjudg{\Gamma}{J}{n}{A}} \\ \\
+
+\infer{\wfjudg{\Gamma}{A}{0}{A}}{\oftp{\Gamma}{A}{\typ{i}}}
+\qquad
+\infer{\wfjudg{\Gamma}{\homj{J}{\alpha}{\beta}}{n+1}{A}}
+      {\wfjudg{\Gamma}{J}{n}{A} &
+        \oftp{\Gamma}{\alpha}{J} &
+        \oftp{\Gamma}{\beta}{J}
+      }
+\qquad
+\infer{\wfjudg{\Gamma}{\Apn{n}{(x.M)}{J}}{n}{B}}
+      {\wfjudg{\Gamma}{J}{n}{A} &
+       \oftp{\Gamma}{A,B}{\typ{i}} & 
+       \oftp{\Gamma,\tptm{x}{A}}{M}{B}}
+\\ \\
+\text{\FIXME{do we need n-ary Ap?}}
+\\ \\
+
+\begin{array}{rcl}
+\Apn{0}{(\tptm{x}{A}.\tptm{M}{B})}{A} & \equiv & {B} \\
+\Apn{n+1}{(x.M)}{(\homj{J}{\alpha}{\beta})} & \equiv & \homj{(\Apn{n}{(x.M)}{J})}{\apn{n}{(x.M)}{\alpha}}{\apn{n}{(x.M)}{\beta}} \\
+\end{array}
+
+\\ \\
+
+\framebox{\ofjudg{\Gamma}{n}{A}{\alpha}{J}} \\ \\
+
+\infer{\ofjudg{\Gamma}{0}{A}{M}{A}} 
+      {\oftp{\Gamma}{M}{A}}
+\qquad
+\infer{\ofjudg{\Gamma}{n}{B}{\apn{n}{(x.M)}{\alpha}}{\Apn{n}{(x.M)}{J}}}
+      {\oftp{\Gamma,\tptm{x}{A}}{M}{B} &
+       \ofjudg{\Gamma}{n}{A}{\alpha}{J} &
+      }
+\qquad
+\infer{\ofjudg{\Gamma}{n}{A}{\coh{\ctx{\Delta}.J}{A}{\delta}}{\tsubst{J}{A/X,\delta}}}
+      {\wfdiag{\Delta}{X} &
+       \wfjudg{\tptm{X}{\typ{i}},\Delta}{J}{n}{X} &
+       \oftp{\Gamma}{A}{\typ{i}} &
+       \wfdsubst{\Gamma}{\delta}{\tsubst{\ctx \Delta}{A/X}}
+      }
+\\ \\
+\infer{\ofjudg{\Gamma}{n}{\picl{x}{A}{B}}{\ulam{x}{\alpha}}{J}}
+      {\ofjudg{\Gamma,\tptm{x}{A}}{n}{B}{\alpha}{\Apn{n}{(f.\app{f}{x})}{J}}}
+
+\\ \\
+
+\begin{array}{rcl}
+\apn{n}{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
+\alpha & \equiv & \ulam{x}{\apn{n}{(f.\app f x)}{\alpha}} \\
+\coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\apn{}{(f.\app f x)}{\delta}}}
+\end{array}
+\\ \\
+
+\text{\FIXME{explain \apn{}{(x.M)}{\delta}}}
+
+\\ \\
+
+\framebox{\oftp{\Gamma}{M}{A}} \\ \\
+
+\begin{array}{rcl}
+A,M & ::= & \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \idtp{A}{M}{N} \mid
+\typ{i} \mid
+\dsd{S}^n \mid \dsd{2} \\ 
+& & \mid \app M N
+\end{array}
+
+
 
 \end{array}
 \]
+\end{small}
