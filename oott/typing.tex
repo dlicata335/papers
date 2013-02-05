@@ -1,98 +1,201 @@
+
+\newcommand\diagbase[0]{\ensuremath{\mathord{*}}}
+\newcommand\interpdiag[2]{\ensuremath{[ #1 ]_{#2}}}
+
 \begin{small}
 \[
 \begin{array}{l}
 
-\framebox{\wfdiag{\Delta}{X}} \\ \\
+\framebox{\wfdiag{\Delta}} \\ \\
 
-\infer{\wfdiag{x:X}{X}}{} 
+\infer{\wfdiag{\tptm{x}{\diagbase}}}{} 
 \qquad
-\infer{\wfdiag{\Delta,\tptm{y}{J},\tptm{p}{\homj{J}{x}{y}}}{X}}
-      {\wfjudg{\Delta}{J}{n}{X} &
-       \tptm{x}{J} \in \Delta &
+\infer{\wfdiag{\Delta,\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}}}}
+      {\wfdglob{\Delta}{\diag G}{n} &
+       \tptm{x}{\diag{G}} \in \Delta &
       } \\
-\text{\FIXME{what's allowed to occur in J?}}
 \\ \\
 
-\framebox{\wfdsubst{\Gamma}{\delta}{\Delta}} \\ \\
+\framebox{\wfdglob{\Delta}{\diag G}{n}} \\ \\
 
-\infer{\wfdsubst{\Gamma}{M/x}{x:A}}{} 
+\diag G ::= \diagbase \mid \homj{\diag G}{\diag M}{\diag N} \\
+
+\diag M ::= x \mid \dcoh{\Delta.\diag G}{\diag \delta} \\
+
+\diag \delta ::= \cdot \mid \diag M / x \\
+\end{array}
+\]
+\end{small}
+
+\begin{small}
+\[
+\begin{array}{l}
+\framebox{\wfctx{\Gamma}{n}} \\ \\
+
+\infer{\wfctx{\cdot}{n}}{}
 \qquad
-\infer{\wfdsubst{\Gamma}{\delta,\alpha/y,\beta/p}{\Delta,\tptm{y}{J^n_A},\tptm{p}{\homj{J}{x}{y}}}}
-      {\wfdsubst{\Gamma}{\delta}{\Delta} &
-       \ofjudg{\Gamma}{n}{A}{\alpha}{\tsubst{J}{\delta}} &
-       \ofjudg{\Gamma}{n+1}{A}{\beta}{\homj{\tsubst{J}{\delta}}{\delta(x)}{\delta(y)}} &
-      } \\ \\
-
-\text{\FIXME{need \tsubst{J}{\delta}}}
-
+\infer{\wfctx{\Gamma,\tptm{x}{G}}{{\max(n,m)}}}
+       {\wfctx{\Gamma}{n} &
+        \wfglob{\Gamma}{G}{A}{m}}
 \\ \\
 
-\framebox{\wfjudg{\Gamma}{J}{n}{A}} \\ \\
+\framebox{\wfsub{\Gamma}{\theta}{\Gamma'}} \\ \\
 
-\infer{\wfjudg{\Gamma}{A}{0}{A}}{\oftp{\Gamma}{A}{\typ{i}}}
+\infer{\wfsub{\Gamma}{\cdot}{\cdot}}{}
 \qquad
-\infer{\wfjudg{\Gamma}{\homj{J}{\alpha}{\beta}}{n+1}{A}}
-      {\wfjudg{\Gamma}{J}{n}{A} &
-        \oftp{\Gamma}{\alpha}{J} &
-        \oftp{\Gamma}{\beta}{J}
+\infer{\wfsub{\Gamma}{\theta,M/x}{\Gamma',\tptm{x}{G}}}
+      {\wfsub{\Gamma}{\theta}{\Gamma'} &
+       \ofglob{\Gamma}{M}{\tsubst{G}{\theta}}}
+\text{The only place where $\Gamma$ on left is not of level 0 is $\wfglob{\Gamma'}{G}{-}{-}$
+  in this rule?}\\ \\
+
+
+\framebox{\wfglob{\Gamma}{G}{n}{A}} \\ \\
+
+\infer{\wfglob{\Gamma}{A}{0}{A}}
+      {\oftp{\Gamma}{A}{\typ{i}}}
+\qquad
+\infer{\wfglob{\Gamma}{\homj{G}{M}{N}}{n+1}{A}}
+      {\wfglob{\Gamma}{G}{n}{A} &
+        \oftp{\Gamma}{M}{G} &
+        \oftp{\Gamma}{N}{G}
       }
-\qquad
-\infer{\wfjudg{\Gamma}{\Apn{n}{(x.M)}{J}}{n}{B}}
-      {\wfjudg{\Gamma}{J}{n}{A} &
+\\ \\
+
+\text{There is a meta-operation:}
+\infer{\wfglob{\Gamma}{\Apn{n}{(x.M)}{G}}{n}{B}}
+      {\wfglob{\Gamma}{G}{n}{A} &
        \oftp{\Gamma}{A,B}{\typ{i}} & 
        \oftp{\Gamma,\tptm{x}{A}}{M}{B}}
+\text{defined as follows:}
 \\ \\
-\text{\FIXME{do we need n-ary Ap?}}
-\\ \\
-
 \begin{array}{rcl}
-\Apn{0}{(\tptm{x}{A}.\tptm{M}{B})}{A} & \equiv & {B} \\
-\Apn{n+1}{(x.M)}{(\homj{J}{\alpha}{\beta})} & \equiv & \homj{(\Apn{n}{(x.M)}{J})}{\apn{n}{(x.M)}{\alpha}}{\apn{n}{(x.M)}{\beta}} \\
+\Apn{n}{(\tptm{x}{A}.\tptm{M}{B})}{A} & = & {B} \\
+\Apn{n+1}{(x.M)}{\homj{G}{N}{N'}} & = & \homj{\Apn{n}{(x.M)}{G}}{\apn{n}{(x.M)}{N}}{\apn{n}{(x.M)}{N'}} \\
 \end{array}
 
 \\ \\
 
-\framebox{\ofjudg{\Gamma}{n}{A}{\alpha}{J}} \\ \\
+\framebox{\tsubst{G}{\theta}}
+\\ \\
 
-\infer{\ofjudg{\Gamma}{0}{A}{M}{A}} 
-      {\oftp{\Gamma}{M}{A}}
-\qquad
-\infer{\ofjudg{\Gamma}{n}{B}{\apn{n}{(x.M)}{\alpha}}{\Apn{n}{(x.M)}{J}}}
+\text{Just ordinary substitution.}
+\\ \\
+
+\framebox{$\interpdiag{\Delta}{A} = \Gamma$} \\ \\
+\framebox{$\interpdiag{\diag{G}}{A} = G$} \\ \\
+\text{etc.}
+
+\\ \\
+\end{array}
+\]
+\end{small}
+
+\begin{small}
+\[
+\begin{array}{l}
+\framebox{\ofglob{\Gamma}{M}{G}} \\ \\
+
+\infer{\ofglob{\Gamma}{\apn{n}{(x.M)}{\alpha}}{\Apn{n}{(x.M)}{G}}}
       {\oftp{\Gamma,\tptm{x}{A}}{M}{B} &
-       \ofjudg{\Gamma}{n}{A}{\alpha}{J} &
+       \ofglob{\Gamma}{\alpha}{G_A} &
       }
-\qquad
-\infer{\ofjudg{\Gamma}{n}{A}{\coh{\ctx{\Delta}.J}{A}{\delta}}{\tsubst{J}{A/X,\delta}}}
-      {\wfdiag{\Delta}{X} &
-       \wfjudg{\tptm{X}{\typ{i}},\Delta}{J}{n}{X} &
+\quad
+\text{\FIXME{do we need n-ary ap?}}
+\\ \\
+
+\infer{\ofglob{\Gamma}{\coh{\ctx{\Delta}.\diag{G}}{A}{\delta}}{\tsubst{\interpdiag{\diag{G}}{A}}{\delta}}}
+      {\wfdiag{\Delta} &
+       \wfdglob{\Delta}{\diag G}{n+1} &
        \oftp{\Gamma}{A}{\typ{i}} &
-       \wfdsubst{\Gamma}{\delta}{\tsubst{\ctx \Delta}{A/X}}
+       \wfsub{\Gamma}{\theta}{\interpdiag{\Delta}{A}}
       }
 \\ \\
-\infer{\ofjudg{\Gamma}{n}{\picl{x}{A}{B}}{\ulam{x}{\alpha}}{J}}
-      {\ofjudg{\Gamma,\tptm{x}{A}}{n}{B}{\alpha}{\Apn{n}{(f.\app{f}{x})}{J}}}
+
+\infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
+      {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} &
+        \ofglob{\Gamma}{N}{A}}
 \qquad
-\infer{\ofjudg{\Gamma}{1}{\dsd{S^1}}{\lp{1}}{\homj{\dsd{S^1}}{\base{1}}{\base{1}}}}
-      {}
-\qquad
-\infer{\ofjudg{\Gamma}{2}{\dsd{S^1}}{\lp{2}}{\homj{\homj{\dsd{S^2}}{\base{2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}}}
-      {}
+\infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G_{\picl{x}{A}{B}}}}
+      {\ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Apn{n}{(f.\app{f}{x})}{G}}}
 \\ \\
 
-\text{\idt{A}{M} is \coh{x:X.\homj{X}{x}{x}}{A}{M/x}} \\ \\
+\infer{\ofglob{\Gamma}{\base{1}}{\dsd{S^1}}}{}
+\qquad
+\infer{\ofglob{\Gamma}{\lp{1}}{\homj{\dsd{S^1}}{\base{1}}{\base{1}}}}
+      {}
+\qquad
+\text{\FIXME{S1-rec}}
+\\ \\
+\infer{\ofglob{\Gamma}{\base{2}}{\dsd{S^2}}}{}
+\qquad
+\infer{\ofglob{\Gamma}{\lp{2}}{\homj{\homj{\dsd{S^2}}{\base{2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}}}
+      {} 
+\quad
+\text{\FIXME{S2-rec}}
+\\ \\
+\text{\idt{A}{M} is \coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}} 
 
+\\ \\
 \begin{array}{rcl}
+\apn{0}{(x.M)}{N} & \equiv & \subst{M}{N}{x} \text{ (\FIXME{derivable or admissible?})} \\ \\
+%% ap  is 0 N N
+%% [ ] is N 0 N
+%% this says they agree for 0 0 0
+
 \apn{n}{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
-\alpha & \equiv & \ulam{x}{\apn{n}{(f.\app f x)}{\alpha}} \\
+
+\alpha & \equiv & \ulam{x}{\apn{n}{(f.\app f x)}{\alpha}} \text{ (\FIXME{Can we get away without $\eta$ definitionally?})} \\
+
 \coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\apn{}{(f.\app f x)}{\delta}}} \\
+\\ 
+
+\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\lp{1}} & \equiv & l' \\
+
 \apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^1}}{\delta}} & \equiv & 
 \coh{\Delta.J}{C}{\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\delta}} \\
+
+\\ 
+
+\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\lp{2}} & \equiv & l' \\
+
 \apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^2}}{\delta}} & \equiv & 
 \coh{\Delta.J}{C}{\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\delta}} \\
 \end{array}
 \\ \\
+\text{(If we had simple $\eta$ for spheres the above would cover all x.M)}
+\\ \\
+\text{\FIXME{do we need more equations for \apn{}{(x.M)}{\delta}? are
+    they provable?}}
 
-\text{\FIXME{explain \apn{}{(x.M)}{\delta}}}
+\\ \\
+\end{array}
+\]
+\end{small}
+\end{document}
+
+\qquad
+\\ \\
+
+
+\\ \\
+
+
+
+\end{array}
+\]
+\end{small}
+\end{document}
+
+
+
+
+
+
+\\ \\
+
+\\ \\
+
 
 \\ \\
 
