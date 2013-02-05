@@ -116,8 +116,9 @@
       {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} &
         \ofglob{\Gamma}{N}{A}}
 \qquad
-\infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G_{\picl{x}{A}{B}}}}
-      {\ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Apn{n}{(f.\app{f}{x})}{G}}}
+\infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
+      {\wfglob{\Gamma}{G}{n}{\picl{x}{A}{B}} &
+       \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Apn{n}{(f.\app{f}{x})}{G}}}
 \\ \\
 
 \infer{\ofglob{\Gamma}{\base{1}}{\dsd{S^1}}}{}
@@ -165,8 +166,10 @@
 \\ \\
 \text{(If we had simple $\eta$ for spheres the above would cover all x.M)}
 \\ \\
-\text{\FIXME{do we need more equations for \apn{}{(x.M)}{\delta}? are
+\text{\FIXME{do we need more equations for \apn{}{(x.M)}{N}? are
     they provable?}}
+\\ \\
+\text{\FIXME{define \apn{n}{(x.M)}{\delta}}}
 
 \\ \\
 \end{array}
