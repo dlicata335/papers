@@ -36,7 +36,7 @@
 \qquad
 \infer{\wfctx{\Gamma,\tptm{x}{G}}{{\max(n,m)}}}
        {\wfctx{\Gamma}{n} &
-        \wfglob{\Gamma}{G}{A}{m}}
+        \wfglob{\Gamma}{G}{m}{A}}
 \\ \\
 
 \framebox{\wfsub{\Gamma}{\theta}{\Gamma'}} \\ \\
@@ -108,7 +108,7 @@
       {\wfdiag{\Delta} &
        \wfdglob{\Delta}{\diag G}{n+1} &
        \oftp{\Gamma}{A}{\typ{i}} &
-       \wfsub{\Gamma}{\theta}{\interpdiag{\Delta}{A}}
+       \wfsub{\Gamma}{\delta}{\interpdiag{\Delta}{A}}
       }
 \\ \\
 
@@ -151,14 +151,14 @@
 \coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\apn{}{(f.\app f x)}{\delta}}} \\
 \\ 
 
-\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\lp{1}} & \equiv & l' \\
+\apn{1}{(x.\srec{1}{C}{b'}{l'}{x})}{\lp{1}} & \equiv & l' \\
 
 \apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^1}}{\delta}} & \equiv & 
 \coh{\Delta.J}{C}{\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\delta}} \\
 
 \\ 
 
-\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\lp{2}} & \equiv & l' \\
+\apn{2}{(x.\srec{2}{C}{b'}{l'}{x})}{\lp{2}} & \equiv & l' \\
 
 \apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^2}}{\delta}} & \equiv & 
 \coh{\Delta.J}{C}{\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\delta}} \\
@@ -175,6 +175,17 @@
 \end{array}
 \]
 \end{small}
+
+\noindent
+\framebox{TODO}
+\begin{small}
+\begin{itemize}
+\item univalent universe
+\item path over a path / transport
+\item dependent elim for spheres
+\end{itemize}
+\end{small}
+
 \end{document}
 
 \qquad
