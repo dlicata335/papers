@@ -1,0 +1,54 @@
+We would like to compare $\times$ and $\otimes$.
+
+\subsection{Maps}
+
+One map is easy to write:
+
+\[\ofglob{u:A\times B}{f(u):=\langle\fst u,\snd u\rangle}{A\otimes B}\]
+
+The other map is slightly more complicated:
+
+\[\ofglob{u:A\otimes B}{g(u):=\otimes\text{-elim}_{u.A\times B}
+  (x^A,y^B.(x,y); u)}{A\times B}\]
+
+\subsection{$g \circ f$}
+
+Now we want to prove that the compositions are the identities:
+
+\[\ofglob{u:A\times B}{(a,b)}{\homj{A\times B}{g(f(u))}{u}}\]
+
+In $g(f(u))$ there is a $\otimes$-$\beta$ redex, so we get
+
+\[g(f(u))\equiv (\fst u,\snd u)\]
+
+Hence given that the type of $a$ should be $\fst(g(f(u)))=\fst u$, we have
+a $\times$-$\beta$ redex on the left-hand side and we can take $a:=\id{\fst u}$.
+
+But we also have $\id{u}\equiv(\id{\fst u},\id{\snd u})$, hence
+
+\[\ofglob{u:A\times B}{\id{u}}{\homj{A\times B}{f(g(u))}{u}}\]
+
+\subsection{$f\circ g$}
+
+We want to prove that the other composition is the identity:
+
+\[\ofglob{u:A\otimes B}{\otimes\text{-elim}_{u.\homj{A\otimes B}{f(g(u))}{u}}
+  (x^A,y^B.d;u)}{\homj{A\otimes B}{f(g(u))}{u}}\]
+
+$d$ has the following type:
+
+\[\ofglob{x:A,y:B}{d}{\homj{A\otimes B}{f(g(\langle x,y\rangle))}
+  {\langle x,y\rangle}}\]
+
+The left-hand side reduces to $f((x,y))$ which reduces to
+$\langle\fst(x,y),\snd(x,y)\rangle$ which reduces to $\langle x,y\rangle$.
+
+Hence we can take $d:=\id{\langle x,y\rangle}$.
+
+\FIXME{Do we have/want $\otimes\text{-elim}_{u.\homj{A\otimes B}{f(g(u))}{u}}
+  (x^A,y^B.\id{\langle x,y\rangle};u)\equiv\id{u}$}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:
