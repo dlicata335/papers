@@ -1,0 +1,26 @@
+Every type former has a polarity, either positive or negative.
+
+Positive types are types defined by their introduction rules (e.g. (higher)
+inductive types). The elimination rule of a positive type $I$ is an eliminator
+which gives an inhabitant of any glob over $I$ given an inhabitant over every
+constructor. The $\beta$ computation rules states that applying the eliminator
+to a constructor gives the correct stuff. There is an additional computation
+rule which says that the eliminator commutes with coherences.  \FIXME{What is
+  $\eta$?}
+
+Negative types are types defined by their elimination rules (e.g. coinductive
+types, records, Pi, universe). The introduction rule of a negative type $P$
+gives an inhabitant of an arbitrary glob in $P$ given inhabitants of the
+$\dsd{Ap}$ of the elimination rules on the glob. The $\beta$ computation rules
+state that applying one of the elimination rules to the introduction rule gives
+the correct stuff. The $\eta$ computation rule says that one of the introduction
+rules applied to the application of the eliminator to an element of the correct
+glob gives back the same element. There is an additional computation rule which
+says that coherences are defined pointwise.
+
+Here are the rules for various type formers.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:

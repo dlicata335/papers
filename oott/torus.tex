@@ -1,92 +1,27 @@
-\subsection{Circle}
-
 \paragraph{Formation rule}
 
-\[
-\infer{\ofglob\Gamma{\dsd{S^1}}{\typ i}}{}
-\]
+\begin{small}
+  \[
+  \infer{\wftype\Gamma{\dsd{T}}}{}
+  \]
+\end{small}
 
 \paragraph{Introduction rules}
-\[
-\infer{\ofglob{\Gamma}{\base{1}}{\dsd{S^1}}}{}
-\qquad
-\infer{\ofglob{\Gamma}{\lp{1}}{\homj{\dsd{S^1}}{\base{1}}{\base{1}}}}{}
-\]
 
-\paragraph{Non dependent elimination rule}
-
-\[
-\infer{\ofglob{\Gamma,x:\dsd{S^1}}{\dsd{S^1\text{-}rec}_G(b, p; x)}{G}}
-{\wfglob{\Gamma}{G}{n}{B} &
-  \ofglob{\Gamma}{b}{G} &
-  \ofglob{\Gamma}{p}{\homj{G}{b}{b}}}
-\]
-\FIXME{Is that a consequence of the dependent elimination rule?}
-\\
-\FIXME{Allow any dimension of glob or only a type? Given the situation for
-  $\Pi$-types and products, it makes sense to have any dimension, and we will
-  need it later, but the computation rule for $\lp{1}$ only makes sense in
-  dimension 0… (we probably need an $\apn{}{}{}$ which can be applied to two
-  globs)}
-
-\paragraph{Non dependent computation rules}
-
-\[
-\begin{array}{rcl}
-\dsd{S^1\text{-}rec}_{B}(b, p; \base{1}) & \equiv & b \\
-\apn{1}{(x.\dsd{S^1\text{-}rec}_{B}(b, p; x))}{\lp{1}} & \equiv & p\\
-\apn{n}{(x.\dsd{S^1\text{-}rec}_{B}(b, p; x))}
-{\coh{\Delta.J}{\dsd{S^1}}{\delta}} & \equiv &
-\coh{\Delta.J}{B}{\apn{n}{(x.\dsd{S^1\text{-}rec}_{B}(b, p; x))}{\delta}}
-\\
-\end{array}
-\]
-
-\paragraph{Dependent elimination rule}
-
-\[
-\infer{\ofglob{\Gamma,x:\dsd{S^1}}{\dsd{S^1\text{-}elim}_{x.G}(b, p; x)}{G}}
-{\wfglob{\Gamma,x:\dsd{S^1}}{G}{n}{P} &
-  \ofglob{\Gamma}{b}{G[\base{1}]} &
-  \ofglob{\Gamma}{p}{\dhomj{x.G}{b}{b}{\lp{1}}}}
-\]
-
-\paragraph{Dependent computation rules}
-
-\[
-\begin{array}{rcl}
-\dsd{S^1\text{-}elim}_{x.P}(b, p; \base{1}) & \equiv & b \\
-\apn{1}{(x.\dsd{S^1\text{-}elim}_{x.P}(b, p; x))}{\lp{1}} & \equiv & p\\
-\apn{n}{(x.\dsd{S^1\text{-}elim}_{x.P}(b, p; x))}
-{\coh{\Delta.J}{\dsd{S^1}}{\delta}} & \equiv &
-\depcoh{\Delta.J}{x.P}{\apn{n}{(x.\dsd{S^1\text{-}elim}_{x.P}(b, p; x))}
-  {\delta}}
-\\
-\end{array}
-\]
-\FIXME{We need dependent Ap and dependent $\infty$-groupoid structure}
-
-\subsection{Torus}
-
-\paragraph{Formation rule}
-
-\[
-\infer{\ofglob\Gamma{\dsd{T}}{\typ i}}{}
-\]
-
-\paragraph{Introduction rules}
-\[
-\begin{array}{c}
-\infer{\ofglob{\Gamma}{\baseT}{\dsd{T}}}{}
-\qquad
-\infer{\ofglob{\Gamma}{\pT}{\homj{\dsd{T}}{\baseT}{\baseT}}}{}
-\\\\
-\infer{\ofglob{\Gamma}{\qT}{\homj{\dsd{T}}{\baseT}{\baseT}}}{}
-\qquad
-\infer{\ofglob{\Gamma}{\fT}{\homj{(\homj{\dsd{T}}{\baseT}{\baseT})}
-    {\pT\circ\qT}{\qT\circ\pT}}}{}
-\end{array}
-\]
+\begin{small}
+  \[
+  \begin{array}{c}
+    \infer{\ofglob{\Gamma}{\baseT}{\dsd{T}}}{}
+    \qquad
+    \infer{\ofglob{\Gamma}{\pT}{\homj{\dsd{T}}{\baseT}{\baseT}}}{}
+    \\\\
+    \infer{\ofglob{\Gamma}{\qT}{\homj{\dsd{T}}{\baseT}{\baseT}}}{}
+    \qquad
+    \infer{\ofglob{\Gamma}{\fT}{\homj{(\homj{\dsd{T}}{\baseT}{\baseT})}
+        {\pT\circ\qT}{\qT\circ\pT}}}{}
+  \end{array}
+  \]
+\end{small}
 
 $p\circ q$ is an abbreviation for the following (where the underscores can be
 deduced from the context)
@@ -96,43 +31,50 @@ deduced from the context)
 
 \paragraph{Non dependent elimination rule}
 
-\[
-\infer{\ofglob{\Gamma,x:\dsd{T}}{\dsd{T\text{-}rec}_G(b, p, q, f; x)}{G}}
-{\wfglob{\Gamma}{G}{n}{B} &
-  \ofglob{\Gamma}{b}{G} &
-  \ofglob{\Gamma}{p}{\homj{G}{b}{b}} &
-  \ofglob{\Gamma}{q}{\homj{G}{b}{b}} &
-  \ofglob{\Gamma}{f}{\homj{(\homj{G}{b}{b})}{p\circ q}{q \circ p}}}
-\]
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma,x:\dsd{T}}{\dsd{T\text{-}rec}_G(b, p, q, f; x)}{G}}
+  {\wfglob{\Gamma}{G}{m}{B} & \ofglob{\Gamma}{b}{G} &
+    \ofglob{\Gamma}{p}{\homj{G}{b}{b}} & \ofglob{\Gamma}{q}{\homj{G}{b}{b}} &
+    \ofglob{\Gamma}{f}{\homj{(\homj{G}{b}{b})}{p\circ q}{q \circ p}}}
+  \]
+\end{small}
 
 \paragraph{Non dependent computation rules}
 
-\[
-\begin{array}{rcl}
-\dsd{T\text{-}rec}_{B}(b, p, q, f; \baseT) & \equiv & b \\
-\apn{1}{(x.\dsd{T\text{-}rec}_{B}(b, p, q, f; x))}{\pT} & \equiv & p\\
-\apn{1}{(x.\dsd{T\text{-}rec}_{B}(b, p, q, f; x))}{\qT} & \equiv & q\\
-\apn{2}{(x.\dsd{T\text{-}rec}_{B}(b, p, q, f; x))}{\fT} & \equiv & f\\
-\apn{n}{(x.\dsd{T\text{-}rec}_{B}(b, p, q, f; x))}
-{\coh{\Delta.J}{\dsd{T}}{\delta}} & \equiv &
-\coh{\Delta.J}{B}{\apn{n}{(x.\dsd{T\text{-}rec}_{B}(b, p, q, f; x))}{\delta}}
-\end{array}
-\]
+\begin{small}
+  \[
+  \begin{array}{rcl}
+    \apnm{0}{m}{(x.\dsd{T\text{-}rec}_G(b, p, q, f; x)}{\baseT} & \equiv & b\\
+    \apnm{1}{m}{(x.\dsd{T\text{-}rec}_G(b, p, q, f; x))}{\pT} & \equiv & p\\
+    \apnm{1}{m}{(x.\dsd{T\text{-}rec}_G(b, p, q, f; x))}{\qT} & \equiv & q\\
+    \apnm{2}{m}{(x.\dsd{T\text{-}rec}_G(b, p, q, f; x))}{\fT} & \equiv & f\\
+    \apnm{n}{m}{(x.\dsd{T\text{-}rec}_G(b, p, q, f; x))}
+    {\coh{\Delta.J}{\dsd{T}}{\delta}} & \equiv &
+    \coh{\Delta.J}G{\apn{n}{(x.\dsd{T\text{-}rec}_G(b, p, q, f; x))}{\delta}}
+  \end{array}
+  \]
+\end{small}
 
 \paragraph{Dependent elimination rule}
 
-\[
-\infer{\ofglob{\Gamma,x:\dsd{T}}{\dsd{T\text{-}elim}_G(b, p, q, f; x)}{G}}
-{\wfglob{\Gamma,x:\dsd{T}}{G}{n}{P} &
-  \ofglob{\Gamma}{b}{G[\baseT]} &
-  \ofglob{\Gamma}{p}{\dhomj{x.G}{b}{b}{\pT}} &
-  \ofglob{\Gamma}{q}{\dhomj{x.G}{b}{b}{\qT}} &
-  \ofglob{\Gamma}{f}{\dhomj{x.(\dhomj{y.G}{b}{b}{x})}{p\circ q}{q \circ p}
-    {\fT}}}
-\]
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma,x:\dsd{T}}{\dsd{T\text{-}elim}_{x^\dsd{T}.G}
+      (b, p, q, f; x)}{G}}
+  {\wfglob{\Gamma,x:\dsd{T}}{G}{m}{P}
+    & \ofglob{\Gamma}{b}{G[\baseT]}
+    & \ofglob{\Gamma}{p}{\dhomj{x^{\dsd{T}}.G}{b}{b}{\pT}}
+    & \ofglob{\Gamma}{q}{\dhomj{x^{\dsd{T}}.G}{b}{b}{\qT}}
+    & \ofglob{\Gamma}{f}{\dhomj{y^{\homj{\dsd{T}}{\baseT}{\baseT}}.(\dhomj{x^{\dsd{T}}.G}{b}{b}{y})}
+      {p\circ q}{q \circ p}{\fT}}}
+  \]
+\end{small}
 
-\FIXME{Check that the previous rule is well-typed (need the typing rules for
-  dependent equality)}
+\FIXME{It seems to type check but it’s a bit weird because we end up with}
+\[\wfglob{\Gamma,y:\homj{\dsd{T}}{\baseT}{\baseT},x:\dsd{T}}{G}{m}{P}\]
+
+which works by weakening.
 
 % \[
 % \infer{\ofglob{\Gamma,x:\dsd{S^1}}{\dsd{S^1elim}_{x.P}(b, p; x)}{P}}
@@ -145,165 +87,16 @@ deduced from the context)
 
 \[
 \begin{array}{rcl}
-\dsd{T\text{-}elim}_{x.P}(b, p, q, f; \baseT) & \equiv & b \\
-\apn{1}{(x.\dsd{T\text{-}elim}_{x.P}(b, p, q, f; x))}{\pT} & \equiv & p\\
-\apn{1}{(x.\dsd{T\text{-}elim}_{x.P}(b, p, q, f; x))}{\qT} & \equiv & q\\
-\apn{2}{(x.\dsd{T\text{-}elim}_{x.P}(b, p, q, f; x))}{\fT} & \equiv & f\\
-\apn{n}{(x.\dsd{T\text{-}elim}_{x.P}(b, p, q, f; x))}
+\dsd{T\text{-}elim}_{x.G}(b, p, q, f; \baseT) & \equiv & b \\
+\apdnm{1}{m}{(x.\dsd{T\text{-}elim}_{x.G}(b, p, q, f; x))}{\pT} & \equiv & p\\
+\apdnm{1}{m}{(x.\dsd{T\text{-}elim}_{x.G}(b, p, q, f; x))}{\qT} & \equiv & q\\
+\apdnm{2}{m}{(x.\dsd{T\text{-}elim}_{x.G}(b, p, q, f; x))}{\fT} & \equiv & f\\
+\apdnm{n}{m}{(x.\dsd{T\text{-}elim}_{x.G}(b, p, q, f; x))}
 {\coh{\Delta.J}{\dsd{T}}{\delta}} & \equiv &
-\depcoh{\Delta.J}{x.P}{\apn{n}{(x.\dsd{T\text{-}elim}_{x.P}(b, p, q, f; x))}
+\depcoh{\Delta.J}{x.G}{\apdnm{n}{m}{(x.\dsd{T\text{-}elim}_{x.G}(b, p, q, f; x))}
   {\delta}}
 \end{array}
 \]
-
-\subsection{Binary product type}
-
-\paragraph{Formation rule}
-
-\[
-\infer{\ofglob\Gamma{A\times B}{\typ i}}
-{\ofglob\Gamma{A}{\typ i} &
-  \ofglob\Gamma{B}{\typ i}}
-\]
-
-Products are negative, so we start by the elimination rules.
-
-\paragraph{Elimination rules}
-\[
-\infer{\ofglob{\Gamma,u:A\times B}{\fst u}{A}}
-{\ofglob\Gamma{A}{\typ i} &
-  \ofglob\Gamma{B}{\typ i}}
-\qquad
-\infer{\ofglob{\Gamma,u:A\times B}{\snd u}{B}}
-{\ofglob\Gamma{A}{\typ i} &
-  \ofglob\Gamma{B}{\typ i}}
-\]
-
-\paragraph{Introduction rule}
-\[
-\infer{\ofglob{\Gamma}{(a, b)}{G}}
-{\wfglob{\Gamma}{G}{n}{A\times B}
-  & \ofglob\Gamma{a}{\Apn{n}{(x.\fst x)}{G}}
-  & \ofglob\Gamma{b}{\Apn{n}{(x.\snd x)}{G}}
-}
-\]
-
-\paragraph{Computation rules}
-
-\[
-\begin{array}{rcl}
-  \apn{n}{(x.\fst x)}{(a,b)} & \equiv & a\\
-  \apn{n}{(x.\snd x)}{(a,b)} & \equiv & b\\
-  \coh{\Delta.J}{A\times B}{\delta} & \equiv &
-  (\coh{\Delta.J}{A}{\delta},\coh{\Delta.J}{B}{\delta})
-\end{array}
-\]
-
-\subsection{Torus to the product of circles}
-
-\newcommand{\ttoc}{\mathrm{t2c}}
-\newcommand{\ctot}{\mathrm{c2t}}
-\newcommand{\PP}{\dsd{S^1\times S^1}}
-\newcommand{\unitlr}{\mathrm{unitlr}}
-\newcommand{\unitrl}{\mathrm{unitrl}}
-
-We want to define a map $x:\dsd{T}\vdash\ttoc(x):\PP$. We use
-$\dsd{T\text{-}rec}$:
-
-\[\ofglob{x:\dsd{T}}{\dsd{T\text{-}rec}_{\PP}(b,p,q,f;x)}{\PP}\]
-
-We need $b:\PP$, we take $b:=(\base{1},\base{1})$.
-
-We need $p:\homj{\PP}{b}{b}$, we take $p:=(\lp{1},\id)$.
-
-We need $q:\homj{\PP}{b}{b}$, we take $q:=(\id,\lp{1})$.
-
-We need $f:\homj{(\homj{\PP}{b}{b})}{p\circ q}{q\circ p}$, so we need
-$f:=(\alpha, \beta)$ where $\alpha$ is of type
-\begin{align*}
-  &\Apn{2}{(x.\fst x)}{(\homj{(\homj{\PP}{b}{b})}{p\circ q}{q\circ p})}\\
-  &\equiv \homj{\Apn{1}{(x.\fst x)}(\homj{\PP}{b}{b})}
-  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
-  &\equiv \homj{(\homj{\Apn{0}{(x.\fst x)}(\PP)}{(\apn{0}{(x.\fst x)}b)}
-    {(\apn{0}{(x.\fst x)}b)})}
-  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
-  &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
-  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
-  &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
-  {\apn{1}{(x.\fst x)}{(\lp{1}\circ\id{},\id{}\circ\lp{1})}}
-  {\apn{1}{(x.\fst x)}{(\id{}\circ\lp{1}, \lp{1}\circ\id{})}} \\
-  &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
-  {\lp{1}\circ\id{}}
-  {\id{} \circ\lp{1}} \\
-\end{align*}
-
-We define
-\[\unitrl(p):=\coh{x:\diagbase,y:\diagbase,\alpha:\homj{\diagbase}xy.
-  \homj{\homj{\diagbase}xy}{p\circ\id{}}{\id{}\circ p}}{\_}
-{(\_,\_,p)/(x,y,\alpha)}\]
-\[\unitlr(p):=\coh{x:\diagbase,y:\diagbase,\alpha:\homj{\diagbase}xy.
-  \homj{\homj{\diagbase}xy}{\id{}\circ p}{p\circ\id{}}}{\_}
-{(\_,\_,p)/(x,y,\alpha)}\]
-
-We can now define $\ttoc$ by
-
-\[\ttoc(x):=\dsd{T\text{-}rec}_{\PP}((\base{1},\base{1}),(\lp{1},\id{})
-,(\id{},\lp{1}),(\unitrl(\lp{1}),\unitlr(\lp{1}));x)\]
-
-\subsection{Product of circles to the torus}
-
-We want to define a map $u:\PP\vdash\ctot(u):\dsd{T}$. We first define a map
-$x:\dsd{S^1}\vdash\ctot'(x):\dsd{S^1}\to\dsd{T}$ using $\dsd{S^1\text{-}rec}$:
-
-\[\ofglob{x:\dsd{S^1}}{\dsd{S^1\text{-}rec}_{\dsd{S^1}\to\dsd{T}}(b,p;x)}
-{\dsd{S^1}\to\dsd{T}}\]
-
-We need $b:\dsd{S^1}\to\dsd{T}$, we take
-$b:=\lambda{}y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)$
-
-We need $p:\homj{\dsd{S^1}\to\dsd{T}}{b}{b}$, so we need $p:=\lambda y.u$ where
-\[\ofglob{y:\dsd{S^1}}{u}{\homj{\dsd{T}}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}\]
-
-We take $u:=\dsd{S^1\text{-}elim}_{y.\homj{\dsd{T}}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}(b,p;y)$.
-
-We need $b:(\homj{\dsd{T}}
-{\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;\base{1})}
-{\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;\base{1})})
-\equiv(\homj{\dsd{T}}{\baseT}{\baseT})$, we take $b:=\qT$.
-
-We need $p$ of the following type
-
-\[\dhomj{y.\homj{\dsd{T}}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}{\qT}{\qT}{\lp{1}}\]
-
-It seems more or less reasonable to say that this glob reduces to the one
-below. This will not easily scale to higher dimensions, though, but let’s
-ignore this problem for now.
-
-\begin{align*}
-  &\homj{\dsd{T}}{\apn{1}{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))}
-    {\lp{1}}\circ\qT}
-  {\qT\circ\apn{1}{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))} {\lp{1}}}
-  \\
-  &\equiv \homj{\dsd{T}}{\pT\circ\qT}{\qT\circ\pT}
-\end{align*}
-
-We take $\fT$.
-
-We have now defined $\ctot'$ by
-\[\ctot'(x):=\dsd{S^1\text{-}rec}_{\dsd{S^1}\to\dsd{T}}
-(\lambda{}y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y),
-\lambda{}y.\dsd{S^1\text{-}elim}_{y.\homj{\dsd{T}}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
-  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}(\qT,\fT;y);x)\]
-
-Finally we define $\ctot$ by
-\[\ctot(u):=(\ctot'(\fst u))(\snd u)\]
 
 %%% Local Variables:
 %%% mode: latex

@@ -1,0 +1,114 @@
+Everything in this section overrides the corresponding rules in the previous
+section.
+
+\subsection{Globs}
+
+The judgement $\wfglob{\Gamma}{G}{n}{A}$ should imply that
+$\wftype{\Gamma}{A}$.
+
+\begin{small}
+  \[\infer{\wfglob{\Gamma}{A}{0}{A}} {\wftype{\Gamma}{A}}\]
+
+  \[\infer{\wfglob{\Gamma}{(\homj{G}{M}{N})}{n+1}{A}} {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{M}{G} & \ofglob{\Gamma}{N}{G}}\]
+\end{small}
+
+\subsection{Dependent globs}
+
+\FIXME{Do we need dependent globs over several variables?}\\
+
+The judgement $\wfdepglob{\Gamma}{H}{n,m}{x^A.B}\alpha^G$ should imply that
+$\wftype{\Gamma}{A}$, $\wftype{\Gamma,x:A}{B}$, $\wfglob{\Gamma}{G}{n}{A}$ and
+$\ofglob{\Gamma}{\alpha}{G}$ hold.
+
+\begin{small}
+  \[\infer{\wfdepglob{\Gamma}{H}{0,m}{x^A.B}\alpha^A}
+  {\wftype{\Gamma}{A}
+    & \wftype{\Gamma,x:A}{B}
+    & \ofglob{\Gamma}{\alpha}{A}
+    & \wfglob{\Gamma}{H}{m}{B[\alpha/x]}
+  }\]
+
+  \[\infer{\wfdepglob{\Gamma}{(\dhomj{x^G.H}{u}{v}{\alpha})}{n+1,m}
+    {x^A.B}\alpha^{\homj{G}{M}{N}}} {\wfglob{\Gamma}{G}{n}{A} &
+    \ofglob{\Gamma}{M,N}{G}
+    & \ofglob{\Gamma}{\alpha}{\homj{G}{M}{N}} \\
+    & \wfdepglob{\Gamma,x:G}{H}{n,m}{x^A.B}x^G & \ofglob{\Gamma}{u}{H[M/x]} &
+    \ofglob{\Gamma}{v}{H[N/x]} }\]
+\end{small}
+
+% NB: For the first rule, requiring $H$ to be a glob in $B[\alpha/x]$ instead
+% does not seem to be a good idea.
+
+\subsection{$\dsd{ap}$ and $\dsd{Ap}$}
+
+It seems that we need both dependent and nondependent $\dsd{ap}$ and
+$\dsd{Ap}$. Presumably there will be some definitional reductions between the
+two.
+
+\begin{small}
+  \[\infer{\ofglob{\Gamma}{\apnm{n}{m}{(x^A.M^H)}{\alpha^G}}
+    {\Apnm{n}{m}{(x^A.M^H)}{G}}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{\alpha}{G}
+    & \wfglob{\Gamma}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  where $\dsd{Ap}$ is a meta-operation such that
+
+  \[\infer{\wfglob{\Gamma}{(\Apnm{n}{m}{(x^A.M^H)}{G})}{n+m}
+    {B}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{\alpha}{G}
+    & \wfglob{\Gamma}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  The definition of $\dsd{Ap}$ is the following:
+
+  \[
+  \begin{array}{rcl}
+    \Apnm{0}{m}{(x^A.M^H)}{A} & := & H \\
+    \Apnm{n+1}{m}{(x^A.M^H)}{(\homj{G}{N}{N'})} & := & \left(
+      \homj{\Apnm{n}{m}{(x^A.M^H)}{G}}
+      {\apnm{n}{m}{(x^A.M^H)}{N^G}}{\apnm{n}{m}{(x^A.M^H)}{N'^G}}\right)
+  \end{array}
+  \]
+\end{small}
+
+\subsection{$\dsd{apd}$ and $\dsd{Apd}$}
+
+\begin{small}
+  \[\infer{\ofglob{\Gamma}{\apdnm{n}{m}{(x^A.M^H)}{\alpha^G}}
+    {\Apdnm{n}{m}{(x^A.M^H)}{\alpha^G}}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{\alpha}{G}
+    & \wfglob{\Gamma,x:A}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  where $\dsd{Apd}$ is a meta-operation such that
+
+  \[\infer{\wfdepglob{\Gamma}{(\Apdnm{n}{m}{(x^A.M^H)}{\alpha^G})}{n,m}
+    {x^A.B}{\alpha^G}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{\alpha}{G}
+    & \wfglob{\Gamma,x:A}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  The definition of $\dsd{Ap}$ is the following:
+
+  \[
+  \begin{array}{rcl}
+    \Apdnm{0}{m}{(x^A.M^H)}{\alpha^A} & := & H[\alpha/x] \\
+    \Apdnm{n+1}{m}{(x^A.M^H)}{\alpha^{\homj{G}{N}{N'}}} & := & \left(
+      \dhomj{x^G.\Apdnm{n}{m}{(x^A.M^H)}{x^G}}
+      {\apdnm{n}{m}{(x^A.M^H)}{N^G}}{\apdnm{n}{m}{(x^A.M^H)}{N'^G}}{\alpha}\right)
+  \end{array}
+  \]
+\end{small}
+
+\FIXME{Reductions between the dependent and nondependent versions}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:

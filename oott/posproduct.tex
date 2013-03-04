@@ -1,0 +1,54 @@
+\paragraph{Formation rule}
+
+\begin{small}
+  \[
+  \infer{\wftype\Gamma{A\otimes B}} {\wftype\Gamma{A} & \wftype\Gamma{B}}
+  \]
+\end{small}
+
+\paragraph{Introduction rule}
+
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma}{\langle a, b\rangle}{A\otimes B}}
+  {\ofglob{\Gamma}{a}{A}
+    & \ofglob{\Gamma}{b}{B}}
+  \]
+\end{small}
+
+\paragraph{Elimination rule}
+
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma,u:A\otimes B}{\otimes\text{-elim}_{u^{A\otimes B}.G}
+      {(x^A,y^B.d;u)}}{G}}
+  {\wfglob{\Gamma,u:A\otimes B}{G}{m}{P}
+    & \ofglob{\Gamma,x:A,y:B}{d}{G[\langle x,y\rangle/u]}}
+  \]
+\end{small}
+
+The type of $d$ should be seen as some $\Apdnm{0}{m}{}{}$. The superscript is
+$0$ because the introduction rule is $0$-dimensional. Again, the
+$\Apdnm{0}{m}{}{}$ cannot be used directly because we don’t have anything of
+type $G$, but now we would need an $\Apdnm{0}{m}{}{}$ nondependent in the other
+argument. (\FIXME{Given a convincing explanation for that}).
+
+\paragraph{Computation rules}
+
+\begin{small}
+  \[
+  \begin{array}{rll}
+    \apdnm{0}{m}{(u.\otimes\text{-elim}_{u.G}
+      {(x^A,y^B.d;u)})}{\langle a,b\rangle} & \equiv_\beta & d[(a,b)/(x,y)] \\
+    \apdnm{n}{m}{(u.\otimes\text{-elim}_{u.G}
+      {(x^A,y^B.d;u)})}{(\coh{\Delta.J}{A\otimes B}{\delta})} & \equiv &
+    \depcoh{\Delta.J}{u.G}{\apdnm{n}{m}{(u.\otimes\text{-elim}_{u.G}
+      {(x^A,y^B.d;u)})}{\delta}}
+  \end{array}
+  \]
+\end{small}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:

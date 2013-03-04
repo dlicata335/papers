@@ -1,10 +1,16 @@
 
 \newcommand{\diag}[1]{\ensuremath{\overline{#1}}}
 
+\newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
 \newcommand{\wfglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{glob}^{#3}_{\dcd{#4}}}}
-\newcommand{\ofglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : \dcd{#3}}}
+\newcommand{\wfdepglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{depglob}^{#3}_{\dcd{#4}}}}
+\newcommand{\ofglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
 \newcommand{\Apn}[3]{\ensuremath{\dsd{Ap}^{#1} \: {#2} \: {#3}}}
 \newcommand{\apn}[3]{\ensuremath{\dsd{ap}^{#1} \: {#2} \: {#3}}}
+\newcommand{\Apnm}[4]{\ensuremath{\dsd{Ap}^{#1}_{#2} \: {#3} \: {#4}}}
+\newcommand{\apnm}[4]{\ensuremath{\dsd{ap}^{#1}_{#2} \: {#3} \: {#4}}}
+\newcommand{\Apdnm}[4]{\ensuremath{\dsd{Apd}^{#1}_{#2} \: {#3} \: {#4}}}
+\newcommand{\apdnm}[4]{\ensuremath{\dsd{apd}^{#1}_{#2} \: {#3} \: {#4}}}
 
 \newcommand{\wfdiag}[1]{\ensuremath{\ctx{#1} \: \dsd{diag}}}
 \newcommand{\wfdglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: {\dsd{dglob}^{#3}}}}
@@ -12,7 +18,7 @@
 \newcommand{\wfctx}[2]{\ensuremath{\ctx{#1} \: \dsd{ctx}^#2}}
 
 \newcommand{\coh}[3]{\ensuremath{\dsd{coh}_{#1} \dcd{(#2;#3)}}}
-\newcommand{\depcoh}[3]{\ensuremath{\dsd{dcoh}_{#1} \dcd{(#2;#3)}}}
+\newcommand{\depcoh}[3]{\ensuremath{\dsd{depcoh}_{#1} \dcd{(#2;#3)}}}
 \newcommand{\dcoh}[2]{\ensuremath{\dsd{coh}_{#1} \dcd{#2}}}
 
 \newcommand{\base}[1]{\dsd{base}_{#1}}
@@ -232,3 +238,8 @@
 \newcommand{\namederiv}[2]{\ensuremath{#1 \, \dcd{::} \, #2}}
 
 
+
+%%% Local Variables: 
+%%% mode: plain-tex
+%%% TeX-master: "paper"
+%%% End: 

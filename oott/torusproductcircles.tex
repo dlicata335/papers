@@ -1,0 +1,110 @@
+\subsection{Torus to the product of circles}
+
+\newcommand{\ttoc}{\mathrm{t2c}}
+\newcommand{\ctot}{\mathrm{c2t}}
+\newcommand{\PP}{\dsd{S^1\times S^1}}
+\newcommand{\unitlr}{\mathrm{unitlr}}
+\newcommand{\unitrl}{\mathrm{unitrl}}
+
+We want to define a map $x:\dsd{T}\vdash\ttoc(x):\PP$. We use
+$\dsd{T\text{-}rec}$:
+
+\[\ofglob{x:\dsd{T}}{\dsd{T\text{-}rec}_{\PP}(b,p,q,f;x)}{\PP}\]
+
+We need $b:\PP$, we take $b:=(\base{1},\base{1})$.
+
+We need $p:\homj{\PP}{b}{b}$, we take $p:=(\lp{1},\id)$.
+
+We need $q:\homj{\PP}{b}{b}$, we take $q:=(\id,\lp{1})$.
+
+We need $f:\homj{(\homj{\PP}{b}{b})}{p\circ q}{q\circ p}$, so we need
+$f:=(\alpha, \beta)$ where $\alpha$ is of type
+\begin{align*}
+  &\Apn{2}{(x.\fst x)}{(\homj{(\homj{\PP}{b}{b})}{p\circ q}{q\circ p})}\\
+  &\equiv \homj{\Apn{1}{(x.\fst x)}(\homj{\PP}{b}{b})}
+  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
+  &\equiv \homj{(\homj{\Apn{0}{(x.\fst x)}(\PP)}{(\apn{0}{(x.\fst x)}b)}
+    {(\apn{0}{(x.\fst x)}b)})}
+  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
+  &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
+  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
+  &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
+  {\apn{1}{(x.\fst x)}{(\lp{1}\circ\id{},\id{}\circ\lp{1})}}
+  {\apn{1}{(x.\fst x)}{(\id{}\circ\lp{1}, \lp{1}\circ\id{})}} \\
+  &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
+  {\lp{1}\circ\id{}}
+  {\id{} \circ\lp{1}} \\
+\end{align*}
+
+We define
+\[\unitrl(p):=\coh{x:\diagbase,y:\diagbase,\alpha:\homj{\diagbase}xy.
+  \homj{\homj{\diagbase}xy}{p\circ\id{}}{\id{}\circ p}}{\_}
+{(\_,\_,p)/(x,y,\alpha)}\]
+\[\unitlr(p):=\coh{x:\diagbase,y:\diagbase,\alpha:\homj{\diagbase}xy.
+  \homj{\homj{\diagbase}xy}{\id{}\circ p}{p\circ\id{}}}{\_}
+{(\_,\_,p)/(x,y,\alpha)}\]
+
+We can now define $\ttoc$ by
+
+\[\ttoc(x):=\dsd{T\text{-}rec}_{\PP}((\base{1},\base{1}),(\lp{1},\id{})
+,(\id{},\lp{1}),(\unitrl(\lp{1}),\unitlr(\lp{1}));x)\]
+
+\subsection{Product of circles to the torus}
+
+We want to define a map $u:\PP\vdash\ctot(u):\dsd{T}$. We first define a map
+$x:\dsd{S^1}\vdash\ctot'(x):\dsd{S^1}\to\dsd{T}$ using $\dsd{S^1\text{-}rec}$:
+
+\[\ofglob{x:\dsd{S^1}}{\dsd{S^1\text{-}rec}_{\dsd{S^1}\to\dsd{T}}(b,p;x)}
+{\dsd{S^1}\to\dsd{T}}\]
+
+We need $b:\dsd{S^1}\to\dsd{T}$, we take
+$b:=\lambda{}y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)$
+
+We need $p:\homj{\dsd{S^1}\to\dsd{T}}{b}{b}$, so we need $p:=\lambda y.u$ where
+\[\ofglob{y:\dsd{S^1}}{u}{\homj{\dsd{T}}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}\]
+
+We take $u:=\dsd{S^1\text{-}elim}_{y.\homj{\dsd{T}}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}(b,p;y)$.
+
+We need $b:(\homj{\dsd{T}}
+{\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;\base{1})}
+{\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;\base{1})})
+\equiv(\homj{\dsd{T}}{\baseT}{\baseT})$, we take $b:=\qT$.
+
+We need $p$ of the following type
+
+\[\dhomj{y.\homj{\dsd{T}}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}{\qT}{\qT}{\lp{1}}\]
+
+It seems more or less reasonable to say that this glob reduces to the one
+below. This will not easily scale to higher dimensions, though, but let’s
+ignore this problem for now.
+
+\begin{align*}
+  &\homj{\dsd{T}}{\apn{1}{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))}
+    {\lp{1}}\circ\qT}
+  {\qT\circ\apn{1}{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))} {\lp{1}}}
+  \\
+  &\equiv \homj{\dsd{T}}{\pT\circ\qT}{\qT\circ\pT}
+\end{align*}
+
+We take $\fT$.
+
+We have now defined $\ctot'$ by
+\[\ctot'(x):=\dsd{S^1\text{-}rec}_{\dsd{S^1}\to\dsd{T}}
+(\lambda{}y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y),
+\lambda{}y.\dsd{S^1\text{-}elim}_{y.\homj{\dsd{T}}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}
+  {\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y)}}(\qT,\fT;y);x)\]
+
+Finally we define $\ctot$ by
+\[\ctot(u):=(\ctot'(\fst u))(\snd u)\]
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:

@@ -7,3 +7,5 @@
 *.ps
 *.pdf
 *.synctex.gz
+_region_.tex
+auto

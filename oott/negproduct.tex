@@ -1,0 +1,61 @@
+\paragraph{Formation rule}
+
+\begin{small}
+  \[
+  \infer{\wftype\Gamma{A\times B}}
+  {\wftype\Gamma{A}
+    & \wftype\Gamma{B}}
+  \]
+\end{small}
+
+\paragraph{Elimination rules}
+
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma,u:A\times B}{\fst u}{A}}
+  {\wftype\Gamma{A}
+    & \wftype\Gamma{B}}
+  \qquad
+  \infer{\ofglob{\Gamma,u:A\times B}{\snd u}{B}}
+  {\wftype\Gamma{A}
+    & \wftype\Gamma{B}}
+  \]
+\end{small}
+
+\paragraph{Introduction rule}
+
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma}{(a, b)}{G}} {\wfglob{\Gamma}{G}{n}{A\times B} &
+    \ofglob{\Gamma}{a}{\Apnm{n}{0}{(x^{A\times{}B}.\fst x)}{G}} &
+    \ofglob{\Gamma}{b}{\Apnm{n}{0}{(x^{A\times{}B}.\snd x)}{G}} }
+  \]
+\end{small}
+
+NB: We only have $0$ as subscripts because the elimination rules are
+$0$-dimensional
+
+NB: It is impossible to state this rule with $\dsd{Apd}$ (\FIXME{Give a
+  convincing explanation for why this should be the case. In particular I don’t
+  see why there couldn’t be a more complicated negative type where we would need
+  $\dsd{Apd}$.})
+
+\paragraph{Computation rules}
+
+\begin{small}
+  \[
+  \begin{array}{rll}
+    \apnm{n}{0}{(x^{A\times{}B}.\fst x)}{(a,b)} & \equiv_\beta & a\\
+    \apnm{n}{0}{(x^{A\times{}B}.\snd x)}{(a,b)} & \equiv_\beta & b\\
+    (\apnm{n}{0}{(x^{A\times{}B}.\fst x)}{u}, \apnm{n}{0}{(x^{A\times{}B}.\snd
+      x)}{u}) & \equiv^{A\times{}B}_\eta & u\\
+    \coh{\Delta.J}{A\times B}{\delta} & \equiv &
+    (\coh{\Delta.J}{A}{\delta},\coh{\Delta.J}{B}{\delta})
+  \end{array}
+  \]
+\end{small}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End:
