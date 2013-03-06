@@ -1,6 +1,21 @@
 
 \newcommand{\diag}[1]{\ensuremath{\overline{#1}}}
 
+% Change to "0 = 1" if you want to see all the n and m
+\ifthenelse{0 = 0}{
+\newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
+\newcommand{\wfglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{glob}_{\dcd{#4}}}}
+\newcommand{\wfdepglob}[5]
+   {\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{depglob}^{\dcd{#4}}_{#5}}}
+\newcommand{\ofglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
+\newcommand{\ofdepglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3} [{#4}]}}
+\newcommand{\Apn}[3]{\ensuremath{\dsd{Ap} \: {#2} \: {#3}}}
+\newcommand{\apn}[3]{\ensuremath{\dsd{ap} \: {#2} \: {#3}}}
+\newcommand{\Apnm}[4]{\ensuremath{\dsd{Ap} \: {#3} \: {#4}}}
+\newcommand{\apnm}[4]{\ensuremath{\dsd{ap} \: {#3} \: {#4}}}
+\newcommand{\Apdnm}[4]{\ensuremath{\dsd{Apd} \: {#3} \: {#4}}}
+\newcommand{\apdnm}[4]{\ensuremath{\dsd{apd} \: {#3} \: {#4}}}
+}{
 \newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
 \newcommand{\wfglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{glob}^{#3}_{\dcd{#4}}}}
 \newcommand{\wfdepglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{depglob}^{#3}_{\dcd{#4}}}}
@@ -11,6 +26,9 @@
 \newcommand{\apnm}[4]{\ensuremath{\dsd{ap}^{#1}_{#2} \: {#3} \: {#4}}}
 \newcommand{\Apdnm}[4]{\ensuremath{\dsd{Apd}^{#1}_{#2} \: {#3} \: {#4}}}
 \newcommand{\apdnm}[4]{\ensuremath{\dsd{apd}^{#1}_{#2} \: {#3} \: {#4}}}
+}
+
+\newcommand{\blank}{\_}
 
 \newcommand{\wfdiag}[1]{\ensuremath{\ctx{#1} \: \dsd{diag}}}
 \newcommand{\wfdglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: {\dsd{dglob}^{#3}}}}

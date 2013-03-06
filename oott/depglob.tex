@@ -17,28 +17,22 @@ $\wftype{\Gamma}{A}$.
 
 \FIXME{Do we need dependent globs over several variables?}\\
 
-The judgement $\wfdepglob{\Gamma}{H}{n,m}{x^A.B}\alpha^G$ should imply that
-$\wftype{\Gamma}{A}$, $\wftype{\Gamma,x:A}{B}$, $\wfglob{\Gamma}{G}{n}{A}$ and
-$\ofglob{\Gamma}{\alpha}{G}$ hold.
+The judgement $\wfdepglob{\Gamma}{H}{n,m}{x^A.B}{G}$ should imply that
+$\wftype{\Gamma}{A}$, $\wftype{\Gamma,x:A}{B}$, $\wfglob{\Gamma}{G}{n}{A}$ hold.
 
 \begin{small}
-  \[\infer{\wfdepglob{\Gamma}{H}{0,m}{x^A.B}\alpha^A}
+  \[\infer{\wfdepglob{\Gamma}{H\blank}{0,m}{x^A.B}{A}}
   {\wftype{\Gamma}{A}
     & \wftype{\Gamma,x:A}{B}
-    & \ofglob{\Gamma}{\alpha}{A}
-    & \wfglob{\Gamma}{H}{m}{B[\alpha/x]}
+    & \wfglob{\Gamma,x:A}{H}{m}{B}
   }\]
 
-  \[\infer{\wfdepglob{\Gamma}{(\dhomj{x^G.H}{u}{v}{\alpha})}{n+1,m}
-    {x^A.B}\alpha^{\homj{G}{M}{N}}} {\wfglob{\Gamma}{G}{n}{A} &
+  \[\infer{\wfdepglob{\Gamma}{(\dhomj{H}{u}{v}{\blank})}{n+1,m}
+    {x^A.B}{\homj{G}{M}{N}}} {\wfglob{\Gamma}{G}{n}{A} &
     \ofglob{\Gamma}{M,N}{G}
-    & \ofglob{\Gamma}{\alpha}{\homj{G}{M}{N}} \\
-    & \wfdepglob{\Gamma,x:G}{H}{n,m}{x^A.B}x^G & \ofglob{\Gamma}{u}{H[M/x]} &
-    \ofglob{\Gamma}{v}{H[N/x]} }\]
+    & \wfdepglob{\Gamma}{H}{n,m}{x^A.B}{G} & \ofdepglob{\Gamma}{u}{H}{M} &
+    \ofdepglob{\Gamma}{v}{H}{N} }\]
 \end{small}
-
-This seems wrong, it should not be possible nor needed to put a glob in the
-context.
 
 \subsection{$\dsd{ap}$ and $\dsd{Ap}$}
 
