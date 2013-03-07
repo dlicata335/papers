@@ -1,32 +1,21 @@
-% Change to "0 = 1" if you want to see all the n and m
-\ifthenelse{0 = 0}{
-\newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
+%\newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
 \newcommand{\wfglob}[4]{
   \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{glob}_{\dcd{#4}}}}
+\newcommand{\wftype}[2]{\ofglob{#1}{#2}{\typ{i}}}
 \newcommand{\wfdepglob}[5]{
   \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{depglob}^{\dcd{#4}}_{#5}}}
 \newcommand{\ofglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
 \newcommand{\ofdepglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3} [{#4}]}}
 \newcommand{\Apn}[3]{\ensuremath{\dsd{Ap} \: {#2} \: {#3}}}
 \newcommand{\apn}[3]{\ensuremath{\dsd{ap} \: {#2} \: {#3}}}
+\newcommand{\Ap}[2]{\ensuremath{\dsd{Ap} \: {#1} \: {#2}}}
+\newcommand{\ap}[2]{\ensuremath{\dsd{ap} \: {#1} \: {#2}}}
 \newcommand{\Apnm}[4]{\ensuremath{\dsd{Ap} \: {#3} \: {#4}}}
 \newcommand{\apnm}[4]{\ensuremath{\dsd{ap} \: {#3} \: {#4}}}
 \newcommand{\Apdnm}[4]{\ensuremath{\dsd{Apd} \: {#3} \: {#4}}}
 \newcommand{\apdnm}[4]{\ensuremath{\dsd{apd} \: {#3} \: {#4}}}
-}{
-\newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
-\newcommand{\wfglob}[4]{
-  \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{glob}^{#3}_{\dcd{#4}}}}
-\newcommand{\wfdepglob}[4]{
-  \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{depglob}^{#3}_{\dcd{#4}}}}
-\newcommand{\ofglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
-\newcommand{\Apn}[3]{\ensuremath{\dsd{Ap}^{#1} \: {#2} \: {#3}}}
-\newcommand{\apn}[3]{\ensuremath{\dsd{ap}^{#1} \: {#2} \: {#3}}}
-\newcommand{\Apnm}[4]{\ensuremath{\dsd{Ap}^{#1}_{#2} \: {#3} \: {#4}}}
-\newcommand{\apnm}[4]{\ensuremath{\dsd{ap}^{#1}_{#2} \: {#3} \: {#4}}}
-\newcommand{\Apdnm}[4]{\ensuremath{\dsd{Apd}^{#1}_{#2} \: {#3} \: {#4}}}
-\newcommand{\apdnm}[4]{\ensuremath{\dsd{apd}^{#1}_{#2} \: {#3} \: {#4}}}
-}
+\newcommand{\Apd}[2]{\ensuremath{\dsd{Apd} \: {#1} \: {#2}}}
+\newcommand{\apd}[2]{\ensuremath{\dsd{apd} \: {#1} \: {#2}}}
 
 \newcommand{\blank}{\square}
 
@@ -40,6 +29,8 @@
 \newcommand{\substdiaglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
 \newcommand{\wfctx}[1]{\ensuremath{\vdash\ctx{#1} \: \dsd{ctx}}}
 \newcommand{\wfglobctx}[1]{\ensuremath{\vdash\ctx{#1} \: \dsd{globctx}}}
+\newcommand{\ofinterp}[4]{\ofglob{#1}{#2}{\interpdiag{#3}{#4}}}
+\newcommand{\interpglob}[3]{{#1}_{#2}[{#3}]}
 
 \newcommand{\coh}[3]{\ensuremath{\dsd{coh}_{#1} \dcd{(#2;#3)}}}
 \newcommand{\depcoh}[3]{\ensuremath{\dsd{depcoh}_{#1} \dcd{(#2;#3)}}}
@@ -83,8 +74,6 @@
 
 \newcommand\idtp[3]{\ensuremath{\dsd{Id}_{#1} \ #2 \ #3}}
 \newcommand\subst[3]{\ensuremath{#1 [ #2 / #3]}}
-
-\newcommand\ap[3]{\ensuremath{\dsd{ap}^{#1} \ {#1} \ #2}}
 
 \newcommand{\deq}[3]{\ensuremath{#1\,\vdash\,\tp{#2} \, \equiv \, \tp{#3}}}
 \newcommand{\deqctx}[2]{\ensuremath{#1 \equiv #2}}

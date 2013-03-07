@@ -5,23 +5,31 @@
 
 We have a lot of judgments:
 
+\paragraph{Coherences}
+
 \begin{itemize}
 \item $\wfdiag{\Delta}$
 \item $\wfdiaglob{\Delta}{\diag G}$ (requires $\wfdiag{\Delta}$)
 \item $\ofdiaglob{\Delta}{u}{\diag G}$ (requires $\wfdiaglob{\Delta}{\diag G}$)
 \item $\substdiaglob{\Delta}{\diag \delta}{\Delta'}$ (requires $\wfdiag{\Delta}$
   and $\wfdiag{\Delta'}$)
+\end{itemize}
+
+\paragraph{Everything else}
+
+\begin{itemize}
 \item $\wfctx{\Gamma}$
-\item $\wfglobctx{\Gamma}$
-\item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
-  $\wfglobctx{\Gamma'}$)
-\item $\wftype{\Gamma}{A}$ (requires $\wfctx{\Gamma}$)
-\item $\wfglob{\Gamma}{G}{}{A}$ (requires $\wftype{\Gamma}{A}$)
+% \item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
+%   $\wfctx{\Gamma'}$)
+% \item $\wftype{\Gamma}{A}$ (requires $\wfctx{\Gamma}$)
+\item $\wfglob{\Gamma}{G}{}{A}$ (requires $\ofglob{\Gamma}{A}{\typ{i}}$)
 \item $\ofglob{\Gamma}{\alpha}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$)
 \item $\wfdepglob{\Gamma}{H}{}{x^A.B}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$
   and $\wftype{\Gamma,x:A}{B}$)
 \item $\ofdepglob{\Gamma}{u}{H}{\alpha}$ (requires
   $\wfdepglob{\Gamma}{H}{}{x^A.B}{G}$ and $\ofglob{\Gamma}{\alpha}{G}$)
+\item $\ofinterp{\Gamma}{\delta}{\Delta}{A}$ (requires $\wfdiag{\Delta}$ and
+  $\wftype{\Gamma}{A}$)
 \end{itemize}
 
 \section{Typing rules}
@@ -42,7 +50,7 @@ We have a lot of judgments:
 \begin{small}
   \[
   \infer{\wfdiaglob{\Delta}{\diagbase}}
-  {\wfdiag{\Delta}}
+  {}%\wfdiag{\Delta}}
   \qquad\qquad
   \infer{\wfdiaglob{\Delta}{\homj{\diag G}{\diag M}{\diag N}}}
   {\ofdiaglob{\Delta}{\diag M}{\diag G}
@@ -65,10 +73,20 @@ We have a lot of judgments:
 
 \subsection{Diagram substitutions}
 
-\FIXME{TODO, if we do not define diagram contexts, then diagram substitutions
-  are a bit annoying to define}
-
-% \diag \delta ::= \cdot \mid \diag M / x \\
+\begin{small}
+  \[
+  \infer{\substdiaglob{\Delta}{(\diag M/x)}{(\tptm{x}{\diagbase})}}
+  {\ofdiaglob{\Delta}{\diag M}{\diagbase}}
+  \qquad
+  \infer{\substdiaglob{\Delta}{(\diag \delta,\diag N/y, \diag p/p)}
+    {(\Delta',\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}})}}
+  {\substdiaglob{\Delta}{\diag \delta}{\Delta'}
+    & \ofdiaglob{\Delta}{\diag N}{\tsubst{\diag G}{\diag \delta}}
+    & \ofdiaglob{\Delta}{\diag p}{\homj{\tsubst{\diag G}{\diag\delta}}
+      {\tsubst{x}{\diag \delta}}{\diag N}}
+    & (\tptm{x}{\diag G})\in\Delta'}
+  \]
+\end{small}
 
 \subsection{Contexts}
 
@@ -83,170 +101,218 @@ We have a lot of judgments:
   \]
 \end{small}
 
-\subsection{Glob contexts}
+% \framebox{\wfsub{\Gamma}{\theta}{\Gamma'}} \\ \\
 
-We don’t want that, we want $\ofglob{\Gamma}{\delta}{[\Delta]_A}$ to be a
-judgement on its own.
+% \infer{\wfsub{\Gamma}{\cdot}{\cdot}}{}
+% \qquad
+% \infer{\wfsub{\Gamma}{\theta,M/x}{\Gamma',\tptm{x}{G}}}
+%       {\wfsub{\Gamma}{\theta}{\Gamma'} &
+%        \ofglob{\Gamma}{M}{\tsubst{G}{\theta}}}
+% \text{The only place where $\Gamma$ on left is not of level 0 is $\wfglob{\Gamma'}{G}{-}{-}$
+%   in this rule?}\\ \\
+
+\subsection{Globs}
 
 \begin{small}
-\[
-\begin{array}{l}
-\framebox{\wfctx{\Gamma}{n}} \\ \\
+  \[
+  \infer{\wfglob{\Gamma}{A}{0}{A}}
+  {\oftp{\Gamma}{A}{\typ{i}}}
+  \qquad\qquad
+  \infer{\wfglob{\Gamma}{\homj{G}{M}{N}}{n+1}{A}}
+  {\wfglob{\Gamma}{G}{n}{A} &
+    \oftp{\Gamma}{M}{G} &
+    \oftp{\Gamma}{N}{G}
+  }
+  \]
+\end{small}
 
-\infer{\wfctx{\cdot}{n}}{}
-\qquad
-\infer{\wfctx{\Gamma,\tptm{x}{G}}{{\max(n,m)}}}
-       {\wfctx{\Gamma}{n} &
-        \wfglob{\Gamma}{G}{m}{A}}
-\\ \\
+\subsection{Interpretation of diagram contexts}
 
-\framebox{\wfsub{\Gamma}{\theta}{\Gamma'}} \\ \\
-
-\infer{\wfsub{\Gamma}{\cdot}{\cdot}}{}
-\qquad
-\infer{\wfsub{\Gamma}{\theta,M/x}{\Gamma',\tptm{x}{G}}}
-      {\wfsub{\Gamma}{\theta}{\Gamma'} &
-       \ofglob{\Gamma}{M}{\tsubst{G}{\theta}}}
-\text{The only place where $\Gamma$ on left is not of level 0 is $\wfglob{\Gamma'}{G}{-}{-}$
-  in this rule?}\\ \\
-
-
-\framebox{\wfglob{\Gamma}{G}{n}{A}} \\ \\
-
-\infer{\wfglob{\Gamma}{A}{0}{A}}
-      {\oftp{\Gamma}{A}{\typ{i}}}
-\qquad
-\infer{\wfglob{\Gamma}{\homj{G}{M}{N}}{n+1}{A}}
-      {\wfglob{\Gamma}{G}{n}{A} &
-        \oftp{\Gamma}{M}{G} &
-        \oftp{\Gamma}{N}{G}
-      }
-\\ \\
-
-\text{There is a meta-operation:}
-\infer{\wfglob{\Gamma}{\Apn{n}{(x.M)}{G}}{n}{B}}
-      {\wfglob{\Gamma}{G}{n}{A} &
-       \oftp{\Gamma}{A,B}{\typ{i}} & 
-       \oftp{\Gamma,\tptm{x}{A}}{M}{B}}
-\text{defined as follows:}
-\\ \\
-\begin{array}{rcl}
-\Apn{n}{(\tptm{x}{A}.\tptm{M}{B})}{A} & = & {B} \\
-\Apn{n+1}{(x.M)}{\homj{G}{N}{N'}} & = & \homj{\Apn{n}{(x.M)}{G}}{\apn{n}{(x.M)}{N}}{\apn{n}{(x.M)}{N'}} \\
-\end{array}
-
-\\ \\
-
-\framebox{\tsubst{G}{\theta}}
-\\ \\
-
-\text{Just ordinary substitution.}
-\\ \\
-
-\framebox{$\interpdiag{\Delta}{A} = \Gamma$} \\ \\
-\framebox{$\interpdiag{\diag{G}}{A} = G$} \\ \\
-\text{etc.}
-
-\\ \\
-\end{array}
+\begin{small}
+  \[\infer{\ofinterp{\Gamma}{(M/x)}{\tptm{x}{\diagbase}}{A}}
+  {\ofglob{\Gamma}{M}{A}}
+  \qquad
+  \infer{\ofinterp{\Gamma}{(\delta,N/y, \alpha/p)}
+    {(\Delta,\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}})}{A}}
+  {\ofinterp{\Gamma}{\delta}{\Delta}{A}
+    & \ofglob{\Gamma}{N}{\interpglob{\diag G}{A}{\delta}}
+    & \ofdiaglob{\Gamma}{\alpha}{
+      \homj{\interpglob{\diag G}{A}{\delta}}{\delta(x)}{N}}
+    & (\tptm{x}{\diag G})\in\Delta}
 \]
 \end{small}
 
+We have the following operations
+\begin{itemize}
+\item $\wfglob{\Gamma}{\interpglob{\diag G}{A}{\delta}}{}{A}$ whenever
+  $\wfdiaglob{\Delta}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\Delta}{A}$
+\item $\ofglob{\Gamma}{\interpglob{\diag M}{A}{\delta}}{} {\interpglob{\diag
+      G}{A}{\delta}}$ whenever $\ofdiaglob{\Delta}{\diag M}{\diag G}$ and
+  $\ofinterp{\Gamma}{\delta}{\Delta}{A}$
+\item $\ofinterp{\Gamma}{\interpglob{\diag\delta}{A}{\delta}}{\Delta'}{A}$
+  whenever $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$ and
+  $\ofinterp{\Gamma}{\delta}{\Delta}{A}$
+\end{itemize}
+
 \begin{small}
+  \[
+  \begin{array}{rcl}
+    \interpglob{\diagbase}{A}{\delta} & := & A \\
+    \interpglob{(\homj{\diag G}{\diag M}{\diag N})}{A}{\delta} & := &
+    \homj{\interpglob{\diag G}{A}{\delta}}{\interpglob{\diag M}{A}{\delta}}
+    {\interpglob{\diag N}{A}{\delta}}\\\\
+
+    \interpglob{x}{A}{\delta} & := & \delta(x) \\
+    \interpglob{\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{A}{\delta} & := &
+    \coh{\Delta.\diag G}{A}{\interpdiag{\diag\delta'}{A}{\delta}}\\\\
+
+    \interpglob{(\diag M/x)}{A}{\delta} & := & \interpglob{M}{A}{\delta}/x \\
+    \interpglob{(\diag \delta,\diag N/y,\diag \alpha/p)}{A}{\delta} & := &
+    (\interpglob{\diag\delta}{A}{\delta},\interpglob{\diag N}{A}{\delta}/y,
+    \interpglob{\diag\alpha}{A}{\delta}/p)
+  \end{array}
+  \]
+\end{small}
+
+\subsection{Terms}
+
+\paragraph{Coherences}
+
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma}{\coh{\ctx{\Delta}.\diag{G}}{A}{\delta}}
+    {\interpglob{\diag{G}}{A}{\delta}}}
+  {\wfdiag{\Delta}
+    & \wfdiaglob{\Delta}{\diag G}
+    & \oftp{\Gamma}{A}{\typ{i}}
+    & \ofinterp{\Gamma}{\delta}{\Delta}{A}}
+  \]
+\end{small}
+
+\paragraph{Ap}
+
+\begin{small}
+  \[\infer{\ofglob{\Gamma}{\ap{(x^A.M^H)}{\alpha^G}}
+    {\Ap{(x^A.M^H)}{G}}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{\alpha}{G}
+    & \wfglob{\Gamma}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  where $\dsd{Ap}$ is a meta-operation such that
+
+  \[\infer{\wfglob{\Gamma}{(\Ap{(x^A.M^H)}{G})}{n+m}
+    {B}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{\alpha}{G}
+    & \wfglob{\Gamma}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  The definition of $\dsd{Ap}$ is the following:
+
+  \[
+  \begin{array}{rcl}
+    \Ap{(x^A.M^H)}{A} & := & H \\
+    \Ap{(x^A.M^H)}{(\homj{G}{N}{N'})} & := & \left(
+      \homj{\Ap{(x^A.M^H)}{G}}
+      {\ap{(x^A.M^H)}{N^G}}{\ap{(x^A.M^H)}{N'^G}}\right)
+  \end{array}
+  \]
+\end{small}
+
+\begin{small}
+  \[
+  \apn{0}{(x.M)}{N}  \equiv  \subst{M}{N}{x}
+  \text{ (\FIXME{definition or reduction or something else?})} \\ \\
+  \]
+\end{small}
+
+\FIXME{do we need more equations for \apn{}{(x.M)}{N}? are
+    they provable?}
+
+\FIXME{define \apn{n}{(x.M)}{\delta}}
+
+\subsection{Depglobs}
+
+\FIXME{Do we need dependent globs over several variables?}\\
+
+\begin{small}
+  \[\infer{\wfdepglob{\Gamma}{(x^A.H)}{0,m}{x^A.B}{A}}
+  {\wftype{\Gamma}{A}
+    & \wftype{\Gamma,x:A}{B}
+    & \wfglob{\Gamma,x:A}{H}{m}{B}
+  }\]
+
+  \[\infer{\wfdepglob{\Gamma}{(\dhomj{H}{u}{v}{\blank})}{n+1,m}
+    {x^A.B}{\homj{G}{M}{N}}} {\wfglob{\Gamma}{G}{n}{A} &
+    \ofglob{\Gamma}{M,N}{G}
+    & \wfdepglob{\Gamma}{H}{n,m}{x^A.B}{G} & \ofdepglob{\Gamma}{u}{H}{M} &
+    \ofdepglob{\Gamma}{v}{H}{N} }\]
+\end{small}
+
+\subsection{Dependent terms}
+
+\paragraph{Dependent coherences}
+
+
+
+\paragraph{Apd}
+
+\begin{small}
+  \[\infer{\ofdepglob{\Gamma}{\apd{(x^A.M^H)}{\alpha^G}}
+    {(\Apd{(x^A.M^H)}{G})}{\alpha}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \ofglob{\Gamma}{\alpha}{G}
+    & \wfglob{\Gamma,x:A}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  where $\dsd{Apd}$ is a meta-operation such that
+
+  \[\infer{\wfdepglob{\Gamma}{(\Apd{(x^A.M^H)}{G})}{n,m}
+    {x^A.B}{G}}
+  {\wfglob{\Gamma}{G}{n}{A}
+    & \wfglob{\Gamma,x:A}{H}{m}{B}
+    & \ofglob{\Gamma,x:A}{M}{H}}\]
+
+  The definition of $\dsd{Ap}$ is the following:
+
+  \[
+  \begin{array}{rcl}
+    \Apd{(x^A.M^H)}{A} & := & x^A.H \\
+    \Apd{(x^A.M^H)}{(\homj{G}{N}{N'})} & := & \left(
+      \dhomj{\Apd{(x^A.M^H)}{G}}
+      {\apd{(x^A.M^H)}{N^G}}{\apd{(x^A.M^H)}{N'^G}}{\blank}\right)
+  \end{array}
+  \]
+\end{small}
+
+\FIXME{Reductions between the dependent and nondependent versions}
+
+\subsection{Useful coherences}
+
+\[\idt{A}{M}:=\coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}\]
+
+\subsection{Pi}
+
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
+  {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} & \ofglob{\Gamma}{N}{A}} \qquad
+  \infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
+  {\wfglob{\Gamma}{G}{n}{\picl{x}{A}{B}} &
+    \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Apn{n}{(f.\app{f}{x})}{G}}}
+  \]
 \[
-\begin{array}{l}
-\framebox{\ofglob{\Gamma}{M}{G}} \\ \\
-
-\infer{\ofglob{\Gamma}{\apn{n}{(x.M)}{\alpha}}{\Apn{n}{(x.M)}{G}}}
-      {\oftp{\Gamma,\tptm{x}{A}}{M}{B} &
-       \ofglob{\Gamma}{\alpha}{G_A} &
-      }
-\quad
-\text{\FIXME{do we need n-ary ap?}}
-\\ \\
-
-\infer{\ofglob{\Gamma}{\coh{\ctx{\Delta}.\diag{G}}{A}{\delta}}{\tsubst{\interpdiag{\diag{G}}{A}}{\delta}}}
-      {\wfdiag{\Delta} &
-       \wfdiaglob{\Delta}{\diag G} & %{n+1} &
-       \oftp{\Gamma}{A}{\typ{i}} &
-       \wfsub{\Gamma}{\delta}{\interpdiag{\Delta}{A}}
-      }
-\\ \\
-
-\infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
-      {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} &
-        \ofglob{\Gamma}{N}{A}}
-\qquad
-\infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
-      {\wfglob{\Gamma}{G}{n}{\picl{x}{A}{B}} &
-       \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Apn{n}{(f.\app{f}{x})}{G}}}
-\\ \\
-
-\infer{\ofglob{\Gamma}{\base{1}}{\dsd{S^1}}}{}
-\qquad
-\infer{\ofglob{\Gamma}{\lp{1}}{\homj{\dsd{S^1}}{\base{1}}{\base{1}}}}
-      {}
-\qquad
-\text{\FIXME{S1-rec}}
-\\ \\
-\infer{\ofglob{\Gamma}{\base{2}}{\dsd{S^2}}}{}
-\qquad
-\infer{\ofglob{\Gamma}{\lp{2}}{\homj{\homj{\dsd{S^2}}{\base{2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}{\idt{\dsd{S^2}}{\base{2}}}}}
-      {} 
-\quad
-\text{\FIXME{S2-rec}}
-\\ \\
-\text{\idt{A}{M} is \coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}} 
-
-\\ \\
-\begin{array}{rcl}
-\apn{0}{(x.M)}{N} & \equiv & \subst{M}{N}{x} \text{ (\FIXME{derivable or admissible?})} \\ \\
-%% ap  is 0 N N
-%% [ ] is N 0 N
-%% this says they agree for 0 0 0
-
-\apn{n}{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
+  \begin{array}{rcl}
+  \apn{n}{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
 
 \alpha & \equiv & \ulam{x}{\apn{n}{(f.\app f x)}{\alpha}} \text{ (\FIXME{Can we get away without $\eta$ definitionally?})} \\
 
 \coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\apn{}{(f.\app f x)}{\delta}}} \\
-\\ 
-
-\apn{1}{(x.\srec{1}{C}{b'}{l'}{x})}{\lp{1}} & \equiv & l' \\
-
-\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^1}}{\delta}} & \equiv & 
-\coh{\Delta.J}{C}{\apn{n}{(x.\srec{1}{C}{b'}{l'}{x})}{\delta}} \\
-
-\\ 
-
-\apn{2}{(x.\srec{2}{C}{b'}{l'}{x})}{\lp{2}} & \equiv & l' \\
-
-\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\coh{\ctx \Delta.J}{\dsd{S^2}}{\delta}} & \equiv & 
-\coh{\Delta.J}{C}{\apn{n}{(x.\srec{2}{C}{b'}{l'}{x})}{\delta}} \\
-\end{array}
-\\ \\
-\text{(If we had simple $\eta$ for spheres the above would cover all x.M)}
-\\ \\
-\text{\FIXME{do we need more equations for \apn{}{(x.M)}{N}? are
-    they provable?}}
-\\ \\
-\text{\FIXME{define \apn{n}{(x.M)}{\delta}}}
-
-\\ \\
+ 
 \end{array}
 \]
 \end{small}
-
-\noindent
-\framebox{TODO}
-\begin{small}
-\begin{itemize}
-\item univalent universe
-\item path over a path / transport
-\item dependent elim for spheres
-\end{itemize}
-\end{small}
-
 %\end{document}
 
 % \qquad
