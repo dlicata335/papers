@@ -1,31 +1,92 @@
-
 \newcommand\diagbase[0]{\ensuremath{\mathord{*}}}
 \newcommand\interpdiag[2]{\ensuremath{[ #1 ]_{#2}}}
 
+\section{Judgments}
+
+We have a lot of judgments:
+
+\begin{itemize}
+\item $\wfdiag{\Delta}$
+\item $\wfdiaglob{\Delta}{\diag G}$ (requires $\wfdiag{\Delta}$)
+\item $\ofdiaglob{\Delta}{u}{\diag G}$ (requires $\wfdiaglob{\Delta}{\diag G}$)
+\item $\substdiaglob{\Delta}{\diag \delta}{\Delta'}$ (requires $\wfdiag{\Delta}$
+  and $\wfdiag{\Delta'}$)
+\item $\wfctx{\Gamma}$
+\item $\wfglobctx{\Gamma}$
+\item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
+  $\wfglobctx{\Gamma'}$)
+\item $\wftype{\Gamma}{A}$ (requires $\wfctx{\Gamma}$)
+\item $\wfglob{\Gamma}{G}{}{A}$ (requires $\wftype{\Gamma}{A}$)
+\item $\ofglob{\Gamma}{\alpha}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$)
+\item $\wfdepglob{\Gamma}{H}{}{x^A.B}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$
+  and $\wftype{\Gamma,x:A}{B}$)
+\item $\ofdepglob{\Gamma}{u}{H}{\alpha}$ (requires
+  $\wfdepglob{\Gamma}{H}{}{x^A.B}{G}$ and $\ofglob{\Gamma}{\alpha}{G}$)
+\end{itemize}
+
+\section{Typing rules}
+
+\subsection{Diagrams}
+
 \begin{small}
-\[
-\begin{array}{l}
-
-\framebox{\wfdiag{\Delta}} \\ \\
-
-\infer{\wfdiag{\tptm{x}{\diagbase}}}{} 
-\qquad
-\infer{\wfdiag{\Delta,\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}}}}
-      {\wfdglob{\Delta}{\diag G}{n} &
-       \tptm{x}{\diag{G}} \in \Delta &
-      } \\
-\\ \\
-
-\framebox{\wfdglob{\Delta}{\diag G}{n}} \\ \\
-
-\diag G ::= \diagbase \mid \homj{\diag G}{\diag M}{\diag N} \\
-
-\diag M ::= x \mid \dcoh{\Delta.\diag G}{\diag \delta} \\
-
-\diag \delta ::= \cdot \mid \diag M / x \\
-\end{array}
-\]
+  \[
+  \infer{\wfdiag{\tptm{x}{\diagbase}}}{}
+  \qquad\qquad
+  \infer{\wfdiag{\Delta,\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}}}}
+  {\wfdiaglob{\Delta}{\diag G}
+    & (\tptm{x}{\diag{G}}) \in \Delta}\]
 \end{small}
+
+\subsection{Diagram globs}
+
+\begin{small}
+  \[
+  \infer{\wfdiaglob{\Delta}{\diagbase}}
+  {\wfdiag{\Delta}}
+  \qquad\qquad
+  \infer{\wfdiaglob{\Delta}{\homj{\diag G}{\diag M}{\diag N}}}
+  {\ofdiaglob{\Delta}{\diag M}{\diag G}
+    & \ofdiaglob{\Delta}{\diag N}{\diag G}}
+  \]
+\end{small}
+
+\subsection{Diagram terms}
+
+\begin{small}
+  \[
+  \infer{\ofdiaglob{\Delta}{x}{\diag G}}
+  {(\tptm{x}{\diag G})\in\Delta}
+  \qquad\qquad
+  \infer{\ofdiaglob{\Delta}{\diagcoh{\Delta.\diag G}{\diag\delta}}{\Delta'}}
+  {\wfdiaglob{\Delta}{\diag G}
+    & \substdiaglob{\Delta}{\diag\delta}{\Delta'}}
+  \]
+\end{small}
+
+\subsection{Diagram substitutions}
+
+\FIXME{TODO, if we do not define diagram contexts, then diagram substitutions
+  are a bit annoying to define}
+
+% \diag \delta ::= \cdot \mid \diag M / x \\
+
+\subsection{Contexts}
+
+\begin{small}
+  \[
+  \infer{\wfctx{\varnothing}}{}
+  \qquad\qquad
+  \infer{\wfctx{\Gamma,x:A}}
+  {\wfctx{\Gamma}
+    & \wftype{\Gamma}{A}
+    & (x\not\in\Gamma)}
+  \]
+\end{small}
+
+\subsection{Glob contexts}
+
+We don’t want that, we want $\ofglob{\Gamma}{\delta}{[\Delta]_A}$ to be a
+judgement on its own.
 
 \begin{small}
 \[
@@ -106,7 +167,7 @@
 
 \infer{\ofglob{\Gamma}{\coh{\ctx{\Delta}.\diag{G}}{A}{\delta}}{\tsubst{\interpdiag{\diag{G}}{A}}{\delta}}}
       {\wfdiag{\Delta} &
-       \wfdglob{\Delta}{\diag G}{n+1} &
+       \wfdiaglob{\Delta}{\diag G} & %{n+1} &
        \oftp{\Gamma}{A}{\typ{i}} &
        \wfsub{\Gamma}{\delta}{\interpdiag{\Delta}{A}}
       }

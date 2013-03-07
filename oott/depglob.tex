@@ -21,7 +21,7 @@ The judgement $\wfdepglob{\Gamma}{H}{n,m}{x^A.B}{G}$ should imply that
 $\wftype{\Gamma}{A}$, $\wftype{\Gamma,x:A}{B}$, $\wfglob{\Gamma}{G}{n}{A}$ hold.
 
 \begin{small}
-  \[\infer{\wfdepglob{\Gamma}{H\blank}{0,m}{x^A.B}{A}}
+  \[\infer{\wfdepglob{\Gamma}{(x.H)}{0,m}{x^A.B}{A}}
   {\wftype{\Gamma}{A}
     & \wftype{\Gamma,x:A}{B}
     & \wfglob{\Gamma,x:A}{H}{m}{B}
