@@ -1,6 +1,8 @@
 %\newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
 \newcommand{\wfglob}[4]{
   \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{glob}_{\dcd{#4}}}}
+\newcommand{\wftel}[2]{
+  \ensuremath{\ctx{#1} \vdash \ctx{#2} \: \dsd{tel}}}
 \newcommand{\wftype}[2]{\ofglob{#1}{#2}{\typ{i}}}
 \newcommand{\wfdepglob}[5]{
   \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{depglob}^{\dcd{#4}}_{#5}}}
@@ -19,7 +21,7 @@
 
 \newcommand{\blank}{\square}
 
-\newcommand{\wfdiag}[1]{\ensuremath{\vdash\ctx{#1} \: \dsd{diag}}}
+\newcommand{\wfdiag}[1]{\ensuremath{\ctx{#1} \: \dsd{diag}}}
 \newcommand{\diag}[1]{\ensuremath{\overline{#1}}}
 \newcommand{\wfdglob}[3]{
   \ensuremath{\ctx{#1} \vdash \dcd{#2} \: {\dsd{dlobmacroobsolete}}}}
@@ -27,7 +29,7 @@
   \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{diaglob}}}
 \newcommand{\ofdiaglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
 \newcommand{\substdiaglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
-\newcommand{\wfctx}[1]{\ensuremath{\vdash\ctx{#1} \: \dsd{ctx}}}
+\newcommand{\wfctx}[1]{\ensuremath{\ctx{#1} \: \dsd{ctx}}}
 \newcommand{\wfglobctx}[1]{\ensuremath{\vdash\ctx{#1} \: \dsd{globctx}}}
 \newcommand{\ofinterp}[4]{\ofglob{#1}{#2}{\interpdiag{#3}{#4}}}
 \newcommand{\interpglob}[3]{{#1}_{#2}[{#3}]}
@@ -36,6 +38,8 @@
 \newcommand{\depcoh}[3]{\ensuremath{\dsd{depcoh}_{#1} \dcd{(#2;#3)}}}
 \newcommand{\dcoh}[2]{\ensuremath{\dsd{cohmacroobsolete}_{#1} \dcd{#2}}}
 \newcommand{\diagcoh}[2]{\ensuremath{\dsd{\diag{coh}}_{#1}(\dcd{#2})}}
+
+\newcommand{\tel}[1]{\ensuremath{\overrightarrow{#1}}}
 
 \newcommand{\base}[1]{\dsd{base}_{#1}}
 \newcommand{\lp}[1]{\dsd{loop}_{#1}}
@@ -69,7 +73,7 @@
 \newcommand\transport[3]{\ensuremath{\dsd{transport}_{#1} \ #2 \ #3}}
 
 \newcommand\set[0]{\dsd{set}}
-\newcommand\typ[1]{\dsd{type}_{#1}}
+\newcommand\typ[1]{\dsd{Type}_{#1}}
 \newcommand\el[1]{\ensuremath{El(#1)}}
 
 \newcommand\idtp[3]{\ensuremath{\dsd{Id}_{#1} \ #2 \ #3}}

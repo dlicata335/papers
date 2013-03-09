@@ -15,7 +15,7 @@ We have a lot of judgments:
   and $\wfdiag{\Delta'}$)
 \end{itemize}
 
-\paragraph{Everything else}
+\paragraph{Basics}
 
 \begin{itemize}
 \item $\wfctx{\Gamma}$
@@ -24,12 +24,26 @@ We have a lot of judgments:
 % \item $\wftype{\Gamma}{A}$ (requires $\wfctx{\Gamma}$)
 \item $\wfglob{\Gamma}{G}{}{A}$ (requires $\ofglob{\Gamma}{A}{\typ{i}}$)
 \item $\ofglob{\Gamma}{\alpha}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$)
-\item $\wfdepglob{\Gamma}{H}{}{x^A.B}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$
-  and $\wftype{\Gamma,x:A}{B}$)
-\item $\ofdepglob{\Gamma}{u}{H}{\alpha}$ (requires
-  $\wfdepglob{\Gamma}{H}{}{x^A.B}{G}$ and $\ofglob{\Gamma}{\alpha}{G}$)
+\end{itemize}
+
+\paragraph{Other basics}
+
+\begin{itemize}
 \item $\ofinterp{\Gamma}{\delta}{\Delta}{A}$ (requires $\wfdiag{\Delta}$ and
   $\wftype{\Gamma}{A}$)
+\end{itemize}
+
+\paragraph{Telescopes and dependent $n$-ary globs}
+
+\begin{itemize}
+\item $\wftel{\Gamma}{\Psi}$ (requires $\wfctx{\Gamma}$)
+\item $\wfglob{\Gamma}{\tel{G}}{}{\Psi}$ (requires $\wftel{\Gamma}{\Psi}$)
+\item $\ofglob{\Gamma}{\tel\alpha}{\tel{G}}$ (requires
+  $\wfglob{\Gamma}{\tel{G}}{}{\Psi}$)
+\item $\wfdepglob{\Gamma}{H}{}{x^A.\Psi}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$
+  and $\wftel{\Gamma,x:A}{\Psi}$)
+\item $\ofdepglob{\Gamma}{\beta}{H}{\alpha}$ (requires
+  $\wfdepglob{\Gamma}{H}{}{x^A.\Psi}{G}$ and $\ofglob{\Gamma}{\alpha}{G}$)
 \end{itemize}
 
 \section{Typing rules}
@@ -65,7 +79,8 @@ We have a lot of judgments:
   \infer{\ofdiaglob{\Delta}{x}{\diag G}}
   {(\tptm{x}{\diag G})\in\Delta}
   \qquad\qquad
-  \infer{\ofdiaglob{\Delta}{\diagcoh{\Delta.\diag G}{\diag\delta}}{\Delta'}}
+  \infer{\ofdiaglob{\Delta}{\diagcoh{\Delta.\diag G}{\diag\delta}}
+    {\diag G[\diag\delta]}}
   {\wfdiaglob{\Delta}{\diag G}
     & \substdiaglob{\Delta}{\diag\delta}{\Delta'}}
   \]
@@ -163,10 +178,11 @@ We have the following operations
     {\interpglob{\diag N}{A}{\delta}}\\\\
 
     \interpglob{x}{A}{\delta} & := & \delta(x) \\
-    \interpglob{\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{A}{\delta} & := &
-    \coh{\Delta.\diag G}{A}{\interpdiag{\diag\delta'}{A}{\delta}}\\\\
+    \interpglob{\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{A}{\delta} & := &
+    \coh{\Delta'.\diag G}{A}{\interpdiag{\diag\delta'}{A}{\delta}}\\\\
 
-    \interpglob{(\diag M/x)}{A}{\delta} & := & \interpglob{M}{A}{\delta}/x \\
+    \interpglob{(\diag M/x)}{A}{\delta} & := &
+    \interpglob{\diag M}{A}{\delta}/x \\
     \interpglob{(\diag \delta,\diag N/y,\diag \alpha/p)}{A}{\delta} & := &
     (\interpglob{\diag\delta}{A}{\delta},\interpglob{\diag N}{A}{\delta}/y,
     \interpglob{\diag\alpha}{A}{\delta}/p)
@@ -215,22 +231,61 @@ We have the following operations
     \Ap{(x^A.M^H)}{A} & := & H \\
     \Ap{(x^A.M^H)}{(\homj{G}{N}{N'})} & := & \left(
       \homj{\Ap{(x^A.M^H)}{G}}
-      {\ap{(x^A.M^H)}{N^G}}{\ap{(x^A.M^H)}{N'^G}}\right)
+      {\ap{(x^A.M^H)}{N}}{\ap{(x^A.M^H)}{N'}}\right)
   \end{array}
   \]
 \end{small}
 
 \begin{small}
   \[
-  \apn{0}{(x.M)}{N}  \equiv  \subst{M}{N}{x}
+  \ap{(x^A.M^H)}{N^A}  \equiv  \subst{M}{N}{x}
   \text{ (\FIXME{definition or reduction or something else?})} \\ \\
   \]
 \end{small}
 
-\FIXME{do we need more equations for \apn{}{(x.M)}{N}? are
-    they provable?}
+In a closed term, for any term $\ap{(\tel{x}.M)}{\tel{N}}$, $M$ normalizes to
+either
+\begin{itemize}
+\item a variable bound in $\tel{x}$ this will reduce to some component of
+  $\tel{N}$.
+\item an intro (including $\coh{\Delta.\diag G}{A}{\delta}$). For negatives we
+  need a reduction rule which will do it pointwise. For positives, it’s
+  canonical. For coherences, we will need to change the coherence.
+\item an elimination context. We need a reduction rule generalizing the rules we
+  have for now. For instance
+
+\[\ap{(f.E[f M])}{(\ulam{x}{N})} \equiv \ap{(x.E[x])}{(\subst{N}{M}{x})}\]
+
+\end{itemize}
+
+\FIXME{Why are the other ones provable, for instance when $f$ is in the context
+  \[\ap{(x.f(M,x))}{N}\equiv\ap{(u.f)}{(\ap{(x.M)}{N},N)}\]}
 
 \FIXME{define \apn{n}{(x.M)}{\delta}}
+
+\subsection{Telescopes}
+
+\begin{small}
+  \[
+  \infer{\wftel{\Gamma}{\varnothing}}{}
+  \qquad\qquad
+  \infer{\wftel{\Gamma}{(x:A,\Psi)}}
+  {\wftype{\Gamma}{A}
+    & \wftel{\Gamma,x:A}{\Psi}}
+  \]
+\end{small}
+
+\subsection{Globs in telescopes}
+
+\begin{small}
+  \[
+  \infer{\wfglob{\Gamma}{()}{}{\varnothing}}{}
+  \qquad\qquad
+  \infer{\wfglob{\Gamma}{(G,H)}{}{(x:A,\Psi)}}
+  {\wfglob{\Gamma}{G}{}{A}
+    & \wfdepglob{\Gamma}{H}{}{x^A.\Psi}{G}}
+  \]
+\end{small}
 
 \subsection{Depglobs}
 
@@ -313,48 +368,6 @@ We have the following operations
 \end{array}
 \]
 \end{small}
-%\end{document}
-
-% \qquad
-% \\ \\
-
-
-% \\ \\
-
-
-
-% \end{array}
-% \]
-% \end{small}
-%\end{document}
-
-
-
-
-
-
-% \\ \\
-
-% \\ \\
-
-
-% \\ \\
-
-% \framebox{\oftp{\Gamma}{M}{A}} \\ \\
-
-% \begin{array}{rcl}
-% A,M & ::= & \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \idtp{A}{M}{N} \mid
-% \typ{i} \mid
-% \dsd{S^1}\mid \dsd{S^2} \mid \dsd{2} \\ 
-% & & \mid \app M N \mid \base{1} \mid \srec{1}{C}{M}{\alpha}{N} \mid
-% \base{2} \mid \srec{2}{C}{M}{\alpha}{N} 
-% \end{array}
-
-
-
-% \end{array}
-% \]
-% \end{small}
 
 %%% Local Variables: 
 %%% mode: latex
