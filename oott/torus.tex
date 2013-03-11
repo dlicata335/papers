@@ -34,7 +34,7 @@ deduced from the context)
 \begin{small}
   \[
   \infer{\ofglob{\Gamma,x:\dsd{T}}{\dsd{T\text{-}rec}_G(b, p, q, f; x)}{G}}
-  {\wfglob{\Gamma}{G}{m}{B} & \ofglob{\Gamma}{b}{G} &
+  {\wfglob{\Gamma}{G}{B} & \ofglob{\Gamma}{b}{G} &
     \ofglob{\Gamma}{p}{\homj{G}{b}{b}} & \ofglob{\Gamma}{q}{\homj{G}{b}{b}} &
     \ofglob{\Gamma}{f}{\homj{(\homj{G}{b}{b})}{p\circ q}{q \circ p}}}
   \]
@@ -62,7 +62,7 @@ deduced from the context)
   \[
   \infer{\ofglob{\Gamma,x:\dsd{T}}{\dsd{T\text{-}elim}_{x^\dsd{T}.G}
       (b, p, q, f; x)}{G}}
-  {\wfglob{\Gamma,x:\dsd{T}}{G}{m}{P}
+  {\wfglob{\Gamma,x:\dsd{T}}{G}{P}
     & \ofglob{\Gamma}{b}{G[\baseT]}
     & \ofglob{\Gamma}{p}{\dhomj{x^{\dsd{T}}.G}{b}{b}{\pT}}
     & \ofglob{\Gamma}{q}{\dhomj{x^{\dsd{T}}.G}{b}{b}{\qT}}

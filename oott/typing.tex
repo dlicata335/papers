@@ -22,8 +22,8 @@ We have a lot of judgments:
 % \item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
 %   $\wfctx{\Gamma'}$)
 % \item $\wftype{\Gamma}{A}$ (requires $\wfctx{\Gamma}$)
-\item $\wfglob{\Gamma}{G}{}{A}$ (requires $\ofglob{\Gamma}{A}{\typ{i}}$)
-\item $\ofglob{\Gamma}{\alpha}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$)
+\item $\wfglob{\Gamma}{G}{A}$ (requires $\ofglob{\Gamma}{A}{\typ{i}}$)
+\item $\ofglob{\Gamma}{\alpha}{G}$ (requires $\wfglob{\Gamma}{G}{A}$)
 \end{itemize}
 
 \paragraph{Other basics}
@@ -37,13 +37,13 @@ We have a lot of judgments:
 
 \begin{itemize}
 \item $\wftel{\Gamma}{\Psi}$ (requires $\wfctx{\Gamma}$)
-\item $\wfglob{\Gamma}{\tel{G}}{}{\Psi}$ (requires $\wftel{\Gamma}{\Psi}$)
-\item $\ofglob{\Gamma}{\tel\alpha}{\tel{G}}$ (requires
-  $\wfglob{\Gamma}{\tel{G}}{}{\Psi}$)
-\item $\wfdepglob{\Gamma}{H}{}{x^A.\Psi}{G}$ (requires $\wfglob{\Gamma}{G}{}{A}$
-  and $\wftel{\Gamma,x:A}{\Psi}$)
-\item $\ofdepglob{\Gamma}{\beta}{H}{\alpha}$ (requires
-  $\wfdepglob{\Gamma}{H}{}{x^A.\Psi}{G}$ and $\ofglob{\Gamma}{\alpha}{G}$)
+\item $\wfglob{\Gamma}{G}{\Psi}$ (requires $\wftel{\Gamma}{\Psi}$)
+\item $\ofglob{\Gamma}{\tel\alpha}{G}$ (requires
+  $\wfglob{\Gamma}{G}{\Psi}$)
+\item $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$ (requires $\wfglob{\Gamma}{G}{\Psi}$
+  and $\wftype{\Gamma,\Psi}{B}$)
+\item $\ofdepglob{\Gamma}{\beta}{H}{\tel\alpha}$ (requires
+  $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$ and $\ofglob{\Gamma}{\tel\alpha}{G}$)
 \end{itemize}
 
 \section{Typing rules}
@@ -130,11 +130,11 @@ We have a lot of judgments:
 
 \begin{small}
   \[
-  \infer{\wfglob{\Gamma}{A}{0}{A}}
+  \infer{\wfglob{\Gamma}{A}{A}}
   {\oftp{\Gamma}{A}{\typ{i}}}
   \qquad\qquad
-  \infer{\wfglob{\Gamma}{\homj{G}{M}{N}}{n+1}{A}}
-  {\wfglob{\Gamma}{G}{n}{A} &
+  \infer{\wfglob{\Gamma}{\homj{G}{M}{N}}{A}}
+  {\wfglob{\Gamma}{G}{A} &
     \oftp{\Gamma}{M}{G} &
     \oftp{\Gamma}{N}{G}
   }
@@ -159,7 +159,7 @@ We have a lot of judgments:
 
 We have the following operations
 \begin{itemize}
-\item $\wfglob{\Gamma}{\interpglob{\diag G}{A}{\delta}}{}{A}$ whenever
+\item $\wfglob{\Gamma}{\interpglob{\diag G}{A}{\delta}}{A}$ whenever
   $\wfdiaglob{\Delta}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\Delta}{A}$
 \item $\ofglob{\Gamma}{\interpglob{\diag M}{A}{\delta}}{} {\interpglob{\diag
       G}{A}{\delta}}$ whenever $\ofdiaglob{\Delta}{\diag M}{\diag G}$ and
@@ -210,18 +210,18 @@ We have the following operations
 \begin{small}
   \[\infer{\ofglob{\Gamma}{\ap{(x^A.M^H)}{\alpha^G}}
     {\Ap{(x^A.M^H)}{G}}}
-  {\wfglob{\Gamma}{G}{n}{A}
+  {\wfglob{\Gamma}{G}{A}
     & \ofglob{\Gamma}{\alpha}{G}
-    & \wfglob{\Gamma}{H}{m}{B}
+    & \wfglob{\Gamma}{H}{B}
     & \ofglob{\Gamma,x:A}{M}{H}}\]
 
   where $\dsd{Ap}$ is a meta-operation such that
 
-  \[\infer{\wfglob{\Gamma}{(\Ap{(x^A.M^H)}{G})}{n+m}
+  \[\infer{\wfglob{\Gamma}{(\Ap{(x^A.M^H)}{G})}
     {B}}
-  {\wfglob{\Gamma}{G}{n}{A}
+  {\wfglob{\Gamma}{G}{A}
     & \ofglob{\Gamma}{\alpha}{G}
-    & \wfglob{\Gamma}{H}{m}{B}
+    & \wfglob{\Gamma}{H}{B}
     & \ofglob{\Gamma,x:A}{M}{H}}\]
 
   The definition of $\dsd{Ap}$ is the following:
@@ -279,11 +279,11 @@ either
 
 \begin{small}
   \[
-  \infer{\wfglob{\Gamma}{\Psi}{}{\Psi}}
+  \infer{\wfglob{\Gamma}{\Psi}{\Psi}}
   {\wftel{\Gamma}{\Psi}}
   \qquad\qquad
-  \infer{\wfglob{\Gamma}{\homj{G}{\tel{M}}{\tel{N}}}{}{\Psi}}
-  {\wfglob{\Gamma}{G}{}{\Psi}
+  \infer{\wfglob{\Gamma}{\homj{G}{\tel{M}}{\tel{N}}}{\Psi}}
+  {\wfglob{\Gamma}{G}{\Psi}
     & \ofglob{\Gamma}{\tel{M}}{G}
     & \ofglob{\Gamma}{\tel{N}}{G}}
   \]
@@ -293,20 +293,52 @@ either
 
 \begin{small}
   \[
-  \infer{\ofglob{\Gamma}{()}{}{\varnothing}}{}
-  \qquad\qquad
-  \infer{\ofglob{\Gamma}{()}{}{\homj{G}{()}{()}}}{}
+  \infer{\ofglob{\Gamma}{()}{G_\varnothing}}{}
   \]
 
   \[
-  \infer{\ofglob{\Gamma}{(\tel{M},M_0)}{}{(\Psi,x:A)}}
-  {\ofglob{\Gamma}{\tel{M}}{}{\Psi}
-    & \ofglob{\Gamma}{M_0}{}{\subst{A}{\tel{M}}{\Psi}}}
+  % \infer{\ofglob{\Gamma}{(\tel{M},M_0)}{(\Psi,x:A)}}
+  % {\ofglob{\Gamma}{\tel{M}}{\Psi}
+  %   & \ofglob{\Gamma}{M_0}{\subst{A}{\tel{M}}{\Psi}}}
+  % \qquad\qquad
+  % \infer{\ofglob{\Gamma}{(\tel{\alpha},\alpha_0)}
+  %   {\homj{G}{(\tel{M},M_0)}{(\tel{N},N_0)}}}
+  % {\ofglob{\Gamma}{\tel\alpha}{\homj{\fsttelglob{\Psi}{A}{G}}{\tel{M}}{\tel{N}}}
+  %   & \ofdepglob{\Gamma}{\alpha_0}
+  %   {(\dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank})}
+  %   {\tel\alpha}}
+  \infer{\ofglob{\Gamma}{(\tel{\alpha},\alpha_0)}{G_{\Psi,x:A}}}
+  {\ofglob{\Gamma}{\tel\alpha}{\fsttelglob{\Psi}{A}{G}}
+    & \ofdepglob{\Gamma}{\alpha_0}{\sndtelglob{\Psi}{A}{G}}{\tel\alpha}}
+  \]
+\end{small}
+
+Where $\fsttelglob{\Psi}{A}{G}$ and $\sndtelglob{\Psi}{A}{G}$ are
+meta-operations of the following type:
+
+\begin{small}
+  \[
+  \infer{\wfglob{\Gamma}{\fsttelglob{\Psi}{A}{G}}{\Psi}}
+  {\wfglob{\Gamma}{G}{\Psi,x:A}}
   \qquad\qquad
-  \infer{\ofglob{\Gamma}{(\tel{\alpha},\alpha_0)}{}
-    {\homj{G}{(\tel{M},M_0)}{(\tel{N},N_0)}}}
-  {\ofglob{\Gamma}{\tel\alpha}{}{\homj{G}{\tel{M}}{\tel{N}}}
-    & \ofdepglob{\Gamma}{\alpha_0}{(\dhomj{?}{M_0}{N_0}{\blank})}{\tel\alpha}}
+  \infer{\wfdepglob{\Gamma}{\sndtelglob{\Psi}{A}{G}}{\Psi.A}
+    {\fsttelglob{\Psi}{A}{G}}}
+  {\wfglob{\Gamma}{G}{\Psi,x:A}}\]
+\end{small}
+
+and are defined by:
+
+\begin{small}
+  \[
+  \begin{array}{rcl}
+    \fsttelglob{\Psi}{A}{\Psi,x:A} & := & \Psi \\
+    \fsttelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0)}{(\tel{N},N_0)}} & := &
+    \homj{\fsttelglob{\Psi}{A}{G}}{\tel{M}}{\tel{N}} \\
+    \sndtelglob{\Psi}{A}{\Psi,x:A} & := & \Psi.A \\
+    \sndtelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0)}{(\tel{N},N_0)}} & := &
+    \dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank}
+    \\
+  \end{array}
   \]
 \end{small}
 
@@ -316,20 +348,20 @@ either
 
 \begin{small}
   % \[
-  % \infer{\wfdepglob{\Gamma}{G}{}{\varnothing.A}{\varnothing}}
-  % {\wfglob{\Gamma}{G}{}{A}}
+  % \infer{\wfdepglob{\Gamma}{G}{\varnothing.A}{\varnothing}}
+  % {\wfglob{\Gamma}{G}{A}}
   % \]
-  \[\infer{\wfdepglob{\Gamma}{(\Psi.H)}{0,m}{\Psi.B}{\Psi}}
+  \[\infer{\wfdepglob{\Gamma}{(\Psi.H)}{\Psi.B}{\Psi}}
   {\wftel{\Gamma}{\Psi}
     & \wftype{\Gamma,\Psi}{B}
-    & \wfglob{\Gamma,\Psi}{H}{}{B}
+    & \wfglob{\Gamma,\Psi}{H}{B}
   }\]
 
-  \[\infer{\wfdepglob{\Gamma}{(\dhomj{H}{u}{v}{\blank})}{n+1,m}
+  \[\infer{\wfdepglob{\Gamma}{(\dhomj{H}{u}{v}{\blank})}
     {\Psi.B}{\homj{G}{\tel{M}}{\tel{N}}}}
-  {\wfglob{\Gamma}{G}{n}{\Psi}
+  {\wfglob{\Gamma}{G}{\Psi}
     & \ofglob{\Gamma}{\tel{M},\tel{N}}{G}
-    & \wfdepglob{\Gamma}{H}{n,m}{\Psi.B}{G}
+    & \wfdepglob{\Gamma}{H}{\Psi.B}{G}
     & \ofdepglob{\Gamma}{u}{H}{\tel{M}}
     & \ofdepglob{\Gamma}{v}{H}{\tel{N}}}\]
 \end{small}
@@ -345,17 +377,17 @@ either
 \begin{small}
   \[\infer{\ofdepglob{\Gamma}{\apd{(x^A.M^H)}{\alpha^G}}
     {(\Apd{(x^A.M^H)}{G})}{\alpha}}
-  {\wfglob{\Gamma}{G}{n}{A}
+  {\wfglob{\Gamma}{G}{A}
     & \ofglob{\Gamma}{\alpha}{G}
-    & \wfglob{\Gamma,x:A}{H}{m}{B}
+    & \wfglob{\Gamma,x:A}{H}{B}
     & \ofglob{\Gamma,x:A}{M}{H}}\]
 
   where $\dsd{Apd}$ is a meta-operation such that
 
-  \[\infer{\wfdepglob{\Gamma}{(\Apd{(x^A.M^H)}{G})}{n,m}
+  \[\infer{\wfdepglob{\Gamma}{(\Apd{(x^A.M^H)}{G})}
     {x^A.B}{G}}
-  {\wfglob{\Gamma}{G}{n}{A}
-    & \wfglob{\Gamma,x:A}{H}{m}{B}
+  {\wfglob{\Gamma}{G}{A}
+    & \wfglob{\Gamma,x:A}{H}{B}
     & \ofglob{\Gamma,x:A}{M}{H}}\]
 
   The definition of $\dsd{Ap}$ is the following:
@@ -383,7 +415,7 @@ either
   \infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
   {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} & \ofglob{\Gamma}{N}{A}} \qquad
   \infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
-  {\wfglob{\Gamma}{G}{n}{\picl{x}{A}{B}} &
+  {\wfglob{\Gamma}{G}{\picl{x}{A}{B}} &
     \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Ap{(f.\app{f}{x})}{G}}}
   \]
 \[
