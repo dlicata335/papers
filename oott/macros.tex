@@ -1,38 +1,32 @@
-%\newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
-\newcommand{\wfglob}[4]{
-  \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{glob}_{\dcd{#4}}}}
-\newcommand{\wftel}[2]{
-  \ensuremath{\ctx{#1} \vdash \ctx{#2} \: \dsd{tel}}}
+\newcommand{\wfdiag}[1]{\ensuremath{#1 \: \dsd{diag}}}
+\newcommand{\diag}[1]{\ensuremath{\overline{#1}}}
+\newcommand{\wfdiaglob}[2]{
+  \ensuremath{{#1} \vdash {#2} \: \dsd{diaglob}}}
+\newcommand{\ofdiaglob}[3]{\ensuremath{{#1} \vdash {#2} : {#3}}}
+\newcommand{\substdiaglob}[3]{\ensuremath{{#1} \vdash {#2} : {#3}}}
+
+\newcommand{\ofinterp}[4]{\ofglob{#1}{#2}{\interpdiag{#3}{#4}}}
+\newcommand{\interpglob}[3]{{#1}_{#2}[{#3}]}
+
+\newcommand{\wfctx}[1]{\ensuremath{{#1} \: \dsd{ctx}}}
 \newcommand{\wftype}[2]{\ofglob{#1}{#2}{\typ{i}}}
+% \newcommand{\wftype}[2]{\ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{type}}}
+\newcommand{\wfglob}[4]{
+  \ensuremath{{#1} \vdash {#2} \: \dsd{glob}_{#4}}}
+\newcommand{\ofglob}[3]{\ensuremath{{#1} \vdash {#2} : {#3}}}
+
+\newcommand{\wftel}[2]{
+  \ensuremath{{#1} \vdash {#2} \: \dsd{tel}}}
 \newcommand{\wfdepglob}[5]{
-  \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{depglob}^{\dcd{#4}}_{#5}}}
-\newcommand{\ofglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
-\newcommand{\ofdepglob}[4]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3} [{#4}]}}
-\newcommand{\Apn}[3]{\ensuremath{\dsd{Ap} \: {#2} \: {#3}}}
-\newcommand{\apn}[3]{\ensuremath{\dsd{ap} \: {#2} \: {#3}}}
+  \ensuremath{{#1} \vdash {#2} \: \dsd{depglob}^{{#4}}_{#5}}}
+\newcommand{\ofdepglob}[4]{\ensuremath{{#1} \vdash {#2} : {#3} [{#4}]}}
 \newcommand{\Ap}[2]{\ensuremath{\dsd{Ap} \: {#1} \: {#2}}}
 \newcommand{\ap}[2]{\ensuremath{\dsd{ap} \: {#1} \: {#2}}}
-\newcommand{\Apnm}[4]{\ensuremath{\dsd{Ap} \: {#3} \: {#4}}}
-\newcommand{\apnm}[4]{\ensuremath{\dsd{ap} \: {#3} \: {#4}}}
-\newcommand{\Apdnm}[4]{\ensuremath{\dsd{Apd} \: {#3} \: {#4}}}
-\newcommand{\apdnm}[4]{\ensuremath{\dsd{apd} \: {#3} \: {#4}}}
 \newcommand{\Apd}[2]{\ensuremath{\dsd{Apd} \: {#1} \: {#2}}}
 \newcommand{\apd}[2]{\ensuremath{\dsd{apd} \: {#1} \: {#2}}}
 
 \newcommand{\blank}{\square}
 
-\newcommand{\wfdiag}[1]{\ensuremath{\ctx{#1} \: \dsd{diag}}}
-\newcommand{\diag}[1]{\ensuremath{\overline{#1}}}
-\newcommand{\wfdglob}[3]{
-  \ensuremath{\ctx{#1} \vdash \dcd{#2} \: {\dsd{dlobmacroobsolete}}}}
-\newcommand{\wfdiaglob}[2]{
-  \ensuremath{\ctx{#1} \vdash \dcd{#2} \: \dsd{diaglob}}}
-\newcommand{\ofdiaglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
-\newcommand{\substdiaglob}[3]{\ensuremath{\ctx{#1} \vdash \dcd{#2} : {#3}}}
-\newcommand{\wfctx}[1]{\ensuremath{\ctx{#1} \: \dsd{ctx}}}
-\newcommand{\wfglobctx}[1]{\ensuremath{\vdash\ctx{#1} \: \dsd{globctx}}}
-\newcommand{\ofinterp}[4]{\ofglob{#1}{#2}{\interpdiag{#3}{#4}}}
-\newcommand{\interpglob}[3]{{#1}_{#2}[{#3}]}
 
 \newcommand{\coh}[3]{\ensuremath{\dsd{coh}_{#1} \dcd{(#2;#3)}}}
 \newcommand{\depcoh}[3]{\ensuremath{\dsd{depcoh}_{#1} \dcd{(#2;#3)}}}

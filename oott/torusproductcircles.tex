@@ -20,17 +20,17 @@ We need $q:\homj{\PP}{b}{b}$, we take $q:=(\id,\lp{1})$.
 We need $f:\homj{(\homj{\PP}{b}{b})}{p\circ q}{q\circ p}$, so we need
 $f:=(\alpha, \beta)$ where $\alpha$ is of type
 \begin{align*}
-  &\Apn{2}{(x.\fst x)}{(\homj{(\homj{\PP}{b}{b})}{p\circ q}{q\circ p})}\\
-  &\equiv \homj{\Apn{1}{(x.\fst x)}(\homj{\PP}{b}{b})}
-  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
-  &\equiv \homj{(\homj{\Apn{0}{(x.\fst x)}(\PP)}{(\apn{0}{(x.\fst x)}b)}
-    {(\apn{0}{(x.\fst x)}b)})}
-  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
+  &\Ap{(x.\fst x)}{(\homj{(\homj{\PP}{b}{b})}{p\circ q}{q\circ p})}\\
+  &\equiv \homj{\Ap{(x.\fst x)}(\homj{\PP}{b}{b})}
+  {\ap{(x.\fst x)}{(p\circ q)}}{\ap{(x.\fst x)}{(q\circ p)}} \\
+  &\equiv \homj{(\homj{\Ap{(x.\fst x)}(\PP)}{(\ap{(x.\fst x)}b)}
+    {(\ap{(x.\fst x)}b)})}
+  {\ap{(x.\fst x)}{(p\circ q)}}{\ap{(x.\fst x)}{(q\circ p)}} \\
   &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
-  {\apn{1}{(x.\fst x)}{(p\circ q)}}{\apn{1}{(x.\fst x)}{(q\circ p)}} \\
+  {\ap{(x.\fst x)}{(p\circ q)}}{\ap{(x.\fst x)}{(q\circ p)}} \\
   &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
-  {\apn{1}{(x.\fst x)}{(\lp{1}\circ\id{},\id{}\circ\lp{1})}}
-  {\apn{1}{(x.\fst x)}{(\id{}\circ\lp{1}, \lp{1}\circ\id{})}} \\
+  {\ap{(x.\fst x)}{(\lp{1}\circ\id{},\id{}\circ\lp{1})}}
+  {\ap{(x.\fst x)}{(\id{}\circ\lp{1}, \lp{1}\circ\id{})}} \\
   &\equiv \homj{(\homj{S^1}{\base{1}}{\base{1}})}
   {\lp{1}\circ\id{}}
   {\id{} \circ\lp{1}} \\
@@ -85,9 +85,9 @@ below. This will not easily scale to higher dimensions, though, but let’s
 ignore this problem for now.
 
 \begin{align*}
-  &\homj{\dsd{T}}{\apn{1}{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))}
+  &\homj{\dsd{T}}{\ap{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))}
     {\lp{1}}\circ\qT}
-  {\qT\circ\apn{1}{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))} {\lp{1}}}
+  {\qT\circ\ap{(y.\dsd{S^1\text{-}rec}_{\dsd{T}}(\baseT,\pT;y))} {\lp{1}}}
   \\
   &\equiv \homj{\dsd{T}}{\pT\circ\qT}{\qT\circ\pT}
 \end{align*}

@@ -27,13 +27,10 @@
 \begin{small}
   \[
   \infer{\ofglob{\Gamma}{(a, b)}{G}} {\wfglob{\Gamma}{G}{n}{A\times B} &
-    \ofglob{\Gamma}{a}{\Apnm{n}{0}{(x^{A\times{}B}.\fst x)}{G}} &
-    \ofglob{\Gamma}{b}{\Apnm{n}{0}{(x^{A\times{}B}.\snd x)}{G}} }
+    \ofglob{\Gamma}{a}{\Ap{(x^{A\times{}B}.\fst x)}{G}} &
+    \ofglob{\Gamma}{b}{\Ap{(x^{A\times{}B}.\snd x)}{G}} }
   \]
 \end{small}
-
-NB: We only have $0$ as subscripts because the elimination rules are
-$0$-dimensional
 
 NB: It is impossible to state this rule with $\dsd{Apd}$ (\FIXME{Give a
   convincing explanation for why this should be the case. In particular I don’t
@@ -45,9 +42,9 @@ NB: It is impossible to state this rule with $\dsd{Apd}$ (\FIXME{Give a
 \begin{small}
   \[
   \begin{array}{rll}
-    \apnm{n}{0}{(x^{A\times{}B}.\fst x)}{(a,b)} & \equiv_\beta & a\\
-    \apnm{n}{0}{(x^{A\times{}B}.\snd x)}{(a,b)} & \equiv_\beta & b\\
-    (\apnm{n}{0}{(x^{A\times{}B}.\fst x)}{u}, \apnm{n}{0}{(x^{A\times{}B}.\snd
+    \ap{(x^{A\times{}B}.\fst x)}{(a,b)} & \equiv_\beta & a\\
+    \ap{(x^{A\times{}B}.\snd x)}{(a,b)} & \equiv_\beta & b\\
+    (\ap{(x^{A\times{}B}.\fst x)}{u}, \ap{(x^{A\times{}B}.\snd
       x)}{u}) & \equiv^{A\times{}B}_\eta & u\\
     \coh{\Delta.J}{A\times B}{\delta} & \equiv &
     (\coh{\Delta.J}{A}{\delta},\coh{\Delta.J}{B}{\delta})
