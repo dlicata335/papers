@@ -315,55 +315,73 @@ We have the following operations:
 \subsection{Dependent interpretation of diagram contexts}
 \FIXME{WIP}
 
-\FIXME{needs simple interpretation over a telescope}
+\[\infer
+  {\ofinterpdep{\Gamma}{()}{\emptyctx}{\Psi.B}{()}}
+  {}
+\]
 
-\begin{small}
-  \[\infer{\ofinterpdep{\Gamma}{()}{\emptyctx}{\Psi.B}{()}}{}\]
-
-  \[
-  \infer{\ofinterpdep{\Gamma}{(\delta,\tel M/x)}
-    {\Delta,\tptm{x}{\diag G}}{\Psi.B}{(\delta_0,\tel M_0/x)}}
+\[
+\infer
+  {\ofinterpdep{\Gamma}{(\delta,\tel M/x)}
+   {\Delta,\tptm{x}{\diag G}}{\Psi.B}{(\delta_0,\tel M_0/x)}}
   {\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}
-    & \ofglob{\Gamma}{\tel M_0}{\interpglob{\diag G}{\Psi}{\delta_0}}
-    & \ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}
-    & \ofdepglob{\Gamma}{\tel M}{\interpdepglob{\diag G}{\Psi.B}{\delta}}{\tel
-    M_0}}
-    \]
-\end{small}
+  & \ofglob{\Gamma}{\tel M_0}{\interpglob{\diag G}{\Psi}{\delta_0}}
+  & \ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}
+  & \ofdepglob{\Gamma}{\tel M}{\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}{\tel M_0}}
+\]
 
-We have the following operations
+We have the following operations whenever
+$\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}$ and
+$\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$.
 
 \FIXME{$\Delta$ ought to be an argument to ofinterpdep}
 \begin{itemize}
-\item $\wfdepglob{\Gamma}{\interpdepglob{\diag G}{A}{\delta}}{A}{
-        \interpglob{\diag G}{A}{\delta_0}}$ whenever
-  $\wfdiaglob{\Delta}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\Delta}{A}$
-\item $\ofglob{\Gamma}{\interpglob{\diag M}{A}{\delta}}{} {\interpglob{\diag
-      G}{A}{\delta}}$ whenever $\ofdiaglob{\Delta}{\diag M}{\diag G}$ and
-  $\ofinterp{\Gamma}{\delta}{\Delta}{A}$
-\item $\ofinterp{\Gamma}{\interpglob{\diag\delta}{A}{\delta}}{\Delta'}{A}$
-  whenever $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$ and
-  $\ofinterp{\Gamma}{\delta}{\Delta}{A}$
+\item
+$\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}{\Psi.B}
+  {\interpglob{\diag G}{\Psi}{\delta_0}}$
+whenever
+$\wfdiaglob{\Delta}{\diag G}$.
+
+\item
+$\ofdepglob{\Gamma}{\interpdepglob{\diag M}{\Psi.B}{\delta_0}{\delta}}
+ {\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}
+ {\interpglob{\diag M}{\Psi}{\delta_0}}$
+whenever
+$\ofdiaglob{\Delta}{\diag M}{\diag G}$.
+
+\item
+$\ofinterpdep{\Gamma}
+  {\interpdepglob{\diag\delta}{\Psi.B}{\delta_0}{\delta}}{\Delta'}{\Psi.B}
+  {\interpglob{\diag\delta}{\Psi}{\delta_0}}$
+whenever
+$\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
 \end{itemize}
 
-\begin{small}
-  \[
+\[
   \begin{array}{rcl}
-    \interpglob{\diagbase}{A}{\delta} & := & A \\
-    \interpglob{(\homj{\diag G}{\diag M}{\diag N})}{A}{\delta} & := &
-    \homj{\interpglob{\diag G}{A}{\delta}}{\interpglob{\diag M}{A}{\delta}}
-    {\interpglob{\diag N}{A}{\delta}}\\\\
+    \interpdepglob{\diagbase}{\Psi.B}{\delta_0}{\delta} & := & \Psi.B \\
+    \interpdepglob{\homj{\diag G}{\diag M}{\diag N}}{\Psi.B}{\delta_0}{\delta} & := &
+    \dhomj
+      {\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}
+      {\interpdepglob{\diag M}{\Psi.B}{\delta_0}{\delta}}
+      {\interpdepglob{\diag N}{\Psi.B}{\delta_0}{\delta}}
+      {\blank}
+    \\\\
 
-    \interpglob{x}{A}{\delta} & := & \delta(x) \\
-    \interpglob{\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{A}{\delta} & := &
-    \coh{\Delta'.\diag G}{A}{\interpglob{\diag\delta'}{A}{\delta}}\\\\
+    \interpdepglob{x}{\Psi.B}{\delta_0}{\delta} & := & \delta(x) \\
+    \interpdepglob
+      {\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\Psi.B}{\delta_0}{\delta} & := &
+    \depcoh{\Delta'.\diag G}{\Psi.B}
+      {\interpglob{\diag\delta'}{\Psi}{\delta_0}}
+      {\interpdepglob{\diag\delta'}{\Psi.B}{\delta_0}{\delta}} \\\\
 
-    \interpglob{()}{A}{\delta} & := & () \\
-    \interpglob{(\diag \delta,\diag M/x)}{A}{\delta} & := &
-    (\interpglob{\diag\delta}{A}{\delta},\interpglob{\diag M}{A}{\delta}/x)
+    \FIXME{\text{finish these two}} \\
+    \interpglob{()}{\Psi}{\delta} & := & () \\
+    \interpglob{(\diag \delta,\diag M/x)}{\Psi}{\delta} & := &
+    (\interpglob{\diag\delta}{\Psi}{\delta},\interpglob{\diag
+    M}{\Psi}{\delta}/x)
   \end{array}
-  \]
-\end{small}
+\]
 
 \subsection{Dependent coherences}
 
@@ -371,7 +389,7 @@ We have the following operations
 \[
 \infer
   {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{x^A.B}{\delta_0}{\delta}}
-    {\interpdepglob{\diag G}{x^A.B}{\delta}}{\coh{\Delta.\diag G}{A}{\delta_0}}}
+    {\interpdepglob{\diag G}{x^A.B}{\delta_0}{\delta}}{\coh{\Delta.\diag G}{A}{\delta_0}}}
   {\wfdiag{\Delta}
   &\wfdiaglob{\Delta}{\diag G}
   &\wftype{\Gamma,x:A}{B}
