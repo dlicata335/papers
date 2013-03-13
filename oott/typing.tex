@@ -8,9 +8,10 @@ We have a lot of judgments:
 \item $\wfdiagctx{\Delta}$
 \item $\wfdiag{\Delta}$
 \item $\wfdiaglob{\Delta}{\diag G}$ (requires $\wfdiagctx{\Delta}$)
-\item $\ofdiaglob{\Delta}{u}{\diag G}$ (requires $\wfdiaglob{\Delta}{\diag G}$)
-\item $\substdiaglob{\Delta}{\diag \delta}{\Delta'}$ (requires $\wfdiagctx{\Delta}$
-  and $\wfdiagctx{\Delta'}$)
+\item $\ofdiaglob{\Delta}{\diag M}{\diag G}$
+(requires $\wfdiaglob{\Delta}{\diag G}$)
+\item $\substdiaglob{\Delta}{\diag \delta}{\Delta'}$
+(requires $\wfdiagctx{\Delta}$ and $\wfdiagctx{\Delta'}$)
 \end{itemize}
 
 \paragraph{Basics}
@@ -203,7 +204,7 @@ diagrams''\ldots}
   %   & \ofdepglob{\Gamma}{\alpha_0}
   %   {(\dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank})}
   %   {\tel\alpha}}
-  \infer{\ofglob{\Gamma}{(\tel{M},M_0)}{G_{\Psi,x:A}}}
+  \infer{\ofglob{\Gamma}{(\tel{M},M_0/x)}{G_{\Psi,x:A}}}
   {\ofglob{\Gamma}{\tel M}{\fsttelglob{\Psi}{A}{G}}
     & \ofdepglob{\Gamma}{M_0}{\sndtelglob{\Psi}{A}{G}}{\tel M}}
   \]
@@ -228,10 +229,10 @@ and are defined by:
   \[
   \begin{array}{rcl}
     \fsttelglob{\Psi}{A}{\Psi,x:A} & := & \Psi \\
-    \fsttelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0)}{(\tel{N},N_0)}} & := &
+    \fsttelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0/x)}{(\tel{N},N_0/x)}} & := &
     \homj{\fsttelglob{\Psi}{A}{G}}{\tel{M}}{\tel{N}} \\
     \sndtelglob{\Psi}{A}{\Psi,x:A} & := & \Psi.A \\
-    \sndtelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0)}{(\tel{N},N_0)}} & := &
+    \sndtelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0/x)}{(\tel{N},N_0/x)}} & := &
     \dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank}
     \\
   \end{array}
@@ -274,7 +275,7 @@ We have the following operations:
 
     \interpglob{x}{\Psi}{\delta} & := & \delta(x) \\
     \interpglob{\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\Psi}{\delta} & := &
-    \coh{\Delta'.\diag G}{\Psi}{\interpdiag{\diag\delta'}{\Psi}{\delta}}\\\\
+    \coh{\Delta'.\diag G}{\Psi}{\interpglob{\diag\delta'}{\Psi}{\delta}}\\\\
 
     \interpglob{()}{\Psi}{\delta} & := & () \\
     \interpglob{(\diag \delta,\diag M/x)}{\Psi}{\delta} & := &
@@ -320,8 +321,6 @@ We have the following operations:
 \end{small}
 
 \subsection{Dependent interpretation of diagram contexts}
-
-\FIXME{Should $\Delta$ be an explicit argument in these operations?}
 
 \[\infer
   {\ofinterpdep{\Gamma}{()}{\emptyctx}{\Psi.B}{()}}
@@ -382,11 +381,10 @@ $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
       {\interpglob{\diag\delta'}{\Psi}{\delta_0}}
       {\interpdepglob{\diag\delta'}{\Psi.B}{\delta_0}{\delta}} \\\\
 
-    \FIXME{\text{finish these two}} \\
-    \interpglob{()}{\Psi}{\delta} & := & () \\
-    \interpglob{(\diag \delta,\diag M/x)}{\Psi}{\delta} & := &
-    (\interpglob{\diag\delta}{\Psi}{\delta},\interpglob{\diag
-    M}{\Psi}{\delta}/x)
+    \interpdepglob{()}{\Psi.B}{\delta_0}{\delta} & := & () \\
+    \interpdepglob{(\diag \delta,\diag M/x)}{\Psi.B}{\delta_0}{\delta} & := &
+    (\interpdepglob{\diag\delta}{\Psi.B}{\delta_0}{\delta},\interpdepglob{\diag
+    M}{\Psi.B}{\delta_0}{\delta}/x)
   \end{array}
 \]
 
@@ -395,13 +393,14 @@ $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
 \begin{small}
 \[
 \infer
-  {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{x^A.B}{\delta_0}{\delta}}
-    {\interpdepglob{\diag G}{x^A.B}{\delta_0}{\delta}}{\coh{\Delta.\diag G}{A}{\delta_0}}}
+  {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{\Psi.B}{\delta_0}{\delta}}
+    {\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}{\coh{\Delta.\diag
+    G}{\Psi}{\delta_0}}}
   {\wfdiag{\Delta}
   &\wfdiaglob{\Delta}{\diag G}
-  &\wftype{\Gamma,x:A}{B}
-  &\ofinterp{\Gamma}{\delta_0}{\Delta}{A}
-  &\ofinterpdep{\Gamma}{\delta}{\Delta}{x^A.B}{\delta_0}}
+  &\wftype{\Gamma,\Psi}{B}
+  &\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}
+  &\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}}
 \]
 \end{small}
 
