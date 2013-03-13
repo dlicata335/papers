@@ -5,8 +5,8 @@ We have a lot of judgments:
 \paragraph{Coherences}
 
 \begin{itemize}
-\item $\wfdiag{\Delta}$
 \item $\wfdiagctx{\Delta}$
+\item $\wfdiag{\Delta}$
 \item $\wfdiaglob{\Delta}{\diag G}$ (requires $\wfdiagctx{\Delta}$)
 \item $\ofdiaglob{\Delta}{u}{\diag G}$ (requires $\wfdiaglob{\Delta}{\diag G}$)
 \item $\substdiaglob{\Delta}{\diag \delta}{\Delta'}$ (requires $\wfdiagctx{\Delta}$
@@ -24,24 +24,28 @@ We have a lot of judgments:
 \item $\ofglob{\Gamma}{\alpha}{G}$ (requires $\wfglob{\Gamma}{G}{A}$)
 \end{itemize}
 
-\paragraph{Other basics}
-
-\begin{itemize}
-\item $\ofinterp{\Gamma}{\delta}{\Delta}{A}$ (requires $\wfdiag{\Delta}$ and
-  $\wftype{\Gamma}{A}$)
-\end{itemize}
-
-\paragraph{Telescopes and dependent $n$-ary globs}
+\paragraph{Telescopes}
 
 \begin{itemize}
 \item $\wftel{\Gamma}{\Psi}$ (requires $\wfctx{\Gamma}$)
 \item $\wfglob{\Gamma}{G}{\Psi}$ (requires $\wftel{\Gamma}{\Psi}$)
-\item $\ofglob{\Gamma}{\tel\alpha}{G}$ (requires
-  $\wfglob{\Gamma}{G}{\Psi}$)
-\item $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$ (requires $\wfglob{\Gamma}{G}{\Psi}$
-  and $\wftype{\Gamma,\Psi}{B}$)
-\item $\ofdepglob{\Gamma}{\beta}{H}{\tel\alpha}$ (requires
-  $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$ and $\ofglob{\Gamma}{\tel\alpha}{G}$)
+\item $\ofglob{\Gamma}{\tel\alpha}{G}$
+(requires $\wfglob{\Gamma}{G}{\Psi}$)
+\end{itemize}
+
+\paragraph{Diagram interpretation and dependent globs}
+
+\begin{itemize}
+\item $\ofinterp{\Gamma}{\delta}{\Delta}{\Psi}$
+(requires $\wfdiag{\Delta}$ and $\wftel{\Gamma}{\Psi}$)
+\item $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$
+(requires $\wfglob{\Gamma}{G}{\Psi}$ and $\wftype{\Gamma,\Psi}{B}$)
+\item $\ofdepglob{\Gamma}{\beta}{H}{\tel\alpha}$
+(requires $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$
+and $\ofglob{\Gamma}{\tel\alpha}{G}$)
+\item $\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$
+(requires $\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}$
+and $\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$)
 \end{itemize}
 
 \section{Diagram calculus}
@@ -58,6 +62,9 @@ We have a lot of judgments:
 \end{small}
 
 \subsection{Diagrams (contractible contexts)}
+
+\FIXME{With the introduction of $\wfdiagctx-$, these are now ``diagram
+diagrams''\ldots}
 
 \begin{small}
   \[
@@ -136,6 +143,8 @@ We have a lot of judgments:
 %   in this rule?}\\ \\
 
 \subsection{Globs}
+
+\FIXME{Can we eliminate this?}
 
 \begin{small}
   \[
@@ -229,7 +238,7 @@ and are defined by:
   \]
 \end{small}
 
-\subsection{Interpretation of diagram contexts}
+\subsection{Interpretation of diagram contexts into telescopes}
 
 \begin{small}
 \[\infer
@@ -311,7 +320,8 @@ We have the following operations:
 \end{small}
 
 \subsection{Dependent interpretation of diagram contexts}
-\FIXME{WIP}
+
+\FIXME{Should $\Delta$ be an explicit argument in these operations?}
 
 \[\infer
   {\ofinterpdep{\Gamma}{()}{\emptyctx}{\Psi.B}{()}}
@@ -330,9 +340,8 @@ We have the following operations:
 
 We have the following operations whenever
 $\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}$ and
-$\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$.
+$\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$:
 
-\FIXME{$\Delta$ ought to be an argument to ofinterpdep}
 \begin{itemize}
 \item
 $\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}{\Psi.B}
@@ -397,6 +406,8 @@ $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
 \end{small}
 
 \subsection{Ap}
+
+\FIXME{telescopic version}
 
 \begin{small}
   \[\infer{\ofglob{\Gamma}{\ap{(x^A.M^H)}{\alpha^G}}
