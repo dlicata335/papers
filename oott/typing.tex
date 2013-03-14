@@ -4,18 +4,21 @@ We have a lot of judgments:
 
 \paragraph{Coherences}
 
+\begin{small}
 \begin{itemize}
-\item $\wfdiagctx{\Delta}$
+\item $\wfdiagctx{\diag\Gamma}$
 \item $\wfdiag{\Delta}$
-\item $\wfdiaglob{\Delta}{\diag G}$ (requires $\wfdiagctx{\Delta}$)
-\item $\ofdiaglob{\Delta}{\diag M}{\diag G}$
-(requires $\wfdiaglob{\Delta}{\diag G}$)
-\item $\substdiaglob{\Delta}{\diag \delta}{\Delta'}$
-(requires $\wfdiagctx{\Delta}$ and $\wfdiagctx{\Delta'}$)
+\item $\wfdiaglob{\diag\Gamma}{\diag G}$ (requires $\wfdiagctx{\diag\Gamma}$)
+\item $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$
+(requires $\wfdiaglob{\diag\Gamma}{\diag G}$)
+\item $\substdiaglob{\diag\Gamma}{\diag \delta}{\diag{\Gamma'}}$
+(requires $\wfdiagctx{\diag\Gamma}$ and $\wfdiagctx{\diag{\Gamma'}}$)
 \end{itemize}
+\end{small}
 
 \paragraph{Basics}
 
+\begin{small}
 \begin{itemize}
 \item $\wfctx{\Gamma}$
 % \item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
@@ -24,30 +27,35 @@ We have a lot of judgments:
 \item $\wfglob{\Gamma}{G}{A}$ (requires $\ofglob{\Gamma}{A}{\typ{i}}$)
 \item $\ofglob{\Gamma}{M}{G}$ (requires $\wfglob{\Gamma}{G}{A}$)
 \end{itemize}
+\end{small}
 
 \paragraph{Telescopes}
 
+\begin{small}
 \begin{itemize}
 \item $\wftel{\Gamma}{\tel A}$ (requires $\wfctx{\Gamma}$)
 \item $\wfglob{\Gamma}{G}{\tel A}$ (requires $\wftel{\Gamma}{\tel A}$)
 \item $\ofglob{\Gamma}{\tel M}{G}$
 (requires $\wfglob{\Gamma}{G}{\tel A}$)
 \end{itemize}
+\end{small}
 
 \paragraph{Diagram interpretation and dependent globs}
 
+\begin{small}
 \begin{itemize}
-\item $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
-(requires $\wfdiag{\Delta}$ and $\wftel{\Gamma}{\tel A}$)
+\item $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+(requires $\wfdiagctx{\diag\Gamma}$ and $\wftel{\Gamma}{\tel A}$)
 \item $\wfdepglob{\Gamma}{H}{\tel A.B}{G}$
 (requires $\wfglob{\Gamma}{G}{\tel A}$ and $\wftype{\Gamma,\teltm xA}{B}$)
 \item $\ofdepglob{\Gamma}{N}{H}{\tel M}$
 (requires $\wfdepglob{\Gamma}{H}{\tel A.B}{G}$
 and $\ofglob{\Gamma}{\tel M}{G}$)
-\item $\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}$
-(requires $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
-and $\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}$)
+\item $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$
+(requires $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
 \end{itemize}
+\end{small}
 
 \section{Diagram calculus}
 
@@ -58,14 +66,11 @@ and $\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}$)
   \infer{\wfdiagctx{\emptyctx}}{}
   \qquad\qquad
   \infer
-  {\wfdiagctx{\Delta,\tptm{x}{\diag G}}}
-  {\wfdiagctx{\Delta} & \wfdiaglob{\Delta}{\diag G}}\]
+  {\wfdiagctx{\diag\Gamma,\tptm{x}{\diag G}}}
+  {\wfdiagctx{\diag\Gamma} & \wfdiaglob{\diag\Gamma}{\diag G}}\]
 \end{small}
 
 \subsection{Diagrams (contractible contexts)}
-
-\FIXME{With the introduction of $\wfdiagctx-$, these are now ``diagram
-diagrams''\ldots}
 
 \begin{small}
   \[
@@ -80,12 +85,12 @@ diagrams''\ldots}
 
 \begin{small}
   \[
-  \infer{\wfdiaglob{\Delta}{\diagbase}}
-  {}%\wfdiag{\Delta}}
+  \infer{\wfdiaglob{\diag\Gamma}{\diagbase}}{}
   \qquad\qquad
-  \infer{\wfdiaglob{\Delta}{\homj{\diag G}{\diag M}{\diag N}}}
-  {\ofdiaglob{\Delta}{\diag M}{\diag G}
-    & \ofdiaglob{\Delta}{\diag N}{\diag G}}
+  \infer
+    {\wfdiaglob{\diag\Gamma}{\homj{\diag G}{\diag M}{\diag N}}}
+    {\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}
+    &\ofdiaglob{\diag\Gamma}{\diag N}{\diag G}}
   \]
 \end{small}
 
@@ -93,14 +98,14 @@ diagrams''\ldots}
 
 \begin{small}
   \[
-  \infer{\ofdiaglob{\Delta}{x}{\diag G}}
-  {(\tptm{x}{\diag G})\in\Delta}
+  \infer{\ofdiaglob{\diag\Gamma}{x}{\diag G}}
+  {(\tptm{x}{\diag G})\in\diag\Gamma}
   \qquad\qquad
-  \infer{\ofdiaglob{\Delta'}{\diagcoh{\Delta.\diag G}{\diag\delta}}
+  \infer{\ofdiaglob{\diag\Gamma}{\diagcoh{\Delta.\diag G}{\diag\delta}}
     {\diag G[\diag\delta]}}
   {\wfdiag{\Delta} 
     & \wfdiaglob{\Delta}{\diag G}
-    & \substdiaglob{\Delta'}{\diag\delta}{\Delta}}
+    & \substdiaglob{\diag\Gamma}{\diag\delta}{\Delta}}
   \]
 \end{small}
 
@@ -108,13 +113,13 @@ diagrams''\ldots}
 
 \begin{small}
   \[
-  \infer{\substdiaglob{\Delta}{()}{\emptyctx}}
+  \infer{\substdiaglob{\diag\Gamma}{()}{\emptyctx}}
   {}
   \qquad
-  \infer{\substdiaglob{\Delta}{(\diag \delta,\diag N/x)}
-    {(\Delta',\tptm{x}{\diag G})}}
-  {\substdiaglob{\Delta}{\diag \delta}{\Delta'}
-    & \ofdiaglob{\Delta}{\diag N}{\tsubst{\diag G}{\diag \delta}}}
+  \infer{\substdiaglob{\diag\Gamma}{(\diag \delta,\diag N/x)}
+    {(\diag{\Gamma'},\tptm{x}{\diag G})}}
+  {\substdiaglob{\diag\Gamma}{\diag \delta}{\diag{\Gamma'}}
+    & \ofdiaglob{\diag\Gamma}{\diag N}{\tsubst{\diag G}{\diag \delta}}}
   \]
 \end{small}
 
@@ -261,8 +266,8 @@ and are defined by:
     {\wftel{\Gamma}{\tel A}}
   \qquad
   \infer
-    {\ofinterp{\Gamma}{(\delta,M/x)}{\Delta,\tptm{x}{\diag G}}{\tel A}}
-    {\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}
+    {\ofinterp{\Gamma}{(\delta,M/x)}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}}
+    {\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}
     &\ofglob{\Gamma}{M}{\interpglob{\diag G}{\tel A}{\delta}}}
 \]
 \end{small}
@@ -270,13 +275,14 @@ and are defined by:
 We have the following operations:
 \begin{itemize}
 \item $\wfglob{\Gamma}{\interpglob{\diag G}{\tel A}{\delta}}{\tel A}$ whenever
-  $\wfdiaglob{\Delta}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
+  $\wfdiaglob{\diag\Gamma}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
 \item $\ofglob{\Gamma}{\interpglob{\diag M}{\tel A}{\delta}}{} {\interpglob{\diag
-      G}{\tel A}{\delta}}$ whenever $\ofdiaglob{\Delta}{\diag M}{\diag G}$ and
-  $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
-\item $\ofinterp{\Gamma}{\interpglob{\diag\delta}{\tel A}{\delta}}{\Delta'}{\tel A}$
-  whenever $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$ and
-  $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
+      G}{\tel A}{\delta}}$ whenever $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$ and
+  $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+\item $\ofinterp{\Gamma}{\interpglob{\diag\delta}
+       {\tel A}{\delta}}{\diag{\Gamma'}}{\tel A}$
+  whenever $\ofdiaglob{\diag\Gamma}{\diag\delta}{\diag{\Gamma'}}$ and
+  $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
 \end{itemize}
 
 \begin{small}
@@ -289,8 +295,8 @@ We have the following operations:
     {\interpglob{\diag M_2}{\tel A}{\delta}}\\\\
 
     \interpglob{x}{\tel A}{\delta} & := & \delta(x) \\
-    \interpglob{\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\tel A}{\delta} & := &
-    \coh{\Delta'.\diag G}{\tel A}{\interpglob{\diag\delta'}{\tel A}{\delta}}\\\\
+    \interpglob{\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A}{\delta} & := &
+    \coh{\Delta.\diag G}{\tel A}{\interpglob{\diag\delta'}{\tel A}{\delta}}\\\\
 
     \interpglob{()}{\tel A}{\delta} & := & () \\
     \interpglob{(\diag \delta,\diag M/x)}{\tel A}{\delta} & := &
@@ -350,38 +356,38 @@ We have the following operations:
 \[
 \infer
   {\ofinterpdep{\Gamma}{(\eta,\tel N/x)}
-   {\Delta,\tptm{x}{\diag G}}{\tel A.B}{(\delta,\tel M/x)}}
-  {\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}
+   {\diag\Gamma,\tptm{x}{\diag G}}{\tel A.B}{(\delta,\tel M/x)}}
+  {\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}
   &\ofglob{\Gamma}{\tel M}{\interpglob{\diag G}{\tel A}{\delta}}
-  &\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}
+  &\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}
   &\ofdepglob{\Gamma}{\tel N}{\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
    {\tel M}}
 \]
 
 We have the following operations whenever
-$\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$ and
-$\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}$:
+$\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$ and
+$\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$:
 
 \begin{itemize}
 \item
 $\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}{\tel A.B}
   {\interpglob{\diag G}{\tel A}{\delta}}$
 whenever
-$\wfdiaglob{\Delta}{\diag G}$.
+$\wfdiaglob{\diag\Gamma}{\diag G}$.
 
 \item
 $\ofdepglob{\Gamma}{\interpdepglob{\diag M}{\tel A.B}{\delta}{\eta}}
  {\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
  {\interpglob{\diag M}{\tel A}{\delta}}$
 whenever
-$\ofdiaglob{\Delta}{\diag M}{\diag G}$.
+$\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$.
 
 \item
 $\ofinterpdep{\Gamma}
-  {\interpdepglob{\diag\delta}{\tel A.B}{\delta}{\eta}}{\Delta'}{\tel A.B}
+  {\interpdepglob{\diag\delta}{\tel A.B}{\delta}{\eta}}{\diag{\Gamma'}}{\tel A.B}
   {\interpglob{\diag\delta}{\tel A}{\delta}}$
 whenever
-$\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
+$\ofdiaglob{\diag\Gamma}{\diag\delta}{\diag{\Gamma'}}$.
 \end{itemize}
 
 \[
@@ -398,8 +404,8 @@ $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
 
     \interpdepglob{x}{\tel A.B}{\delta}{\eta} & := & \eta(x) \\
     \interpdepglob
-      {\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\tel A.B}{\delta}{\eta} & := &
-    \depcoh{\Delta'.\diag G}{\tel A.B}
+      {\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A.B}{\delta}{\eta} & := &
+    \depcoh{\Delta.\diag G}{\tel A.B}
       {\interpglob{\diag\delta'}{\tel A}{\delta}}
       {\interpdepglob{\diag\delta'}{\tel A.B}{\delta}{\eta}} \\\\
 
@@ -428,9 +434,10 @@ $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
 
 \subsection{Ap}
 
-\FIXME{Haven't updated metavariables past here:}
+\FIXME{Haven't updated any metavariables past here!}
 \begin{itemize}
 \item Switch $\Psi$ to $\tel A$.
+\item Switch $\Delta$ to $\diag\Gamma$ when not specifically a diagram.
 \item Switch $\delta_0,\delta$ to $\delta,\eta$.
 \item Switch $M,N$ to $M_1,M_2$ and dependent ($u,v$) to $N_1,N_2$.
 \end{itemize}
