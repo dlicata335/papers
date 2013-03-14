@@ -1,5 +1,11 @@
 \section{Judgments}
 
+\FIXME{Switch $\Psi$ to $\vec{A}$.}
+
+\FIXME{Switch $\delta_0,\delta$ to $\delta,\eta$.}
+
+\FIXME{Switch $M,N$ to $M_1,M_2$ and dependent ($u,v$) to $N_1,N_2$.}
+
 We have a lot of judgments:
 
 \paragraph{Coherences}
@@ -22,7 +28,7 @@ We have a lot of judgments:
 %   $\wfctx{\Gamma'}$)
 % \item $\wftype{\Gamma}{A}$ (requires $\wfctx{\Gamma}$)
 \item $\wfglob{\Gamma}{G}{A}$ (requires $\ofglob{\Gamma}{A}{\typ{i}}$)
-\item $\ofglob{\Gamma}{\alpha}{G}$ (requires $\wfglob{\Gamma}{G}{A}$)
+\item $\ofglob{\Gamma}{M}{G}$ (requires $\wfglob{\Gamma}{G}{A}$)
 \end{itemize}
 
 \paragraph{Telescopes}
@@ -30,7 +36,7 @@ We have a lot of judgments:
 \begin{itemize}
 \item $\wftel{\Gamma}{\Psi}$ (requires $\wfctx{\Gamma}$)
 \item $\wfglob{\Gamma}{G}{\Psi}$ (requires $\wftel{\Gamma}{\Psi}$)
-\item $\ofglob{\Gamma}{\tel\alpha}{G}$
+\item $\ofglob{\Gamma}{\tel M}{G}$
 (requires $\wfglob{\Gamma}{G}{\Psi}$)
 \end{itemize}
 
@@ -41,9 +47,9 @@ We have a lot of judgments:
 (requires $\wfdiag{\Delta}$ and $\wftel{\Gamma}{\Psi}$)
 \item $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$
 (requires $\wfglob{\Gamma}{G}{\Psi}$ and $\wftype{\Gamma,\Psi}{B}$)
-\item $\ofdepglob{\Gamma}{\beta}{H}{\tel\alpha}$
+\item $\ofdepglob{\Gamma}{\beta}{H}{\tel M}$
 (requires $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$
-and $\ofglob{\Gamma}{\tel\alpha}{G}$)
+and $\ofglob{\Gamma}{\tel M}{G}$)
 \item $\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$
 (requires $\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}$
 and $\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$)
@@ -145,7 +151,13 @@ diagrams''\ldots}
 
 \subsection{Globs}
 
-\FIXME{Can we eliminate this?}
+\FIXME{Eliminate this?}
+
+\FIXME{New definition: $\wfglob{\Gamma}{G}{A} :=
+\wfdepglob{\Gamma}{G}{\emptyctx.A}{\emptyctx}$}
+
+\FIXME{New definition: $\ofglob{\Gamma}{M}{G} :=
+\ofdepglob{\Gamma}{M}{G}{()}$}
 
 \begin{small}
   \[
@@ -301,23 +313,28 @@ We have the following operations:
 \subsection{Depglobs}
 
 \begin{small}
-  % \[
-  % \infer{\wfdepglob{\Gamma}{G}{\varnothing.A}{\varnothing}}
-  % {\wfglob{\Gamma}{G}{A}}
-  % \]
-  \[\infer{\wfdepglob{\Gamma}{(\Psi.H)}{\Psi.B}{\Psi}}
-  {\wftel{\Gamma}{\Psi}
-    & \wftype{\Gamma,\Psi}{B}
-    & \wfglob{\Gamma,\Psi}{H}{B}
-  }\]
+\[
+\infer
+  {\wfdepglob{\Gamma}{(\tel{x}{:}\tel{A}.B)}{\tel{A}.B}{\tel{A}}}
+  {\wftel{\Gamma}{\tel{A}}
+  &\wftype{\Gamma,\tel{x}{:}\tel{A}}{B}}
+\]
 
-  \[\infer{\wfdepglob{\Gamma}{(\dhomj{H}{u}{v}{\blank})}
-    {\Psi.B}{\homj{G}{\tel{M}}{\tel{N}}}}
-  {\wfglob{\Gamma}{G}{\Psi}
-    & \ofglob{\Gamma}{\tel{M},\tel{N}}{G}
-    & \wfdepglob{\Gamma}{H}{\Psi.B}{G}
-    & \ofdepglob{\Gamma}{u}{H}{\tel{M}}
-    & \ofdepglob{\Gamma}{v}{H}{\tel{N}}}\]
+\[
+\infer
+  {\ofdepglob{\Gamma}{N}{(\tel{x}{:}\tel{A}.B)}{\tel{M}}}
+  {\ofglob{\Gamma}{\tel{M}}{\tel{A}}
+  &\ofglob{\Gamma}{N}{B[\tel{M}/\tel{x}]}}
+\]
+
+  \[\infer{\wfdepglob{\Gamma}{(\dhomj{H}{\tel{N_1}}{\tel{N_2}}{\blank})}
+    {\tel{A}.B}{\homj{G}{\tel{M_1}}{\tel{M_2}}}}
+  {\wfglob{\Gamma}{G}{\tel{A}}
+    & \ofglob{\Gamma}{\tel{M_1},\tel{M_2}}{G}
+    & \wftype{\Gamma,\tel{x}{:}\tel{A}}{B}
+    & \wfdepglob{\Gamma}{H}{\tel{A}.B}{G}
+    & \ofdepglob{\Gamma}{\tel{N_1}}{H}{\tel{M_1}}
+    & \ofdepglob{\Gamma}{\tel{N_2}}{H}{\tel{M_2}}}\]
 \end{small}
 
 \subsection{Dependent interpretation of diagram contexts}
