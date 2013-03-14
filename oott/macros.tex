@@ -37,6 +37,7 @@
 \newcommand{\wftel}[2]{\ensuremath{{#1} \vdash {#2} \: \dsd{tel}}}
 \newcommand{\fsttelglob}[3]{\dsd{Rdc}_{#1}^{#2}(#3)}
 \newcommand{\sndtelglob}[3]{\dsd{Rac}_{#1}^{#2}(#3)}
+\newcommand{\teltm}[2]{\ensuremath{\tel{#1}\, {:}\, \tel{#2}}}
 
 \newcommand{\wfdepglob}[4]%
   {\ensuremath{{#1} \vdash {#2} \: \dsd{depglob}^{#3}_{#4}}}
@@ -147,8 +148,8 @@
 \newcommand{\drd}[1]{\ensuremath{\mathrm{#1}}}
 
 % term : type
-\newcommand{\tptm}[2]{\ensuremath{\dcd{#1} \, \dcd{:} \, \dcd{#2}}}
-\newcommand{\tptmns}[2]{\ensuremath{\dcd{#1} \dcd{:} \dcd{#2}}}
+\newcommand{\tptm}[2]{\ensuremath{#1 \, {:} \, #2}}
+\newcommand{\tptmns}[2]{\ensuremath{#1 {:} #2}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % constructing types and kinds

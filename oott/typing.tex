@@ -1,11 +1,5 @@
 \section{Judgments}
 
-\FIXME{Switch $\Psi$ to $\vec{A}$.}
-
-\FIXME{Switch $\delta_0,\delta$ to $\delta,\eta$.}
-
-\FIXME{Switch $M,N$ to $M_1,M_2$ and dependent ($u,v$) to $N_1,N_2$.}
-
 We have a lot of judgments:
 
 \paragraph{Coherences}
@@ -34,25 +28,25 @@ We have a lot of judgments:
 \paragraph{Telescopes}
 
 \begin{itemize}
-\item $\wftel{\Gamma}{\Psi}$ (requires $\wfctx{\Gamma}$)
-\item $\wfglob{\Gamma}{G}{\Psi}$ (requires $\wftel{\Gamma}{\Psi}$)
+\item $\wftel{\Gamma}{\tel A}$ (requires $\wfctx{\Gamma}$)
+\item $\wfglob{\Gamma}{G}{\tel A}$ (requires $\wftel{\Gamma}{\tel A}$)
 \item $\ofglob{\Gamma}{\tel M}{G}$
-(requires $\wfglob{\Gamma}{G}{\Psi}$)
+(requires $\wfglob{\Gamma}{G}{\tel A}$)
 \end{itemize}
 
 \paragraph{Diagram interpretation and dependent globs}
 
 \begin{itemize}
-\item $\ofinterp{\Gamma}{\delta}{\Delta}{\Psi}$
-(requires $\wfdiag{\Delta}$ and $\wftel{\Gamma}{\Psi}$)
-\item $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$
-(requires $\wfglob{\Gamma}{G}{\Psi}$ and $\wftype{\Gamma,\Psi}{B}$)
-\item $\ofdepglob{\Gamma}{\beta}{H}{\tel M}$
-(requires $\wfdepglob{\Gamma}{H}{\Psi.B}{G}$
+\item $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
+(requires $\wfdiag{\Delta}$ and $\wftel{\Gamma}{\tel A}$)
+\item $\wfdepglob{\Gamma}{H}{\tel A.B}{G}$
+(requires $\wfglob{\Gamma}{G}{\tel A}$ and $\wftype{\Gamma,\teltm xA}{B}$)
+\item $\ofdepglob{\Gamma}{N}{H}{\tel M}$
+(requires $\wfdepglob{\Gamma}{H}{\tel A.B}{G}$
 and $\ofglob{\Gamma}{\tel M}{G}$)
-\item $\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$
-(requires $\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}$
-and $\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$)
+\item $\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}$
+(requires $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
+and $\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}$)
 \end{itemize}
 
 \section{Diagram calculus}
@@ -151,13 +145,13 @@ diagrams''\ldots}
 
 \subsection{Globs}
 
-\FIXME{Eliminate this?}
+\FIXME{This might be a derived notion from telescopic globs, or from depglobs.}
 
-\FIXME{New definition: $\wfglob{\Gamma}{G}{A} :=
-\wfdepglob{\Gamma}{G}{\emptyctx.A}{\emptyctx}$}
-
-\FIXME{New definition: $\ofglob{\Gamma}{M}{G} :=
-\ofdepglob{\Gamma}{M}{G}{()}$}
+One idea:
+\[\begin{aligned}
+(\wfglob{\Gamma}{G}{A}) &:= (\wfdepglob{\Gamma}{G}{\emptyctx.A}{\emptyctx}) \\
+(\ofglob{\Gamma}{M}{G}) &:= (\ofdepglob{\Gamma}{M}{G}{()})
+\end{aligned}\]
 
 \begin{small}
   \[
@@ -178,9 +172,10 @@ diagrams''\ldots}
   \[
   \infer{\wftel{\Gamma}{\varnothing}}{}
   \qquad\qquad
-  \infer{\wftel{\Gamma}{(\Psi,x:A)}}
-  {\wftel{\Gamma}{\Psi}
-    & \wftype{\Gamma,\Psi}{A}}
+  \infer
+    {\wftel{\Gamma}{(\tel A,\tptm{x_0}{A_0})}}
+    {\wftel{\Gamma}{\tel A}
+    & \wftype{\Gamma,\teltm xA}{A_0}}
   \]
 \end{small}
 
@@ -188,13 +183,15 @@ diagrams''\ldots}
 
 \begin{small}
   \[
-  \infer{\wfglob{\Gamma}{\Psi}{\Psi}}
-  {\wftel{\Gamma}{\Psi}}
+  \infer
+    {\wfglob{\Gamma}{\tel A}{\tel A}}
+    {\wftel{\Gamma}{\tel A}}
   \qquad\qquad
-  \infer{\wfglob{\Gamma}{\homj{G}{\tel{M}}{\tel{N}}}{\Psi}}
-  {\wfglob{\Gamma}{G}{\Psi}
-    & \ofglob{\Gamma}{\tel{M}}{G}
-    & \ofglob{\Gamma}{\tel{N}}{G}}
+  \infer
+    {\wfglob{\Gamma}{\homj{G}{\tel{M_1}}{\tel{M_2}}}{\tel A}}
+    {\wfglob{\Gamma}{G}{\tel A}
+    & \ofglob{\Gamma}{\tel{M_1}}{G}
+    & \ofglob{\Gamma}{\tel{M_2}}{G}}
   \]
 \end{small}
 
@@ -216,23 +213,26 @@ diagrams''\ldots}
   %   & \ofdepglob{\Gamma}{\alpha_0}
   %   {(\dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank})}
   %   {\tel\alpha}}
-  \infer{\ofglob{\Gamma}{(\tel{M},M_0/x)}{G_{\Psi,x:A}}}
-  {\ofglob{\Gamma}{\tel M}{\fsttelglob{\Psi}{A}{G}}
-    & \ofdepglob{\Gamma}{M_0}{\sndtelglob{\Psi}{A}{G}}{\tel M}}
+  \infer{\ofglob{\Gamma}{(\tel{M},M_0/x_0)}{G_{\tel A,x_0:A_0}}}
+  {\ofglob{\Gamma}{\tel M}{\fsttelglob{\tel A}{A_0}{G}}
+    & \ofdepglob{\Gamma}{M_0}{\sndtelglob{\tel A}{A_0}{G}}{\tel M}}
   \]
 \end{small}
 
-Where $\fsttelglob{\Psi}{A}{G}$ and $\sndtelglob{\Psi}{A}{G}$ are
+Where $\fsttelglob{\tel A}{A_0}{G}$ and $\sndtelglob{\tel A}{A_0}{G}$ are
 meta-operations of the following type:
 
 \begin{small}
   \[
-  \infer{\wfglob{\Gamma}{\fsttelglob{\Psi}{A}{G}}{\Psi}}
-  {\wfglob{\Gamma}{G}{\Psi,x:A}}
+  \infer
+    {\wfglob{\Gamma}{\fsttelglob{\tel A}{A_0}{G}}{\tel A}}
+    {\wfglob{\Gamma}{G}{\tel A,x_0:A_0}}
   \qquad\qquad
-  \infer{\wfdepglob{\Gamma}{\sndtelglob{\Psi}{A}{G}}{\Psi.A}
-    {\fsttelglob{\Psi}{A}{G}}}
-  {\wfglob{\Gamma}{G}{\Psi,x:A}}\]
+  \infer
+    {\wfdepglob{\Gamma}{\sndtelglob{\tel A}{A_0}{G}}
+      {\tel A.A_0}{\fsttelglob{\tel A}{A_0}{G}}}
+    {\wfglob{\Gamma}{G}{\tel A,x_0:A_0}}
+  \]
 \end{small}
 
 and are defined by:
@@ -240,12 +240,14 @@ and are defined by:
 \begin{small}
   \[
   \begin{array}{rcl}
-    \fsttelglob{\Psi}{A}{\Psi,x:A} & := & \Psi \\
-    \fsttelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0/x)}{(\tel{N},N_0/x)}} & := &
-    \homj{\fsttelglob{\Psi}{A}{G}}{\tel{M}}{\tel{N}} \\
-    \sndtelglob{\Psi}{A}{\Psi,x:A} & := & \Psi.A \\
-    \sndtelglob{\Psi}{A}{\homj{G}{(\tel{M},M_0/x)}{(\tel{N},N_0/x)}} & := &
-    \dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank}
+    \fsttelglob{\tel A}{A_0}{\tel A,x_0:A_0} & := & \tel A \\
+    \fsttelglob{\tel A}{A_0}{\homj{G}{(\tel{M_1},M_1'/x_0)}
+      {(\tel{M_2},M_2'/x_0)}} & := &
+      \homj{\fsttelglob{\tel A}{A_0}{G}}{\tel{M_1}}{\tel{M_2}} \\
+    \sndtelglob{\tel A}{A_0}{\tel A,x_0:A_0} & := & \teltm xA.A_0 \\
+    \sndtelglob{\tel A}{A_0}{\homj{G}{(\tel{M_1},M_1'/x_0)}
+      {(\tel{M_2},M_2'/x_0)}} & := &
+      \dhomj{\sndtelglob{\tel A}{A_0}{G}}{M_1}{M_2}{\blank}
     \\
   \end{array}
   \]
@@ -255,44 +257,45 @@ and are defined by:
 
 \begin{small}
 \[\infer
-    {\ofinterp{\Gamma}{()}{\emptyctx}{\Psi}}
-    {\wftel{\Gamma}{\Psi}}
+    {\ofinterp{\Gamma}{()}{\emptyctx}{\tel A}}
+    {\wftel{\Gamma}{\tel A}}
   \qquad
   \infer
-    {\ofinterp{\Gamma}{(\delta,M/x)}{\Delta,\tptm{x}{\diag G}}{\Psi}}
-    {\ofinterp{\Gamma}{\delta}{\Delta}{\Psi}
-    &\ofglob{\Gamma}{M}{\interpglob{\diag G}{\Psi}{\delta}}}
+    {\ofinterp{\Gamma}{(\delta,M/x)}{\Delta,\tptm{x}{\diag G}}{\tel A}}
+    {\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}
+    &\ofglob{\Gamma}{M}{\interpglob{\diag G}{\tel A}{\delta}}}
 \]
 \end{small}
 
 We have the following operations:
 \begin{itemize}
-\item $\wfglob{\Gamma}{\interpglob{\diag G}{\Psi}{\delta}}{\Psi}$ whenever
-  $\wfdiaglob{\Delta}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\Delta}{\Psi}$
-\item $\ofglob{\Gamma}{\interpglob{\diag M}{\Psi}{\delta}}{} {\interpglob{\diag
-      G}{\Psi}{\delta}}$ whenever $\ofdiaglob{\Delta}{\diag M}{\diag G}$ and
-  $\ofinterp{\Gamma}{\delta}{\Delta}{\Psi}$
-\item $\ofinterp{\Gamma}{\interpglob{\diag\delta}{\Psi}{\delta}}{\Delta'}{\Psi}$
+\item $\wfglob{\Gamma}{\interpglob{\diag G}{\tel A}{\delta}}{\tel A}$ whenever
+  $\wfdiaglob{\Delta}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
+\item $\ofglob{\Gamma}{\interpglob{\diag M}{\tel A}{\delta}}{} {\interpglob{\diag
+      G}{\tel A}{\delta}}$ whenever $\ofdiaglob{\Delta}{\diag M}{\diag G}$ and
+  $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
+\item $\ofinterp{\Gamma}{\interpglob{\diag\delta}{\tel A}{\delta}}{\Delta'}{\tel A}$
   whenever $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$ and
-  $\ofinterp{\Gamma}{\delta}{\Delta}{\Psi}$
+  $\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$
 \end{itemize}
 
 \begin{small}
   \[
   \begin{array}{rcl}
-    \interpglob{\diagbase}{\Psi}{\delta} & := & \Psi \\
-    \interpglob{(\homj{\diag G}{\diag M}{\diag N})}{\Psi}{\delta} & := &
-    \homj{\interpglob{\diag G}{\Psi}{\delta}}{\interpglob{\diag M}{\Psi}{\delta}}
-    {\interpglob{\diag N}{\Psi}{\delta}}\\\\
+    \interpglob{\diagbase}{\tel A}{\delta} & := & \tel A \\
+    \interpglob{(\homj{\diag G}{\diag M_1}{\diag M_2})}{\tel A}{\delta} & := &
+    \homj{\interpglob{\diag G}{\tel A}{\delta}}
+         {\interpglob{\diag M_1}{\tel A}{\delta}}
+    {\interpglob{\diag M_2}{\tel A}{\delta}}\\\\
 
-    \interpglob{x}{\Psi}{\delta} & := & \delta(x) \\
-    \interpglob{\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\Psi}{\delta} & := &
-    \coh{\Delta'.\diag G}{\Psi}{\interpglob{\diag\delta'}{\Psi}{\delta}}\\\\
+    \interpglob{x}{\tel A}{\delta} & := & \delta(x) \\
+    \interpglob{\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\tel A}{\delta} & := &
+    \coh{\Delta'.\diag G}{\tel A}{\interpglob{\diag\delta'}{\tel A}{\delta}}\\\\
 
-    \interpglob{()}{\Psi}{\delta} & := & () \\
-    \interpglob{(\diag \delta,\diag M/x)}{\Psi}{\delta} & := &
-    (\interpglob{\diag\delta}{\Psi}{\delta},\interpglob{\diag
-    M}{\Psi}{\delta}/x)
+    \interpglob{()}{\tel A}{\delta} & := & () \\
+    \interpglob{(\diag \delta,\diag M/x)}{\tel A}{\delta} & := &
+    (\interpglob{\diag\delta}{\tel A}{\delta},\interpglob{\diag
+    M}{\tel A}{\delta}/x)
   \end{array}
   \]
 \end{small}
@@ -301,12 +304,12 @@ We have the following operations:
 
 \begin{small}
   \[
-  \infer{\ofglob{\Gamma}{\coh{{\Delta}.\diag{G}}{\Psi}{\delta}}
-    {\interpglob{\diag{G}}{\Psi}{\delta}}}
+  \infer{\ofglob{\Gamma}{\coh{{\Delta}.\diag{G}}{\tel A}{\delta}}
+    {\interpglob{\diag{G}}{\tel A}{\delta}}}
   {\wfdiag{\Delta}
     & \wfdiaglob{\Delta}{\diag G}
-    & \wftel{\Gamma}{\Psi}
-    & \ofinterp{\Gamma}{\delta}{\Delta}{\Psi}}
+    & \wftel{\Gamma}{\tel A}
+    & \ofinterp{\Gamma}{\delta}{\Delta}{\tel A}}
   \]
 \end{small}
 
@@ -315,9 +318,9 @@ We have the following operations:
 \begin{small}
 \[
 \infer
-  {\wfdepglob{\Gamma}{(\tel{x}{:}\tel{A}.B)}{\tel{A}.B}{\tel{A}}}
-  {\wftel{\Gamma}{\tel{A}}
-  &\wftype{\Gamma,\tel{x}{:}\tel{A}}{B}}
+  {\wfdepglob{\Gamma}{(\teltm xA.B)}{\tel{A}.B}{\tel{A}}}
+  {\wftel{\Gamma}{\tel A}
+  &\wftype{\Gamma,\teltm xA}{B}}
 \]
 
 \[
@@ -340,68 +343,70 @@ We have the following operations:
 \subsection{Dependent interpretation of diagram contexts}
 
 \[\infer
-  {\ofinterpdep{\Gamma}{()}{\emptyctx}{\Psi.B}{()}}
+  {\ofinterpdep{\Gamma}{()}{\emptyctx}{\tel A.B}{()}}
   {}
 \]
 
 \[
 \infer
-  {\ofinterpdep{\Gamma}{(\delta,\tel M/x)}
-   {\Delta,\tptm{x}{\diag G}}{\Psi.B}{(\delta_0,\tel M_0/x)}}
-  {\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}
-  & \ofglob{\Gamma}{\tel M_0}{\interpglob{\diag G}{\Psi}{\delta_0}}
-  & \ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}
-  & \ofdepglob{\Gamma}{\tel M}{\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}{\tel M_0}}
+  {\ofinterpdep{\Gamma}{(\eta,\tel N/x)}
+   {\Delta,\tptm{x}{\diag G}}{\tel A.B}{(\delta,\tel M/x)}}
+  {\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}
+  &\ofglob{\Gamma}{\tel M}{\interpglob{\diag G}{\tel A}{\delta}}
+  &\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}
+  &\ofdepglob{\Gamma}{\tel N}{\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
+   {\tel M}}
 \]
 
 We have the following operations whenever
-$\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}$ and
-$\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}$:
+$\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}$ and
+$\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}$:
 
 \begin{itemize}
 \item
-$\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}{\Psi.B}
-  {\interpglob{\diag G}{\Psi}{\delta_0}}$
+$\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}{\tel A.B}
+  {\interpglob{\diag G}{\tel A}{\delta}}$
 whenever
 $\wfdiaglob{\Delta}{\diag G}$.
 
 \item
-$\ofdepglob{\Gamma}{\interpdepglob{\diag M}{\Psi.B}{\delta_0}{\delta}}
- {\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}
- {\interpglob{\diag M}{\Psi}{\delta_0}}$
+$\ofdepglob{\Gamma}{\interpdepglob{\diag M}{\tel A.B}{\delta}{\eta}}
+ {\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
+ {\interpglob{\diag M}{\tel A}{\delta}}$
 whenever
 $\ofdiaglob{\Delta}{\diag M}{\diag G}$.
 
 \item
 $\ofinterpdep{\Gamma}
-  {\interpdepglob{\diag\delta}{\Psi.B}{\delta_0}{\delta}}{\Delta'}{\Psi.B}
-  {\interpglob{\diag\delta}{\Psi}{\delta_0}}$
+  {\interpdepglob{\diag\delta}{\tel A.B}{\delta}{\eta}}{\Delta'}{\tel A.B}
+  {\interpglob{\diag\delta}{\tel A}{\delta}}$
 whenever
 $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
 \end{itemize}
 
 \[
   \begin{array}{rcl}
-    \interpdepglob{\diagbase}{\Psi.B}{\delta_0}{\delta} & := & \Psi.B \\
-    \interpdepglob{\homj{\diag G}{\diag M}{\diag N}}{\Psi.B}{\delta_0}{\delta} & := &
+    \interpdepglob{\diagbase}{\tel A.B}{\delta}{\eta} & := & \tel A.B \\
+    \interpdepglob{\homj{\diag G}{\diag{M_1}}{\diag{M_2}}}
+      {\tel A.B}{\delta}{\eta} & := &
     \dhomj
-      {\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}
-      {\interpdepglob{\diag M}{\Psi.B}{\delta_0}{\delta}}
-      {\interpdepglob{\diag N}{\Psi.B}{\delta_0}{\delta}}
+      {\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
+      {\interpdepglob{\diag{M_1}}{\tel A.B}{\delta}{\eta}}
+      {\interpdepglob{\diag{M_2}}{\tel A.B}{\delta}{\eta}}
       {\blank}
     \\\\
 
-    \interpdepglob{x}{\Psi.B}{\delta_0}{\delta} & := & \delta(x) \\
+    \interpdepglob{x}{\tel A.B}{\delta}{\eta} & := & \eta(x) \\
     \interpdepglob
-      {\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\Psi.B}{\delta_0}{\delta} & := &
-    \depcoh{\Delta'.\diag G}{\Psi.B}
-      {\interpglob{\diag\delta'}{\Psi}{\delta_0}}
-      {\interpdepglob{\diag\delta'}{\Psi.B}{\delta_0}{\delta}} \\\\
+      {\diagcoh{\Delta'.\diag{G}}{\diag \delta'}}{\tel A.B}{\delta}{\eta} & := &
+    \depcoh{\Delta'.\diag G}{\tel A.B}
+      {\interpglob{\diag\delta'}{\tel A}{\delta}}
+      {\interpdepglob{\diag\delta'}{\tel A.B}{\delta}{\eta}} \\\\
 
-    \interpdepglob{()}{\Psi.B}{\delta_0}{\delta} & := & () \\
-    \interpdepglob{(\diag \delta,\diag M/x)}{\Psi.B}{\delta_0}{\delta} & := &
-    (\interpdepglob{\diag\delta}{\Psi.B}{\delta_0}{\delta},\interpdepglob{\diag
-    M}{\Psi.B}{\delta_0}{\delta}/x)
+    \interpdepglob{()}{\tel A.B}{\delta}{\eta} & := & () \\
+    \interpdepglob{\diag\delta,\diag M/x}{\tel A.B}{\delta}{\eta} & := &
+    (\interpdepglob{\diag\delta}{\tel A.B}{\delta}{\eta},\interpdepglob{\diag
+    M}{\tel A.B}{\delta}{\eta}/x)
   \end{array}
 \]
 
@@ -410,20 +415,27 @@ $\ofdiaglob{\Delta}{\diag\delta}{\Delta'}$.
 \begin{small}
 \[
 \infer
-  {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{\Psi.B}{\delta_0}{\delta}}
-    {\interpdepglob{\diag G}{\Psi.B}{\delta_0}{\delta}}{\coh{\Delta.\diag
-    G}{\Psi}{\delta_0}}}
+  {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{\tel A.B}{\delta}{\eta}}
+    {\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}{\coh{\Delta.\diag
+    G}{\tel A}{\delta}}}
   {\wfdiag{\Delta}
   &\wfdiaglob{\Delta}{\diag G}
-  &\wftype{\Gamma,\Psi}{B}
-  &\ofinterp{\Gamma}{\delta_0}{\Delta}{\Psi}
-  &\ofinterpdep{\Gamma}{\delta}{\Delta}{\Psi.B}{\delta_0}}
+  &\wftype{\Gamma,\teltm xA}{B}
+  &\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}
+  &\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}}
 \]
 \end{small}
 
 \subsection{Ap}
 
-\FIXME{telescopic version}
+\FIXME{Haven't updated metavariables past here:}
+\begin{itemize}
+\item Switch $\Psi$ to $\tel A$.
+\item Switch $\delta_0,\delta$ to $\delta,\eta$.
+\item Switch $M,N$ to $M_1,M_2$ and dependent ($u,v$) to $N_1,N_2$.
+\end{itemize}
+
+\FIXME{telescopic version?}
 
 \begin{small}
   \[\infer{\ofglob{\Gamma}{\ap{(x^A.M^H)}{\alpha^G}}
