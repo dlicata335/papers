@@ -173,9 +173,9 @@ One idea:
   \infer{\wftel{\Gamma}{\varnothing}}{}
   \qquad\qquad
   \infer
-    {\wftel{\Gamma}{(\tel A,\tptm{x_0}{A_0})}}
+    {\wftel{\Gamma}{(\tel A,\tptm{x}{B})}}
     {\wftel{\Gamma}{\tel A}
-    & \wftype{\Gamma,\teltm xA}{A_0}}
+    & \wftype{\Gamma,\teltm xA}{B}}
   \]
 \end{small}
 
@@ -213,25 +213,25 @@ One idea:
   %   & \ofdepglob{\Gamma}{\alpha_0}
   %   {(\dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank})}
   %   {\tel\alpha}}
-  \infer{\ofglob{\Gamma}{(\tel{M},M_0/x_0)}{G_{\tel A,x_0:A_0}}}
-  {\ofglob{\Gamma}{\tel M}{\fsttelglob{\tel A}{A_0}{G}}
-    & \ofdepglob{\Gamma}{M_0}{\sndtelglob{\tel A}{A_0}{G}}{\tel M}}
+  \infer{\ofglob{\Gamma}{(\tel{M},M/x)}{G_{\tel A,x:B}}}
+  {\ofglob{\Gamma}{\tel M}{\fsttelglob{\tel A}{B}{G}}
+    & \ofdepglob{\Gamma}{M}{\sndtelglob{\tel A}{B}{G}}{\tel M}}
   \]
 \end{small}
 
-Where $\fsttelglob{\tel A}{A_0}{G}$ and $\sndtelglob{\tel A}{A_0}{G}$ are
+Where $\fsttelglob{\tel A}{B}{G}$ and $\sndtelglob{\tel A}{B}{G}$ are
 meta-operations of the following type:
 
 \begin{small}
   \[
   \infer
-    {\wfglob{\Gamma}{\fsttelglob{\tel A}{A_0}{G}}{\tel A}}
-    {\wfglob{\Gamma}{G}{\tel A,x_0:A_0}}
+    {\wfglob{\Gamma}{\fsttelglob{\tel A}{B}{G}}{\tel A}}
+    {\wfglob{\Gamma}{G}{\tel A,x:B}}
   \qquad\qquad
   \infer
-    {\wfdepglob{\Gamma}{\sndtelglob{\tel A}{A_0}{G}}
-      {\tel A.A_0}{\fsttelglob{\tel A}{A_0}{G}}}
-    {\wfglob{\Gamma}{G}{\tel A,x_0:A_0}}
+    {\wfdepglob{\Gamma}{\sndtelglob{\tel A}{B}{G}}
+      {\tel A.B}{\fsttelglob{\tel A}{B}{G}}}
+    {\wfglob{\Gamma}{G}{\tel A,x:B}}
   \]
 \end{small}
 
@@ -240,14 +240,14 @@ and are defined by:
 \begin{small}
   \[
   \begin{array}{rcl}
-    \fsttelglob{\tel A}{A_0}{\tel A,x_0:A_0} & := & \tel A \\
-    \fsttelglob{\tel A}{A_0}{\homj{G}{(\tel{M_1},M_1'/x_0)}
-      {(\tel{M_2},M_2'/x_0)}} & := &
-      \homj{\fsttelglob{\tel A}{A_0}{G}}{\tel{M_1}}{\tel{M_2}} \\
-    \sndtelglob{\tel A}{A_0}{\tel A,x_0:A_0} & := & \teltm xA.A_0 \\
-    \sndtelglob{\tel A}{A_0}{\homj{G}{(\tel{M_1},M_1'/x_0)}
-      {(\tel{M_2},M_2'/x_0)}} & := &
-      \dhomj{\sndtelglob{\tel A}{A_0}{G}}{M_1}{M_2}{\blank}
+    \fsttelglob{\tel A}{B}{\tel A,x:B} & := & \tel A \\
+    \fsttelglob{\tel A}{B}{\homj{G}{(\tel{M_1},M_1'/x)}
+      {(\tel{M_2},M_2'/x)}} & := &
+      \homj{\fsttelglob{\tel A}{B}{G}}{\tel{M_1}}{\tel{M_2}} \\
+    \sndtelglob{\tel A}{B}{\tel A,x:B} & := & \tel A.B \\
+    \sndtelglob{\tel A}{B}{\homj{G}{(\tel{M_1},M_1'/x)}
+      {(\tel{M_2},M_2'/x)}} & := &
+      \dhomj{\sndtelglob{\tel A}{B}{G}}{M_1}{M_2}{\blank}
     \\
   \end{array}
   \]
