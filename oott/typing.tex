@@ -8,35 +8,31 @@ We have a lot of judgments:
 \begin{itemize}
 \item $\wfdiagctx{\diag\Gamma}$
 \item $\wfdiag{\Delta}$
-\item $\wfdiaglob{\diag\Gamma}{\diag G}$ (requires $\wfdiagctx{\diag\Gamma}$)
+\item $\wfdiaglob{\diag\Gamma}{\diag G}n$ (requires $\wfdiagctx{\diag\Gamma}$)
 \item $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$
-(requires $\wfdiaglob{\diag\Gamma}{\diag G}$)
+(requires $\wfdiaglob{\diag\Gamma}{\diag G}n$)
 \item $\substdiaglob{\diag\Gamma}{\diag \delta}{\diag{\Gamma'}}$
 (requires $\wfdiagctx{\diag\Gamma}$ and $\wfdiagctx{\diag{\Gamma'}}$)
 \end{itemize}
 \end{small}
 
-\paragraph{Basics}
-
-\begin{small}
-\begin{itemize}
-\item $\wfctx{\Gamma}$
-% \item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
-%   $\wfctx{\Gamma'}$)
-% \item $\wftype{\Gamma}{A}$ (requires $\wfctx{\Gamma}$)
-\item $\wfglob{\Gamma}{G}{A}$ (requires $\ofglob{\Gamma}{A}{\typ{i}}$)
-\item $\ofglob{\Gamma}{M}{G}$ (requires $\wfglob{\Gamma}{G}{A}$)
-\end{itemize}
-\end{small}
+%\paragraph{Basics}
+%\begin{small}
+%\begin{itemize}
+%\item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
+%      $\wfctx{\Gamma'}$)
+%\end{itemize}
+%\end{small}
 
 \paragraph{Telescopes}
 
 \begin{small}
 \begin{itemize}
+\item $\wfctx{\Gamma}$
 \item $\wftel{\Gamma}{\tel A}$ (requires $\wfctx{\Gamma}$)
-\item $\wfglob{\Gamma}{G}{\tel A}$ (requires $\wftel{\Gamma}{\tel A}$)
-\item $\ofglob{\Gamma}{\tel M}{G}$
-(requires $\wfglob{\Gamma}{G}{\tel A}$)
+\item $\wfglob{\Gamma}{\tel G}{\tel A}n$ (requires $\wftel{\Gamma}{\tel A}$)
+\item $\ofglob{\Gamma}{\tel M}{\tel G}$
+(requires $\wfglob{\Gamma}{\tel G}{\tel A}n$)
 \end{itemize}
 \end{small}
 
@@ -46,14 +42,14 @@ We have a lot of judgments:
 \begin{itemize}
 \item $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
 (requires $\wfdiagctx{\diag\Gamma}$ and $\wftel{\Gamma}{\tel A}$)
-\item $\wfdepglob{\Gamma}{H}{\tel A.B}{G}$
-(requires $\wfglob{\Gamma}{G}{\tel A}$ and $\wftype{\Gamma,\teltm xA}{B}$)
-\item $\ofdepglob{\Gamma}{N}{H}{\tel M}$
-(requires $\wfdepglob{\Gamma}{H}{\tel A.B}{G}$
-and $\ofglob{\Gamma}{\tel M}{G}$)
 \item $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$
 (requires $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
 and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
+\item $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
+(requires $\wfglob{\Gamma}{\tel G}{\tel A}n$ and $\wftype{\Gamma,\teltm xA}{B}$)
+\item $\ofdepglob{\Gamma}{N}{H}{\tel M}$
+(requires $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
+and $\ofglob{\Gamma}{\tel M}{\tel G}$)
 \end{itemize}
 \end{small}
 
@@ -67,7 +63,7 @@ and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
   \qquad\qquad
   \infer
   {\wfdiagctx{\diag\Gamma,\tptm{x}{\diag G}}}
-  {\wfdiagctx{\diag\Gamma} & \wfdiaglob{\diag\Gamma}{\diag G}}\]
+  {\wfdiagctx{\diag\Gamma} & \wfdiaglob{\diag\Gamma}{\diag G}n}\]
 \end{small}
 
 \subsection{Diagrams (contractible contexts)}
@@ -77,7 +73,7 @@ and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
   \infer{\wfdiag{\tptm{x}{\diagbase}}}{}
   \qquad\qquad
   \infer{\wfdiag{\Delta,\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}}}}
-  {\wfdiaglob{\Delta}{\diag G}
+  {\wfdiaglob{\Delta}{\diag G}n
     & (\tptm{x}{\diag{G}}) \in \Delta}\]
 \end{small}
 
@@ -85,11 +81,12 @@ and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
 
 \begin{small}
   \[
-  \infer{\wfdiaglob{\diag\Gamma}{\diagbase}}{}
+  \infer{\wfdiaglob{\diag\Gamma}{\diagbase}0}{}
   \qquad\qquad
   \infer
-    {\wfdiaglob{\diag\Gamma}{\homj{\diag G}{\diag M}{\diag N}}}
-    {\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}
+    {\wfdiaglob{\diag\Gamma}{\homj{\diag G}{\diag M}{\diag N}}{n+1}}
+    {\wfdiaglob{\diag\Gamma}{\diag G}n
+    &\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}
     &\ofdiaglob{\diag\Gamma}{\diag N}{\diag G}}
   \]
 \end{small}
@@ -104,7 +101,7 @@ and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
   \infer{\ofdiaglob{\diag\Gamma}{\diagcoh{\Delta.\diag G}{\diag\delta}}
     {\diag G[\diag\delta]}}
   {\wfdiag{\Delta} 
-    & \wfdiaglob{\Delta}{\diag G}
+    & \wfdiaglob{\Delta}{\diag G}n
     & \substdiaglob{\diag\Gamma}{\diag\delta}{\Delta}}
   \]
 \end{small}
@@ -138,44 +135,11 @@ and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
   \]
 \end{small}
 
-% \framebox{\wfsub{\Gamma}{\theta}{\Gamma'}} \\ \\
-
-% \infer{\wfsub{\Gamma}{\cdot}{\cdot}}{}
-% \qquad
-% \infer{\wfsub{\Gamma}{\theta,M/x}{\Gamma',\tptm{x}{G}}}
-%       {\wfsub{\Gamma}{\theta}{\Gamma'} &
-%        \ofglob{\Gamma}{M}{\tsubst{G}{\theta}}}
-% \text{The only place where $\Gamma$ on left is not of level 0 is $\wfglob{\Gamma'}{G}{-}{-}$
-%   in this rule?}\\ \\
-
-\subsection{Globs}
-
-\FIXME{This might be a derived notion from telescopic globs, or from depglobs.}
-
-One idea:
-\[\begin{aligned}
-(\wfglob{\Gamma}{G}{A}) &:= (\wfdepglob{\Gamma}{G}{\emptyctx.A}{\emptyctx}) \\
-(\ofglob{\Gamma}{M}{G}) &:= (\ofdepglob{\Gamma}{M}{G}{()})
-\end{aligned}\]
-
-\begin{small}
-  \[
-  \infer{\wfglob{\Gamma}{A}{A}}
-  {\oftp{\Gamma}{A}{\typ{i}}}
-  \qquad\qquad
-  \infer{\wfglob{\Gamma}{\homj{G}{M}{N}}{A}}
-  {\wfglob{\Gamma}{G}{A} &
-    \oftp{\Gamma}{M}{G} &
-    \oftp{\Gamma}{N}{G}
-  }
-  \]
-\end{small}
-
 \subsection{Telescopes}
 
 \begin{small}
   \[
-  \infer{\wftel{\Gamma}{\varnothing}}{}
+  \infer{\wftel{\Gamma}{\emptytel}}{}
   \qquad\qquad
   \infer
     {\wftel{\Gamma}{(\tel A,\tptm{x}{B})}}
@@ -189,14 +153,13 @@ One idea:
 \begin{small}
   \[
   \infer
-    {\wfglob{\Gamma}{\tel A}{\tel A}}
-    {\wftel{\Gamma}{\tel A}}
+    {\wfglob{\Gamma}{\unitglob n}{\emptytel}n}
+    {}
   \qquad\qquad
   \infer
-    {\wfglob{\Gamma}{\homj{G}{\tel{M_1}}{\tel{M_2}}}{\tel A}}
-    {\wfglob{\Gamma}{G}{\tel A}
-    & \ofglob{\Gamma}{\tel{M_1}}{G}
-    & \ofglob{\Gamma}{\tel{M_2}}{G}}
+    {\wfglob{\Gamma}{(\tel G,H)}{\tel A,B}n}
+    {\wfglob{\Gamma}{\tel G}{\tel A}n
+    &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}}
   \]
 \end{small}
 
@@ -204,57 +167,114 @@ One idea:
 
 \begin{small}
   \[
-  \infer{\ofglob{\Gamma}{()}{G_\varnothing}}{}
-  \]
-
-  \[
-  % \infer{\ofglob{\Gamma}{(\tel{M},M_0)}{(\Psi,x:A)}}
-  % {\ofglob{\Gamma}{\tel{M}}{\Psi}
-  %   & \ofglob{\Gamma}{M_0}{\subst{A}{\tel{M}}{\Psi}}}
-  % \qquad\qquad
-  % \infer{\ofglob{\Gamma}{(\tel{\alpha},\alpha_0)}
-  %   {\homj{G}{(\tel{M},M_0)}{(\tel{N},N_0)}}}
-  % {\ofglob{\Gamma}{\tel\alpha}{\homj{\fsttelglob{\Psi}{A}{G}}{\tel{M}}{\tel{N}}}
-  %   & \ofdepglob{\Gamma}{\alpha_0}
-  %   {(\dhomj{\sndtelglob{\Psi}{A}{G}}{M_0}{N_0}{\blank})}
-  %   {\tel\alpha}}
-  \infer{\ofglob{\Gamma}{(\tel{M},M/x)}{G_{\tel A,x:B}}}
-  {\ofglob{\Gamma}{\tel M}{\fsttelglob{\tel A}{B}{G}}
-    & \ofdepglob{\Gamma}{M}{\sndtelglob{\tel A}{B}{G}}{\tel M}}
-  \]
-\end{small}
-
-Where $\fsttelglob{\tel A}{B}{G}$ and $\sndtelglob{\tel A}{B}{G}$ are
-meta-operations of the following type:
-
-\begin{small}
-  \[
   \infer
-    {\wfglob{\Gamma}{\fsttelglob{\tel A}{B}{G}}{\tel A}}
-    {\wfglob{\Gamma}{G}{\tel A,x:B}}
+    {\ofglob{\Gamma}{\unitglobelt n}{\unitglob n}}
+    {}
   \qquad\qquad
   \infer
-    {\wfdepglob{\Gamma}{\sndtelglob{\tel A}{B}{G}}
-      {\tel A.B}{\fsttelglob{\tel A}{B}{G}}}
-    {\wfglob{\Gamma}{G}{\tel A,x:B}}
+    {\ofglob{\Gamma}{(\tel M,N)}{(\tel G,H)}}
+    {\ofglob{\Gamma}{\tel M}{\tel G}
+    &\ofdepglob{\Gamma}{N}{H}{\tel M}}
   \]
 \end{small}
 
-and are defined by:
+\subsection{Depglobs}
+
+\begin{small}
+\[
+\infer
+  {\wfdepglob{\Gamma}{(\tel A.B)}{\tel{A}.B}{\tel{G}}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}0}
+\]
+
+\[
+\infer
+  {\wfdepglob{\Gamma}{\dhomj{H}{N_1}{N_2}{\blank}}{\tel A.B}{\tel G}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}
+  &\wfdepglob{\Gamma}{H}{\tel A.B}{\mhs{\tel G}}
+  &\ofdepglob{\Gamma}{N_1}{H}{\lhs{\tel G}}
+  &\ofdepglob{\Gamma}{N_2}{H}{\rhs{\tel G}}}
+\]
+\end{small}
+
+where $\lhs{\tel G}$, $\rhs{\tel G}$, and $\mhs{\tel G}$ are meta-operations
+such that:
+
+\[
+\infer
+  {\wfglob{\Gamma}{\mhs{\tel G}}{\tel A}n}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}}
+\qquad\qquad
+\infer
+  {\ofglob{\Gamma}{\lhs{\tel G}}{\mhs{\tel G}}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}}
+\qquad\qquad
+\infer
+  {\ofglob{\Gamma}{\rhs{\tel G}}{\mhs{\tel G}}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}}
+\]
+
+and are defined by induction:
+
+\[\begin{aligned}
+\mhs{\unitglob{n+1}} &= \unitglob n \\
+\mhs{\tel G,\dhomj{H}{N_1}{N_2}{\blank}} &= (\mhs{\tel G},H) \\
+&\\
+\lhs{\unitglob{n+1}} &= \unitglobelt{n+1} \\
+\lhs{\tel G,\dhomj{H}{N_1}{N_2}{\blank}} &= (\lhs{\tel G},N_1) \\
+&\\
+\rhs{\unitglob{n+1}} &= \unitglobelt{n+1} \\
+\rhs{\tel G,\dhomj{H}{N_1}{N_2}{\blank}} &= (\rhs{\tel G},N_1)
+\end{aligned}\]
+
+Then we derive the normal notion of a glob in a type as a dependent glob in an
+empty telescope:
+\begin{itemize}
+\item A well-formed $n$-glob in $A$ is
+$\wfdepglob{\Gamma}{G}{\emptyctx.A}{\unitglob n}$.
+\item An element of an $n$-glob $G$ in $A$ is
+$\ofdepglob{\Gamma}{M}{G}{\unitglobelt n}$.
+\end{itemize}
+
+\FIXME{everything after here is broken right now}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Coherences}
 
 \begin{small}
   \[
-  \begin{array}{rcl}
-    \fsttelglob{\tel A}{B}{\tel A,x:B} & := & \tel A \\
-    \fsttelglob{\tel A}{B}{\homj{G}{(\tel{M_1},M_1'/x)}
-      {(\tel{M_2},M_2'/x)}} & := &
-      \homj{\fsttelglob{\tel A}{B}{G}}{\tel{M_1}}{\tel{M_2}} \\
-    \sndtelglob{\tel A}{B}{\tel A,x:B} & := & \tel A.B \\
-    \sndtelglob{\tel A}{B}{\homj{G}{(\tel{M_1},M_1'/x)}
-      {(\tel{M_2},M_2'/x)}} & := &
-      \dhomj{\sndtelglob{\tel A}{B}{G}}{M_1}{M_2}{\blank}
-    \\
-  \end{array}
+  \infer{\ofglob{\Gamma}{\coh{{\Delta}.\diag{G}}{\tel A}{\delta}}
+    {\interpglob{\diag{G}}{\tel A}{\delta}}}
+  {\wfdiag{\Delta}
+    & \wfdiaglob{\Delta}{\diag G}
+    & \wftel{\Gamma}{\tel A}
+    & \ofinterp{\Gamma}{\delta}{\Delta}{\tel A}}
   \]
 \end{small}
 
@@ -274,8 +294,8 @@ and are defined by:
 
 We have the following operations:
 \begin{itemize}
-\item $\wfglob{\Gamma}{\interpglob{\diag G}{\tel A}{\delta}}{\tel A}$ whenever
-  $\wfdiaglob{\diag\Gamma}{\diag G}$ and $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+\item $\wfglob{\Gamma}{\interpglob{\diag G}{\tel A}{\delta}}{\tel A}n$ whenever
+  $\wfdiaglob{\diag\Gamma}{\diag G}n$ and $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
 \item $\ofglob{\Gamma}{\interpglob{\diag M}{\tel A}{\delta}}{} {\interpglob{\diag
       G}{\tel A}{\delta}}$ whenever $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$ and
   $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
@@ -306,45 +326,26 @@ We have the following operations:
   \]
 \end{small}
 
-\subsection{Coherences}
 
-\begin{small}
-  \[
-  \infer{\ofglob{\Gamma}{\coh{{\Delta}.\diag{G}}{\tel A}{\delta}}
-    {\interpglob{\diag{G}}{\tel A}{\delta}}}
-  {\wfdiag{\Delta}
-    & \wfdiaglob{\Delta}{\diag G}
-    & \wftel{\Gamma}{\tel A}
-    & \ofinterp{\Gamma}{\delta}{\Delta}{\tel A}}
-  \]
-\end{small}
 
-\subsection{Depglobs}
 
-\begin{small}
-\[
-\infer
-  {\wfdepglob{\Gamma}{(\teltm xA.B)}{\tel{A}.B}{\tel{A}}}
-  {\wftel{\Gamma}{\tel A}
-  &\wftype{\Gamma,\teltm xA}{B}}
-\]
 
+
+
+
+
+
+
+
+
+
+\end{document}
 \[
 \infer
   {\ofdepglob{\Gamma}{N}{(\tel{x}{:}\tel{A}.B)}{\tel{M}}}
   {\ofglob{\Gamma}{\tel{M}}{\tel{A}}
   &\ofglob{\Gamma}{N}{B[\tel{M}/\tel{x}]}}
 \]
-
-  \[\infer{\wfdepglob{\Gamma}{(\dhomj{H}{\tel{N_1}}{\tel{N_2}}{\blank})}
-    {\tel{A}.B}{\homj{G}{\tel{M_1}}{\tel{M_2}}}}
-  {\wfglob{\Gamma}{G}{\tel{A}}
-    & \ofglob{\Gamma}{\tel{M_1},\tel{M_2}}{G}
-    & \wftype{\Gamma,\tel{x}{:}\tel{A}}{B}
-    & \wfdepglob{\Gamma}{H}{\tel{A}.B}{G}
-    & \ofdepglob{\Gamma}{\tel{N_1}}{H}{\tel{M_1}}
-    & \ofdepglob{\Gamma}{\tel{N_2}}{H}{\tel{M_2}}}\]
-\end{small}
 
 \subsection{Dependent interpretation of diagram contexts}
 
