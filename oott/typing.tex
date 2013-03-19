@@ -133,6 +133,10 @@ and $\ofglob{\Gamma}{\tel M}{\tel G}$)
     & \wftype{\Gamma}{A}
     & (x\not\in\Gamma)}
   \]
+
+\[
+\infer{\ofdepglob{\Gamma}{x}{A}{\unitglobelt 0}}{(\tptm xA)\in\Gamma}
+\]
 \end{small}
 
 \subsection{Telescopes}
@@ -197,6 +201,14 @@ and $\ofglob{\Gamma}{\tel M}{\tel G}$)
 \]
 \end{small}
 
+\FIXME{where do I live?}
+\[
+\infer
+  {\ofdepglob{\Gamma}{N}{(\tel{x}{:}\tel{A}.B)}{\tel{M}}}
+  {\ofglob{\Gamma}{\tel{M}}{\tel{A}}
+  &\ofglob{\Gamma}{N}{B[\tel{M}/\tel{x}]}}
+\]
+
 where $\lhs{\tel G}$, $\rhs{\tel G}$, and $\mhs{\tel G}$ are meta-operations
 such that:
 
@@ -236,133 +248,68 @@ $\wfdepglob{\Gamma}{G}{\emptyctx.A}{\unitglob n}$.
 $\ofdepglob{\Gamma}{M}{G}{\unitglobelt n}$.
 \end{itemize}
 
-\FIXME{everything after here is broken right now}
-\end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\subsection{Coherences}
-
-\begin{small}
-  \[
-  \infer{\ofglob{\Gamma}{\coh{{\Delta}.\diag{G}}{\tel A}{\delta}}
-    {\interpglob{\diag{G}}{\tel A}{\delta}}}
-  {\wfdiag{\Delta}
-    & \wfdiaglob{\Delta}{\diag G}
-    & \wftel{\Gamma}{\tel A}
-    & \ofinterp{\Gamma}{\delta}{\Delta}{\tel A}}
-  \]
-\end{small}
-
 \subsection{Interpretation of diagram contexts into telescopes}
 
 \begin{small}
 \[\infer
-    {\ofinterp{\Gamma}{()}{\emptyctx}{\tel A}}
-    {\wftel{\Gamma}{\tel A}}
+    {\ofinterp{\Gamma}{()}{\diag\Gamma}{\emptytel}}
+    {\wfdiagctx{\diag\Gamma}}
   \qquad
   \infer
-    {\ofinterp{\Gamma}{(\delta,M/x)}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}}
+    {\ofinterp{\Gamma}{(\delta,\eta)}{\diag\Gamma}{\tel A,B}}
     {\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}
-    &\ofglob{\Gamma}{M}{\interpglob{\diag G}{\tel A}{\delta}}}
+    &\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}}
 \]
 \end{small}
 
-We have the following operations:
+We have following the operations whenever
+$\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$:
+
 \begin{itemize}
-\item $\wfglob{\Gamma}{\interpglob{\diag G}{\tel A}{\delta}}{\tel A}n$ whenever
-  $\wfdiaglob{\diag\Gamma}{\diag G}n$ and $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
-\item $\ofglob{\Gamma}{\interpglob{\diag M}{\tel A}{\delta}}{} {\interpglob{\diag
-      G}{\tel A}{\delta}}$ whenever $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$ and
-  $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
-\item $\ofinterp{\Gamma}{\interpglob{\diag\delta}
-       {\tel A}{\delta}}{\diag{\Gamma'}}{\tel A}$
-  whenever $\ofdiaglob{\diag\Gamma}{\diag\delta}{\diag{\Gamma'}}$ and
-  $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+\item $\wfglob{\Gamma}{\interpglob{\diag G}{\tel A}{\delta}}{\tel A}n$ 
+whenever $\wfdiaglob{\diag\Gamma}{\diag G}n$
+
+\item $\ofglob{\Gamma}{\interpglob{\diag M}{\tel A}{\delta}}
+{\interpglob{\diag G}{\tel A}{\delta}}$
+whenever $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$
+
+\item $\ofglob{\Gamma}{\interpglob{\diag\delta}{\tel A}{\delta}}
+{\interpglob{\diag\Gamma'}{\tel A}{\delta}}$
+whenever $\substdiaglob{\diag\Gamma}{\diag\delta}{\diag\Gamma'}$
 \end{itemize}
 
-\begin{small}
-  \[
-  \begin{array}{rcl}
-    \interpglob{\diagbase}{\tel A}{\delta} & := & \tel A \\
-    \interpglob{(\homj{\diag G}{\diag M_1}{\diag M_2})}{\tel A}{\delta} & := &
-    \homj{\interpglob{\diag G}{\tel A}{\delta}}
-         {\interpglob{\diag M_1}{\tel A}{\delta}}
-    {\interpglob{\diag M_2}{\tel A}{\delta}}\\\\
-
-    \interpglob{x}{\tel A}{\delta} & := & \delta(x) \\
-    \interpglob{\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A}{\delta} & := &
-    \coh{\Delta.\diag G}{\tel A}{\interpglob{\diag\delta'}{\tel A}{\delta}}\\\\
-
-    \interpglob{()}{\tel A}{\delta} & := & () \\
-    \interpglob{(\diag \delta,\diag M/x)}{\tel A}{\delta} & := &
-    (\interpglob{\diag\delta}{\tel A}{\delta},\interpglob{\diag
-    M}{\tel A}{\delta}/x)
-  \end{array}
-  \]
-\end{small}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\end{document}
-\[
-\infer
-  {\ofdepglob{\Gamma}{N}{(\tel{x}{:}\tel{A}.B)}{\tel{M}}}
-  {\ofglob{\Gamma}{\tel{M}}{\tel{A}}
-  &\ofglob{\Gamma}{N}{B[\tel{M}/\tel{x}]}}
-\]
+\[\begin{aligned}
+\interpglob{\diag G}{\emptytel}{()} &:=
+\unitglob n \text{ where $\wfdiaglob{\diag\Gamma}{\diag G}{n}$} \\
+\interpglob{\diag G}{\tel A,B}{(\delta,\eta)} & :=
+(\interpglob{\diag G}{\tel A}{\delta},\interpdepglob{\diag G}{\tel A.B}{\eta})\\
+&\\
+\interpglob{\diag M}{\emptytel}{()} &:=
+\unitglobelt n \text{ where $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$ and 
+$\wfdiaglob{\diag\Gamma}{\diag G}{n}$} \\
+\interpglob{\diag M}{\tel A,B}{(\delta,\eta)} & :=
+(\interpglob{\diag M}{\tel A}{\delta},\interpdepglob{\diag M}{\tel A.B}{\eta})\\
+&\\
+\interpglob{\diag\delta}{\emptytel}{()} &:= () \\
+\interpglob{\diag\delta}{\tel A,B}{(\delta,\eta)} & :=
+(\interpglob{\diag\delta}{\tel A}{\delta},\interpdepglob{\diag\delta}{\tel A.B}{\eta})
+\end{aligned}\]
 
 \subsection{Dependent interpretation of diagram contexts}
 
 \[\infer
-  {\ofinterpdep{\Gamma}{()}{\emptyctx}{\tel A.B}{()}}
-  {}
+  {\ofinterpdep{\Gamma}{()}{\emptyctx}{\tel A.B}{\delta}}
+  {\ofinterp{\Gamma}{\delta}{\emptyctx}{\tel A}}
 \]
 
 \[
 \infer
-  {\ofinterpdep{\Gamma}{(\eta,\tel N/x)}
-   {\diag\Gamma,\tptm{x}{\diag G}}{\tel A.B}{(\delta,\tel M/x)}}
-  {\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}
-  &\ofglob{\Gamma}{\tel M}{\interpglob{\diag G}{\tel A}{\delta}}
-  &\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}
-  &\ofdepglob{\Gamma}{\tel N}{\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
-   {\tel M}}
+  {\ofinterpdep{\Gamma}{(\eta,\epsilon/x)}
+   {\diag\Gamma,\tptm{x}{\diag G}}{\tel A.B}{\delta}}
+  {\ofinterp{\Gamma}{\delta}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}
+  &\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\fstinterp\delta}
+  &\ofdepglob{\Gamma}{\epsilon}
+   {\interpdepglob{\diag G}{\tel A.B}{\eta}}{\sndinterp\delta}}
 \]
 
 We have the following operations whenever
@@ -371,21 +318,21 @@ $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$:
 
 \begin{itemize}
 \item
-$\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}{\tel A.B}
+$\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\tel A.B}{\eta}}{\tel A.B}
   {\interpglob{\diag G}{\tel A}{\delta}}$
 whenever
-$\wfdiaglob{\diag\Gamma}{\diag G}$.
+$\wfdiaglob{\diag\Gamma}{\diag G}n$.
 
 \item
-$\ofdepglob{\Gamma}{\interpdepglob{\diag M}{\tel A.B}{\delta}{\eta}}
- {\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
+$\ofdepglob{\Gamma}{\interpdepglob{\diag M}{\tel A.B}{\eta}}
+ {\interpdepglob{\diag G}{\tel A.B}{\eta}}
  {\interpglob{\diag M}{\tel A}{\delta}}$
 whenever
 $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$.
 
 \item
 $\ofinterpdep{\Gamma}
-  {\interpdepglob{\diag\delta}{\tel A.B}{\delta}{\eta}}{\diag{\Gamma'}}{\tel A.B}
+  {\interpdepglob{\diag\delta}{\tel A.B}{\eta}}{\diag{\Gamma'}}{\tel A.B}
   {\interpglob{\diag\delta}{\tel A}{\delta}}$
 whenever
 $\ofdiaglob{\diag\Gamma}{\diag\delta}{\diag{\Gamma'}}$.
@@ -393,46 +340,94 @@ $\ofdiaglob{\diag\Gamma}{\diag\delta}{\diag{\Gamma'}}$.
 
 \[
   \begin{array}{rcl}
-    \interpdepglob{\diagbase}{\tel A.B}{\delta}{\eta} & := & \tel A.B \\
+    \interpdepglob{\diagbase}{\tel A.B}{\eta} & := & \tel A.B \\
     \interpdepglob{\homj{\diag G}{\diag{M_1}}{\diag{M_2}}}
-      {\tel A.B}{\delta}{\eta} & := &
+      {\tel A.B}{\eta} & := &
     \dhomj
-      {\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}
-      {\interpdepglob{\diag{M_1}}{\tel A.B}{\delta}{\eta}}
-      {\interpdepglob{\diag{M_2}}{\tel A.B}{\delta}{\eta}}
+      {\interpdepglob{\diag G}{\tel A.B}{\eta}}
+      {\interpdepglob{\diag{M_1}}{\tel A.B}{\eta}}
+      {\interpdepglob{\diag{M_2}}{\tel A.B}{\eta}}
       {\blank}
     \\\\
 
-    \interpdepglob{x}{\tel A.B}{\delta}{\eta} & := & \eta(x) \\
+    \interpdepglob{x}{\tel A.B}{\eta} & := & \eta(x) \\
     \interpdepglob
-      {\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A.B}{\delta}{\eta} & := &
+      {\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A.B}{\eta} & := &
     \depcoh{\Delta.\diag G}{\tel A.B}
-      {\interpglob{\diag\delta'}{\tel A}{\delta}}
-      {\interpdepglob{\diag\delta'}{\tel A.B}{\delta}{\eta}} \\\\
+      {\interpdepglob{\diag\delta'}{\tel A.B}{\eta}} \\\\
 
-    \interpdepglob{()}{\tel A.B}{\delta}{\eta} & := & () \\
-    \interpdepglob{\diag\delta,\diag M/x}{\tel A.B}{\delta}{\eta} & := &
-    (\interpdepglob{\diag\delta}{\tel A.B}{\delta}{\eta},\interpdepglob{\diag
-    M}{\tel A.B}{\delta}{\eta}/x)
+    \interpdepglob{()}{\tel A.B}{\eta} & := & () \\
+    \interpdepglob{\diag\delta,\diag M/x}{\tel A.B}{\eta} & := &
+    (\interpdepglob{\diag\delta}{\tel A.B}{\eta},\interpdepglob{\diag
+    M}{\tel A.B}{\eta}/x)
   \end{array}
 \]
+
+Where $\fstinterp{\delta}$ and $\sndinterp{\delta}$ are metaoperations with the
+type:
+\[
+\infer
+  {\ofinterp{\Gamma}{\fstinterp\delta}{\diag\Gamma}{\tel A}}
+  {\ofinterp{\Gamma}{\delta}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}}
+\qquad\qquad
+\infer
+  {\ofglob{\Gamma}{\sndinterp\delta}
+   {\interpglob{\diag G}{\tel A}{\fstinterp\delta}}}
+  {\ofinterp{\Gamma}{\delta}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}}
+\]
+
+and are defined:
+
+\[\begin{aligned}
+\fstinterp{()} &:= () \\
+\fstinterp{(\delta,(\eta,\epsilon))} &:=
+(\fstinterp\delta,\eta) \\
+&\\
+\sndinterp{()} &:= \unitglobelt n
+\text{ where $\wfdiaglob{\Gamma}{\diag G}n$} \\
+\sndinterp{(\delta,(\eta,\epsilon))} &:=
+(\sndinterp\delta,\epsilon) \\
+\end{aligned}\]
 
 \subsection{Dependent coherences}
 
 \begin{small}
 \[
 \infer
-  {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{\tel A.B}{\delta}{\eta}}
-    {\interpdepglob{\diag G}{\tel A.B}{\delta}{\eta}}{\coh{\Delta.\diag
+  {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{\tel A.B}{\eta}}
+    {\interpdepglob{\diag G}{\tel A.B}{\eta}}{\coh{\Delta.\diag
     G}{\tel A}{\delta}}}
   {\wfdiag{\Delta}
-  &\wfdiaglob{\Delta}{\diag G}
+  &\wfdiaglob{\Delta}{\diag G}n
   &\wftype{\Gamma,\teltm xA}{B}
   &\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}
   &\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}}
 \]
 \end{small}
 
+Ordinary coherences are a derived notion of the type:
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma}{\coh{{\Delta}.\diag{G}}{\tel A}{\delta}}
+    {\interpglob{\diag{G}}{\tel A}{\delta}}}
+  {\wfdiag{\Delta}
+    & \wfdiaglob{\Delta}{\diag G}n
+    & \wftel{\Gamma}{\tel A}
+    & \ofinterp{\Gamma}{\delta}{\Delta}{\tel A}}
+  \]
+\end{small}
+
+defined as follows:
+\[\begin{aligned}
+\coh{{\Delta}.\diag G}{\emptytel}{()} &:=
+\unitglobelt n
+\text{ where $\wfdiaglob{\diag\Gamma}{\diag G}n$} \\
+\coh{{\Delta}.\diag G}{\tel A,B}{(\delta,\eta)} &:=
+(\coh{{\Delta}.\diag G}{\tel A}{\delta},
+\depcoh{{\Delta}.\diag G}{\tel A.B}{\eta})
+\end{aligned}\]
+
+\end{document}
 \subsection{Ap}
 
 \FIXME{Haven't updated any metavariables past here!}

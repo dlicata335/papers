@@ -34,7 +34,7 @@
 
 \newcommand{\interpdiagdep}[2]{\ensuremath{\langle #1 \rangle_{#2}}}
 \newcommand{\ofinterpdep}[5]{\ofdepglob{#1}{#2}{\interpdiagdep{#3}{#4}}{#5}}
-\newcommand{\interpdepglob}[4]{\langle {#1}\rangle_{#2}^{#3,#4}}
+\newcommand{\interpdepglob}[3]{\langle {#1}\rangle_{#2}^{#3}}
 
 \newcommand{\tel}[1]{\ensuremath{\overrightarrow{#1}}}
 \newcommand{\wftel}[2]{\ensuremath{{#1} \vdash {#2} \: \dsd{tel}}}
@@ -43,6 +43,9 @@
 \newcommand{\lhs}[1]{\tel{\dsd{LHS}}(#1)}
 \newcommand{\rhs}[1]{\tel{\dsd{RHS}}(#1)}
 \newcommand{\mhs}[1]{\tel{\dsd{MHS}}(#1)}
+
+\newcommand{\fstinterp}[1]{\dsd{fst}(#1)}
+\newcommand{\sndinterp}[1]{\dsd{snd}(#1)}
 
 \newcommand{\wfdepglob}[4]%
   {\ensuremath{{#1} \vdash {#2} \: \dsd{glob}^{#3}_{#4}}}
@@ -55,7 +58,7 @@
 \newcommand{\apd}[2]{\ensuremath{\dsd{apd} \: {#1} \: {#2}}}
 
 \newcommand{\coh}[3]{\ensuremath{\dsd{coh}_{#1} ({#2};{#3})}}
-\newcommand{\depcoh}[4]{\ensuremath{\dsd{depcoh}_{#1} ({#2};{#3},{#4})}}
+\newcommand{\depcoh}[3]{\ensuremath{\dsd{depcoh}_{#1} ({#2};{#3})}}
 \newcommand{\diagcoh}[2]{\ensuremath{\dsd{\diag{coh}}_{#1}(#2)}}
 
 \newcommand{\base}[1]{\dsd{base}_{#1}}
