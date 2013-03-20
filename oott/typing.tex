@@ -338,30 +338,27 @@ whenever
 $\ofdiaglob{\diag\Gamma}{\diag\delta}{\diag{\Gamma'}}$.
 \end{itemize}
 
-\[
-  \begin{array}{rcl}
-    \interpdepglob{\diagbase}{\tel A.B}{\eta} & := & \tel A.B \\
-    \interpdepglob{\homj{\diag G}{\diag{M_1}}{\diag{M_2}}}
-      {\tel A.B}{\eta} & := &
-    \dhomj
-      {\interpdepglob{\diag G}{\tel A.B}{\eta}}
-      {\interpdepglob{\diag{M_1}}{\tel A.B}{\eta}}
-      {\interpdepglob{\diag{M_2}}{\tel A.B}{\eta}}
-      {\blank}
-    \\\\
-
-    \interpdepglob{x}{\tel A.B}{\eta} & := & \eta(x) \\
-    \interpdepglob
-      {\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A.B}{\eta} & := &
-    \depcoh{\Delta.\diag G}{\tel A.B}
-      {\interpdepglob{\diag\delta'}{\tel A.B}{\eta}} \\\\
-
-    \interpdepglob{()}{\tel A.B}{\eta} & := & () \\
-    \interpdepglob{\diag\delta,\diag M/x}{\tel A.B}{\eta} & := &
-    (\interpdepglob{\diag\delta}{\tel A.B}{\eta},\interpdepglob{\diag
-    M}{\tel A.B}{\eta}/x)
-  \end{array}
-\]
+\[\begin{aligned}
+\interpdepglob{\diagbase}{\tel A.B}{\eta} & := \tel A.B \\
+\interpdepglob{\homj{\diag G}{\diag{M_1}}{\diag{M_2}}}
+  {\tel A.B}{\eta} & :=
+\dhomj
+  {\interpdepglob{\diag G}{\tel A.B}{\eta}}
+  {\interpdepglob{\diag{M_1}}{\tel A.B}{\eta}}
+  {\interpdepglob{\diag{M_2}}{\tel A.B}{\eta}}
+  {\blank} \\
+&\\
+\interpdepglob{x}{\tel A.B}{\eta} & := \eta(x) \\
+\interpdepglob
+  {\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A.B}{\eta} & :=
+\depcoh{\Delta.\diag G}{\tel A.B}
+  {\interpdepglob{\diag\delta'}{\tel A.B}{\eta}} \\
+&\\
+\interpdepglob{()}{\tel A.B}{\eta} & := () \\
+\interpdepglob{\diag\delta,\diag M/x}{\tel A.B}{\eta} & :=
+(\interpdepglob{\diag\delta}{\tel A.B}{\eta},\interpdepglob{\diag
+M}{\tel A.B}{\eta}/x)
+\end{aligned}\]
 
 Where $\fstinterp{\delta}$ and $\sndinterp{\delta}$ are metaoperations with the
 type:
@@ -427,61 +424,47 @@ defined as follows:
 \depcoh{{\Delta}.\diag G}{\tel A.B}{\eta})
 \end{aligned}\]
 
-\end{document}
+\subsubsection{Useful coherences}
+
+\[\idt{A}{M}:=\coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}\]
+
 \subsection{Ap}
 
-\FIXME{Haven't updated any metavariables past here!}
-\begin{itemize}
-\item Switch $\Psi$ to $\tel A$.
-\item Switch $\Delta$ to $\diag\Gamma$ when not specifically a diagram.
-\item Switch $\delta_0,\delta$ to $\delta,\eta$.
-\item Switch $M,N$ to $M_1,M_2$ and dependent ($u,v$) to $N_1,N_2$.
-\end{itemize}
-
-\FIXME{telescopic version?}
-
 \begin{small}
-  \[\infer{\ofglob{\Gamma}{\ap{(x^A.M^H)}{\alpha^G}}
-    {\Ap{(x^A.M^H)}{G}}}
-  {\wfglob{\Gamma}{G}{A}
-    & \ofglob{\Gamma}{\alpha}{G}
-    & \wfglob{\Gamma}{H}{B}
-    & \ofglob{\Gamma,x:A}{M}{H}}\]
+  \[\infer{\ofdepglob{\Gamma}{\apd{(\teltm xA.N)}{\tel M}}
+    {(\Apd{(\teltm xA.N)}{\tel G})}{\tel M}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+    & \ofglob{\Gamma}{\tel M}{\tel G}
+    & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
 
-  where $\dsd{Ap}$ is a meta-operation such that
+  where $\dsd{Apd}$ is a meta-operation such that
 
-  \[\infer{\wfglob{\Gamma}{(\Ap{(x^A.M^H)}{G})}
-    {B}}
-  {\wfglob{\Gamma}{G}{A}
-    & \ofglob{\Gamma}{\alpha}{G}
-    & \wfglob{\Gamma}{H}{B}
-    & \ofglob{\Gamma,x:A}{M}{H}}\]
+  \[\infer{\wfdepglob{\Gamma}{(\Apd{(\teltm xA.N)}{\tel G})}
+    {\tel A.B}{\tel G}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+    & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
 
-  The definition of $\dsd{Ap}$ is the following:
+  The definition of $\dsd{Apd}$ is the following:
 
-  \[
-  \begin{array}{rcl}
-    \Ap{(x^A.M^H)}{A} & := & H \\
-    \Ap{(x^A.M^H)}{(\homj{G}{N}{N'})} & := & \left(
-      \homj{\Ap{(x^A.M^H)}{G}}
-      {\ap{(x^A.M^H)}{N}}{\ap{(x^A.M^H)}{N'}}\right)
-  \end{array}
-  \]
+\[\begin{aligned}
+  \Apd{(\teltm xA.N)}{\tel G} & := \tel A.B
+  \text{ where $\wfglob{\Gamma}{\tel G}{\tel A}0$} \\
+  \Apd{(\teltm xA.N)}{\tel G} & := 
+    \dhomj
+      {\Apd{(\teltm xA.N)}{\mhs{\tel G}}}
+      {\apd{(\teltm xA.N)}{\lhs{\tel G}}}
+      {\apd{(\teltm xA.N)}{\rhs{\tel G}}}{\blank}
+\end{aligned}\]
 \end{small}
 
-\begin{small}
-  \[
-  \ap{(x^A.M^H)}{N^A}  \equiv  \subst{M}{N}{x}
-  \text{ (\FIXME{definition or reduction or something else?})} \\ \\
-  \]
-\end{small}
+\FIXME{Reductions between the dependent and nondependent versions}
 
-In a closed term, for any term $\ap{(\tel{x}.M)}{\tel{N}}$, $M$ normalizes to
+In a closed term, for any term $\apd{(\teltm xA.N)}{\tel M}$, $N$ normalizes to
 either
 \begin{itemize}
 \item a variable bound in $\tel{x}$ this will reduce to some component of
-  $\tel{N}$.
-\item an intro (including $\coh{\Delta.\diag G}{A}{\delta}$). For negatives we
+  $\tel{M}$.
+\item an intro. For negatives we
   need a reduction rule which will do it pointwise. For positives, it’s
   canonical. For coherences, we will need to change the coherence.
 \item an elimination context. We need a reduction rule generalizing the rules we
@@ -494,44 +477,7 @@ either
 \FIXME{Why are the other ones provable, for instance when $f$ is in the context
   \[\ap{(x.f(M,x))}{N}\equiv\ap{(u.f)}{(\ap{(x.M)}{N},N)}\]}
 
-\FIXME{define \ap{(x.M)}{\delta}}
-
-\paragraph{Apd}
-
-\begin{small}
-  \[\infer{\ofdepglob{\Gamma}{\apd{(x^A.M^H)}{\alpha^G}}
-    {(\Apd{(x^A.M^H)}{G})}{\alpha}}
-  {\wfglob{\Gamma}{G}{A}
-    & \ofglob{\Gamma}{\alpha}{G}
-    & \wfglob{\Gamma,x:A}{H}{B}
-    & \ofglob{\Gamma,x:A}{M}{H}}\]
-
-  where $\dsd{Apd}$ is a meta-operation such that
-
-  \[\infer{\wfdepglob{\Gamma}{(\Apd{(x^A.M^H)}{G})}
-    {x^A.B}{G}}
-  {\wfglob{\Gamma}{G}{A}
-    & \wfglob{\Gamma,x:A}{H}{B}
-    & \ofglob{\Gamma,x:A}{M}{H}}\]
-
-  The definition of $\dsd{Ap}$ is the following:
-
-  \[
-  \begin{array}{rcl}
-    \Apd{(x^A.M^H)}{A} & := & x^A.H \\
-    \Apd{(x^A.M^H)}{(\homj{G}{N}{N'})} & := & \left(
-      \dhomj{\Apd{(x^A.M^H)}{G}}
-      {\apd{(x^A.M^H)}{N^G}}{\apd{(x^A.M^H)}{N'^G}}{\blank}\right)
-  \end{array}
-  \]
-\end{small}
-
-\FIXME{Reductions between the dependent and nondependent versions}
-
-\subsection{Useful coherences}
-
-\[\idt{A}{M}:=\coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}\]
-
+\end{document}
 \subsection{Pi}
 
 \begin{small}
