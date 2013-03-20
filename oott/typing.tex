@@ -457,7 +457,20 @@ defined as follows:
 \end{aligned}\]
 \end{small}
 
-\FIXME{Reductions between the dependent and nondependent versions}
+%\subsection{A new ap??}
+%
+%\[
+%\infer
+%  {\ofdepglob{\Gamma}{\apd{(\tptm xB.N_1)}{N_2}}
+%             {\Apd{(\tptm xB.N_1)}{H}}{(\tel M,N_2)}}
+%  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
+%  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
+%  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}
+%  &\ofglob{\Gamma}{\tel M}{\tel G}
+%  &\ofdepglob{\Gamma}{N_2}{H}{\tel M}}
+%\]
+%
+%where $\dsd{Apd}$ is a meta-operation with type
 
 In a closed term, for any term $\apd{(\teltm xA.N)}{\tel M}$, $N$ normalizes to
 either
@@ -476,6 +489,76 @@ either
 
 \FIXME{Why are the other ones provable, for instance when $f$ is in the context
   \[\ap{(x.f(M,x))}{N}\equiv\ap{(u.f)}{(\ap{(x.M)}{N},N)}\]}
+
+\subsection{Sigma}
+
+\[
+\infer
+  {\ofdepglob{\Gamma}{\pair{N_1}{N_2}}{H}{\tel M}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+  &\ofglob{\Gamma}{\tel M}{\tel G}
+  &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofdepglob{\Gamma}{N_1}{\Fstsigma H}{\tel M}
+  &\ofdepglob{\Gamma}{N_2}{\Fstsigma H}{(\tel M,N_1)}}
+\]
+
+\[
+\infer
+  {\ofdepglob{\Gamma}{\fst N}{\Fstsigma H}{\tel M}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+  &\ofglob{\Gamma}{\tel M}{\tel G}
+  &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofdepglob{\Gamma}{N}{H}{\tel M}}
+\]
+
+\[
+\infer
+  {\ofdepglob{\Gamma}{\snd N}{\Sndsigma H}{(\tel M,\fst N)}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+  &\ofglob{\Gamma}{\tel M}{\tel G}
+  &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofdepglob{\Gamma}{N}{H}{\tel M}}
+\]
+
+Where $\Fstsigma H$ and $\Sndsigma H$ are meta-operations of type
+\[
+\infer
+  {\wfdepglob{\Gamma}{\Fstsigma H}{\tel A.A}{\tel G}}
+  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}}
+\qquad\qquad
+\infer
+  {\wfdepglob{\Gamma}{\Sndsigma H}{\tel A,A.B}{(\tel G,\Fstsigma H)}}
+  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}}
+\]
+defined as:
+\[\begin{aligned}
+\Fstsigma{\tel A.\sigmacl xAB} &:= \tel A.A \\
+\Fstsigma{\dhomj{H}{N_1}{N_2}{\blank}} &:=
+\dhomj{\Fstsigma H}{\fst N_1}{\fst N_2}{\blank}
+&\\
+\Sndsigma{\tel A.\sigmacl xAB} &:= \tel A,A.B \\
+\Sndsigma{\dhomj{H}{N_1}{N_2}{\blank}} &:=
+\dhomj{\Sndsigma H}{\snd N_1}{\snd N_2}{\blank}
+\end{aligned}\]
+
+We have the definitional equalities:
+\[\begin{aligned}
+\fst{(a,b)} &\equiv a \\
+\snd{(a,b)} &\equiv b \\
+\depcoh{\Delta.\diag G}{\tel A.(\sigmacl xAB)}{\eta} &\equiv
+(\depcoh{\Delta.\diag G}{\tel A.A}{\mapfst\eta},
+\depcoh{\Delta.\diag G}{\tel A,A.B}{\mapsnd\eta}) \\
+\end{aligned}\]
+where $\mapfst\eta$ and $\mapsnd\eta$ are meta-operations which apply $\fst-$
+and $\snd-$ pointwise.
+
+\FIXME{actually define them}
+
+
+
+
+
+
 
 \end{document}
 \subsection{Pi}
