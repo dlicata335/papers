@@ -242,8 +242,13 @@ and are defined by induction:
 Then we derive the normal notion of a glob in a type as a dependent glob in an
 empty telescope:
 \begin{itemize}
-\item A well-formed $n$-glob in $A$ is
+\item A term in $A$ is an element of $A$ regarded as a $0$-glob in itself. \\
+We may write $\oftp{\Gamma}{M}{A}$ as shorthand for
+$\ofdepglob{\Gamma}{M}{A}{\unitglobelt 0}$.
+
+\item A well-formed $n$-glob $G$ in $A$ is 
 $\wfdepglob{\Gamma}{G}{\emptyctx.A}{\unitglob n}$.
+
 \item An element of an $n$-glob $G$ in $A$ is
 $\ofdepglob{\Gamma}{M}{G}{\unitglobelt n}$.
 \end{itemize}
@@ -492,7 +497,7 @@ either
 
 \subsection{Sigma}
 
-\[
+\begin{small}\[
 \infer
   {\ofdepglob{\Gamma}{\pair{N_1}{N_2}}{H}{\tel M}}
   {\wfglob{\Gamma}{\tel G}{\tel A}n
@@ -500,7 +505,7 @@ either
   &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
   &\ofdepglob{\Gamma}{N_1}{\Fstsigma H}{\tel M}
   &\ofdepglob{\Gamma}{N_2}{\Fstsigma H}{(\tel M,N_1)}}
-\]
+\]\end{small}
 
 \[
 \infer
@@ -560,6 +565,8 @@ and $\snd-$ pointwise.
 
 
 
+
+
 \end{document}
 \subsection{Pi}
 
@@ -568,7 +575,7 @@ and $\snd-$ pointwise.
   \infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
   {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} & \ofglob{\Gamma}{N}{A}} \qquad
   \infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
-  {\wfglob{\Gamma}{G}{\picl{x}{A}{B}} &
+  {\wfglob{\Gamma}{G}{\picl{x}{A}{B}}n &
     \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Ap{(f.\app{f}{x})}{G}}}
   \]
 \[
@@ -582,6 +589,7 @@ and $\snd-$ pointwise.
 \end{array}
 \]
 \end{small}
+\end{document}
 
 %%% Local Variables: 
 %%% mode: latex
