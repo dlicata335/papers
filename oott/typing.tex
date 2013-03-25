@@ -433,51 +433,36 @@ defined as follows:
 
 \[\idt{A}{M}:=\coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}\]
 
-\subsection{Ap}
+\subsection{Telescopic ap}
 
 \begin{small}
-  \[\infer{\ofdepglob{\Gamma}{\apd{(\teltm xA.N)}{\tel M}}
-    {(\Apd{(\teltm xA.N)}{\tel G})}{\tel M}}
+  \[\infer{\ofdepglob{\Gamma}{\aptel{(\teltm xA.N)}{\tel M}}
+    {(\Aptel{(\teltm xA.N)}{\tel G})}{\tel M}}
   {\wfglob{\Gamma}{\tel G}{\tel A}n
     & \ofglob{\Gamma}{\tel M}{\tel G}
     & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
 
-  where $\dsd{Apd}$ is a meta-operation such that
+  where $\tel{\dsd{Ap}}$ is a meta-operation such that
 
-  \[\infer{\wfdepglob{\Gamma}{(\Apd{(\teltm xA.N)}{\tel G})}
+  \[\infer{\wfdepglob{\Gamma}{(\Aptel{(\teltm xA.N)}{\tel G})}
     {\tel A.B}{\tel G}}
   {\wfglob{\Gamma}{\tel G}{\tel A}n
     & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
 
-  The definition of $\dsd{Apd}$ is the following:
+  The definition of $\tel{\dsd{Ap}}$ is the following:
 
 \[\begin{aligned}
-  \Apd{(\teltm xA.N)}{\tel G} & := \tel A.B
+  \Aptel{(\teltm xA.N)}{\tel G} & := \tel A.B
   \text{ where $\wfglob{\Gamma}{\tel G}{\tel A}0$} \\
-  \Apd{(\teltm xA.N)}{\tel G} & := 
+  \Aptel{(\teltm xA.N)}{\tel G} & := 
     \dhomj
-      {\Apd{(\teltm xA.N)}{\mhs{\tel G}}}
-      {\apd{(\teltm xA.N)}{\lhs{\tel G}}}
-      {\apd{(\teltm xA.N)}{\rhs{\tel G}}}{\blank}
+      {\Aptel{(\teltm xA.N)}{\mhs{\tel G}}}
+      {\aptel{(\teltm xA.N)}{\lhs{\tel G}}}
+      {\aptel{(\teltm xA.N)}{\rhs{\tel G}}}{\blank}
 \end{aligned}\]
 \end{small}
 
-%\subsection{A new ap??}
-%
-%\[
-%\infer
-%  {\ofdepglob{\Gamma}{\apd{(\tptm xB.N_1)}{N_2}}
-%             {\Apd{(\tptm xB.N_1)}{H}}{(\tel M,N_2)}}
-%  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
-%  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
-%  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}
-%  &\ofglob{\Gamma}{\tel M}{\tel G}
-%  &\ofdepglob{\Gamma}{N_2}{H}{\tel M}}
-%\]
-%
-%where $\dsd{Apd}$ is a meta-operation with type
-
-In a closed term, for any term $\apd{(\teltm xA.N)}{\tel M}$, $N$ normalizes to
+In a closed term, for any term $\aptel{(\teltm xA.N)}{\tel M}$, $N$ normalizes to
 either
 \begin{itemize}
 \item a variable bound in $\tel{x}$ this will reduce to some component of
@@ -488,12 +473,26 @@ either
 \item an elimination context. We need a reduction rule generalizing the rules we
   have for now. For instance
 
-\[\ap{(f.E[f M])}{(\ulam{x}{N})} \equiv \ap{(x.E[x])}{(\subst{N}{M}{x})}\]
-
+\[\aptel{(f.E[f M])}{(\ulam{x}{N})} \equiv \aptel{(x.E[x])}{(\subst{N}{M}{x})}\]
 \end{itemize}
 
 \FIXME{Why are the other ones provable, for instance when $f$ is in the context
-  \[\ap{(x.f(M,x))}{N}\equiv\ap{(u.f)}{(\ap{(x.M)}{N},N)}\]}
+  \[\aptel{(x.f(M,x))}{N}\equiv\aptel{(u.f)}{(\aptel{(x.M)}{N},N)}\]}
+
+\subsection{Dependent ap}
+
+\[
+\infer
+  {\ofdepglob{\Gamma}{\apd{(\tptm xB.N_1)}{N_2}}
+             {\Apd{(\tptm xB.N_1)}{H}}{(\tel M,N_2)}}
+  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
+  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
+  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}
+  &\ofglob{\Gamma}{\tel M}{\tel G}
+  &\ofdepglob{\Gamma}{N_2}{H}{\tel M}}
+\]
+
+where $\dsd{Apd}$ is a meta-operation with type
 
 \subsection{Sigma}
 
@@ -504,7 +503,7 @@ either
   &\ofglob{\Gamma}{\tel M}{\tel G}
   &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
   &\ofdepglob{\Gamma}{N_1}{\Fstsigma H}{\tel M}
-  &\ofdepglob{\Gamma}{N_2}{\Fstsigma H}{(\tel M,N_1)}}
+  &\ofdepglob{\Gamma}{N_2}{\Sndsigma H}{(\tel M,N_1)}}
 \]\end{small}
 
 \[
