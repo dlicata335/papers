@@ -492,7 +492,13 @@ either
   &\ofdepglob{\Gamma}{N_2}{H}{\tel M}}
 \]
 
-where $\dsd{Apd}$ is a meta-operation with type
+where $\dsd{Ap}$ is a meta-operation such that
+\[\infer
+  {\wfdepglob{\Gamma}{(\Aptel{(\teltm xA.N)}{\tel G})}{\tel A.B}{\tel G}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+  &\ofglob{\Gamma,\teltm xA}{N}{B}}
+\]
+
 
 \subsection{Sigma}
 
@@ -566,29 +572,28 @@ and $\snd-$ pointwise.
 
 
 
-\end{document}
-\subsection{Pi}
-
-\begin{small}
-  \[
-  \infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
-  {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} & \ofglob{\Gamma}{N}{A}} \qquad
-  \infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
-  {\wfglob{\Gamma}{G}{\picl{x}{A}{B}}n &
-    \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Ap{(f.\app{f}{x})}{G}}}
-  \]
-\[
-  \begin{array}{rcl}
-  \ap{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
-
-\alpha & \equiv & \ulam{x}{\ap{(f.\app f x)}{\alpha}} \text{ (\FIXME{Can we get away without $\eta$ definitionally?})} \\
-
-\coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\ap{(f.\app f x)}{\delta}}} \\
- 
-\end{array}
-\]
-\end{small}
-\end{document}
+%\subsection{Pi}
+%
+%\begin{small}
+%  \[
+%  \infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
+%  {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} & \ofglob{\Gamma}{N}{A}} \qquad
+%  \infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
+%  {\wfglob{\Gamma}{G}{\picl{x}{A}{B}}n &
+%    \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Ap{(f.\app{f}{x})}{G}}}
+%  \]
+%\[
+%  \begin{array}{rcl}
+%  \ap{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
+%
+%\alpha & \equiv & \ulam{x}{\ap{(f.\app f x)}{\alpha}} \text{ (\FIXME{Can we get away without $\eta$ definitionally?})} \\
+%
+%\coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\ap{(f.\app f x)}{\delta}}} \\
+% 
+%\end{array}
+%\]
+%\end{small}
+%\end{document}
 
 %%% Local Variables: 
 %%% mode: latex

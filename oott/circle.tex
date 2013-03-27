@@ -20,7 +20,7 @@
 \begin{small}
   \[
   \infer{\ofglob{\Gamma,x:\dsd{S^1}}{\dsd{S^1\text{-}rec}_G(b, p; x)}{G}}
-  {\wfglob{\Gamma}{G}{B} & \ofglob{\Gamma}{b}{G} &
+  {\wfglob{\Gamma}{G}{B}n & \ofglob{\Gamma}{b}{G} &
     \ofglob{\Gamma}{p}{\homj{G}{b}{b}}}
   \]
 \end{small}
@@ -32,13 +32,13 @@
 \begin{small}
   \[
   \begin{array}{rcl}
-    \ap{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}{\base{1}} &
+    \apd{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}{\base{1}} &
     \equiv & b \\
     % \dsd{S^1\text{-}rec}_G(b, p; \base{1}) & \equiv & b \\
-    \ap{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}{\lp{1}} & \equiv & p\\
-    \ap{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}
+    \apd{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}{\lp{1}} & \equiv & p\\
+    \apd{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}
     {(\coh{\Delta.J}{\dsd{S^1}}{\delta})} & \equiv &
-    \coh{\Delta.J}{B}{\ap{(x.\dsd{S^1\text{-}rec}_G(b, p; x))}{\delta}}
+    \coh{\Delta.J}{B}{\apd{(x.\dsd{S^1\text{-}rec}_G(b, p; x))}{\delta}}
     \\
   \end{array}
   \]
@@ -46,7 +46,7 @@
 
 Note that for the first equation we should also have something like
 \begin{small}
-  \[\ap{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}{\base{1}}
+  \[\apd{(x^{\dsd{S^1}}.\dsd{S^1\text{-}rec}_G(b, p; x))}{\base{1}}
   \equiv \dsd{S^1\text{-}rec}_G(b, p; \base{1})\]
 \end{small}
 
@@ -55,7 +55,7 @@ Note that for the first equation we should also have something like
 \begin{small}
   \[
   \infer{\ofglob{\Gamma,x:\dsd{S^1}}{\dsd{S^1\text{-}elim}_{x^{\dsd{S^1}}.G}(b,
-      p; x)}{G}} {\wfglob{\Gamma,x:\dsd{S^1}}{G}{P} &
+      p; x)}{G}} {\wfglob{\Gamma,x:\dsd{S^1}}{G}{P}n &
     \ofglob{\Gamma}{b}{G[\base{1}/x]} &
     \ofglob{\Gamma}{p}{\dhomj{x^{\dsd{S^1}}.G}{b}{b}{\lp{1}}}}
   \]
