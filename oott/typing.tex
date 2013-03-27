@@ -201,14 +201,6 @@ and $\ofglob{\Gamma}{\tel M}{\tel G}$)
 \]
 \end{small}
 
-\FIXME{where do I live?}
-\[
-\infer
-  {\ofdepglob{\Gamma}{N}{(\tel{x}{:}\tel{A}.B)}{\tel{M}}}
-  {\ofglob{\Gamma}{\tel{M}}{\tel{A}}
-  &\ofglob{\Gamma}{N}{B[\tel{M}/\tel{x}]}}
-\]
-
 where $\lhs{\tel G}$, $\rhs{\tel G}$, and $\mhs{\tel G}$ are meta-operations
 such that:
 
@@ -433,6 +425,17 @@ defined as follows:
 
 \[\idt{A}{M}:=\coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}\]
 
+\subsection{Conversion between dependent globs}
+
+\[
+\infer
+  {\ofdepglob{\Gamma}{N}{(\tel{x}{:}\tel{A}.B)}{\tel{M}}}
+  {\ofglob{\Gamma}{\tel{M}}{\tel{A}}
+  &\ofdepglob{\Gamma}{N}{B[\tel{M}/\tel{x}]}{\unitglobelt{0}}}
+\]
+
+
+
 \subsection{Telescopic ap}
 
 \begin{small}
@@ -479,6 +482,8 @@ either
 \FIXME{Why are the other ones provable, for instance when $f$ is in the context
   \[\aptel{(x.f(M,x))}{N}\equiv\aptel{(u.f)}{(\aptel{(x.M)}{N},N)}\]}
 
+\FIXME{Is the telescopic ap defined in terms of the dependent ap?}
+
 \subsection{Dependent ap}
 
 \[
@@ -494,10 +499,22 @@ either
 
 where $\dsd{Ap}$ is a meta-operation such that
 \[\infer
-  {\wfdepglob{\Gamma}{(\Aptel{(\teltm xA.N)}{\tel G})}{\tel A.B}{\tel G}}
-  {\wfglob{\Gamma}{\tel G}{\tel A}n
-  &\ofglob{\Gamma,\teltm xA}{N}{B}}
+  {\wfdepglob{\Gamma}{(\Apd{(\tptm xB.N_1)}{H})}{\tel A,B.C}{(\tel G,H)}}
+  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
+  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
+  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}}
 \]
+
+The definition of $\dsd{Ap}$ is the following:
+
+\[\begin{aligned}
+  \Apd{(\tptm xB.N_1)}{(\tel A.B)} & := (\tel A,B).C\\
+  \Apd{(\tptm xB.N_1)}{(\dhomj{H}{N}{N'}{\blank})} & :=
+    \dhomj
+      {\Apd{(\tptm xB.N_1)}{H}}
+      {\apd{(\tptm xB.N_1)}{N}}
+      {\apd{(\tptm xB.N_1)}{N'}}{\blank}
+\end{aligned}\]
 
 
 \subsection{Sigma}
