@@ -427,14 +427,34 @@ defined as follows:
 
 \subsection{Conversion between dependent globs}
 
+We have judgmental equalities between dependent globs
+$\deqdepglob{\Gamma}H{\tel{M}}K{\tel{M'}}$. Such equalities can be used as
+follows:
 \[
 \infer
-  {\ofdepglob{\Gamma}{N}{(\tel{x}{:}\tel{A}.B)}{\tel{M}}}
-  {\ofglob{\Gamma}{\tel{M}}{\tel{A}}
-  &\ofdepglob{\Gamma}{N}{B[\tel{M}/\tel{x}]}{\unitglobelt{0}}}
+  {\ofdepglob{\Gamma}{N}{K}{\tel{M'}}}
+  {\deqdepglob{\Gamma}H{\tel{M}}K{\tel{M'}}
+  &\ofdepglob{\Gamma}{N}{H}{\tel{M}}}
+\]
+but moreover, we can replace a dependent glob inside another glob by an equal
+one. The rules are:
+
+\[
+\infer
+  {\deqdepglob{\Gamma}{(\teltm xA.B)}{\tel{M}}
+   {(\teltm{x'}{A'}.B')}{\tel{M'}}}
+  {\deqtype{\Gamma}{B[\tel{M}/\tel{x}]}{B'[\tel{M'}/\tel{x'}]}}
 \]
 
-
+\[
+\inferfour
+  {\deqdepglob{\Gamma}{(\dhomj{H}{N_1}{N_2}{\blank})}{\tel{M}}
+   {(\dhomj{K}{N_1'}{N_2'}{\blank})}{\tel{M'}}}
+  {\deqdepglob{\Gamma}{H}{\lhs{\tel M}}{K}{\lhs{\tel M'}}}
+  {\deqdepglob{\Gamma}{H}{\rhs{\tel M}}{K}{\rhs{\tel M'}}}
+  {\deqofdepglob{\Gamma}{N_1}{N_1'}{H}{\lhs{\tel M}}}
+  {\deqofdepglob{\Gamma}{N_2}{N_2'}{H}{\rhs{\tel M}}}
+\]
 
 \subsection{Telescopic ap}
 
@@ -516,6 +536,8 @@ The definition of $\dsd{Ap}$ is the following:
       {\apd{(\tptm xB.N_1)}{N'}}{\blank}
 \end{aligned}\]
 
+We have the following definitional equality when $N_2$ is a 0-cell:
+\[ \apd{(\tptm xB.N_1)}{N_2} \equiv N_1[N_2/x] \]
 
 \subsection{Sigma}
 
@@ -528,23 +550,16 @@ The definition of $\dsd{Ap}$ is the following:
   &\ofdepglob{\Gamma}{N_1}{\Fstsigma H}{\tel M}
   &\ofdepglob{\Gamma}{N_2}{\Sndsigma H}{(\tel M,N_1)}}
 \]\end{small}
-
 \[
 \infer
-  {\ofdepglob{\Gamma}{\fst N}{\Fstsigma H}{\tel M}}
-  {\wfglob{\Gamma}{\tel G}{\tel A}n
-  &\ofglob{\Gamma}{\tel M}{\tel G}
-  &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
-  &\ofdepglob{\Gamma}{N}{H}{\tel M}}
+  {\ofdepglob{\Gamma}{\fst N}{A}{\unitglobelt 0}}
+  {\ofdepglob{\Gamma}{N}{\sigmacl xAB}{\unitglobelt 0}}
 \]
 
 \[
 \infer
-  {\ofdepglob{\Gamma}{\snd N}{\Sndsigma H}{(\tel M,\fst N)}}
-  {\wfglob{\Gamma}{\tel G}{\tel A}n
-  &\ofglob{\Gamma}{\tel M}{\tel G}
-  &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
-  &\ofdepglob{\Gamma}{N}{H}{\tel M}}
+  {\ofdepglob{\Gamma}{\snd N}{B[\fst N/x]}{\unitglobelt 0}}
+  {\ofdepglob{\Gamma}{N}{\sigmacl xAB}{\unitglobelt 0}}
 \]
 
 Where $\Fstsigma H$ and $\Sndsigma H$ are meta-operations of type
@@ -561,12 +576,65 @@ defined as:
 \[\begin{aligned}
 \Fstsigma{\tel A.\sigmacl xAB} &:= \tel A.A \\
 \Fstsigma{\dhomj{H}{N_1}{N_2}{\blank}} &:=
-\dhomj{\Fstsigma H}{\fst N_1}{\fst N_2}{\blank}
+\dhomj{\Fstsigma H}{\apd{(x.\fst x)}{N_1}}{\apd{(x.\fst x)}{N_2}}{\blank}
 &\\
 \Sndsigma{\tel A.\sigmacl xAB} &:= \tel A,A.B \\
 \Sndsigma{\dhomj{H}{N_1}{N_2}{\blank}} &:=
-\dhomj{\Sndsigma H}{\snd N_1}{\snd N_2}{\blank}
+\dhomj{\Sndsigma H}{\apd{(x.\snd x)}{N_1}}{\apd{(x.\snd x)}{N_2}}{\blank}
 \end{aligned}\]
+
+To see that these operations are well-typed, we must show two things:
+
+\begin{lem}
+$\deqdepglob\Gamma{\Fstsigma H}{\tel M}{\Apd{(x.\fst x)}H}{(\tel M,N)}$ for any
+$\ofdepglob\Gamma NH{\tel M}$.
+\end{lem}
+\begin{proof}
+There are two cases. If $H=\teltm xA.(\sigmacl xAB)$,
+\[\begin{aligned}
+\Fstsigma{\teltm xA.(\sigmacl xAB)}\downarrow\tel M
+&:= \teltm xA.A\downarrow\tel M \\
+\Apd{(x.\fst x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
+&:= \teltm xA,\tptm y{(\sigmacl xAB)}.A \downarrow(\tel M,N)
+\end{aligned}\]
+For these to be definitionally equal, we must show $A[\tel M/\tel x]\equiv
+A[\tel M/\tel x,N/y]$, but $y$ does not occur in $A$ so these are equal.
+\[\begin{aligned}
+\Fstsigma{\dhomj H{N_1}{N_2}\blank}\downarrow\tel M
+&:= \dhomj{\Fstsigma H}{\apd{(x.\fst x)}{N_1}}{\apd{(x.\fst x)}{N_2}}{\blank}
+\downarrow \tel M \\
+\Apd{(x.\fst x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
+&:= \dhomj{\Apd{(x.\fst x)} H}{\apd{(x.\fst x)}{N_1}}{\apd{(x.\fst x)}{N_2}}{\blank}
+\downarrow (\tel M,N)
+\end{aligned}\]
+By the inductive hypothesis these are the same.
+\end{proof}
+
+\begin{lem}
+$\deqdepglob\Gamma{\Sndsigma H}{(\tel M,\apd{(x.\fst x)}N)}{\Apd{(x.\snd x)}H}{(\tel M,N)}$ for any
+$\ofdepglob\Gamma NH{\tel M}$.
+\end{lem}
+\begin{proof}
+There are two cases. If $H=\teltm xA.(\sigmacl xAB)$,
+\[\begin{aligned}
+\Sndsigma{\teltm xA.(\sigmacl xAB)}\downarrow(\tel M,\apd{(x.\fst x)}N)
+&:= \teltm xA,\tptm xA.B\downarrow(\tel M,\fst N) \\
+\Apd{(x.\snd x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
+&:= \teltm xA,\tptm y{(\sigmacl xAB)}.B[\fst y/x] \downarrow(\tel M,N)
+\end{aligned}\]
+But the former amounts to $B[\tel M/\tel x,\fst N/x]$ and the latter to $B[\fst
+y/x][\tel M/\tel x,N/y]$, but these are equal.
+\[\begin{aligned}
+\Sndsigma{\dhomj H{N_1}{N_2}\blank}\downarrow\tel M
+&:= \dhomj{\Sndsigma H}{\apd{(x.\snd x)}{N_1}}{\apd{(x.\snd x)}{N_2}}{\blank}
+\downarrow\tel M \\
+\Apd{(x.\snd x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
+&:= \dhomj{\Apd{(x.\snd x)} H}{\apd{(x.\snd x)}{N_1}}{\apd{(x.\snd x)}{N_2}}{\blank}
+\downarrow(\tel M,N)
+\end{aligned}\]
+By the inductive hypothesis these are the same.
+\end{proof}
+
 
 We have the definitional equalities:
 \[\begin{aligned}

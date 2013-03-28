@@ -1,6 +1,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % oott
 
+\newcommand{\infertwo}[4][]{\infer[#1]{#2}%
+{\deduce{#4}{#3}}}
+\newcommand{\inferthree}[5][]{\infer[#1]{#2}%
+{\deduce{\deduce{#5}{#4}}{#3}}}
+\newcommand{\inferfour}[6][]{\infer[#1]{#2}%
+{\deduce{\deduce{\deduce{#6}{#5}}{#4}}{#3}}}
+
 \newcommand{\emptyctx}{\ensuremath{\varnothing}}
 \newcommand{\emptytel}{\ensuremath{\varnothing}}
 \newcommand{\unitglob}[1]{\ensuremath{\mathbf{1}_{#1}}}
@@ -51,6 +58,8 @@
 \newcommand{\mapfst}[1]{\app{\dsd{mapfst}}{#1}}
 \newcommand{\mapsnd}[1]{\app{\dsd{mapsnd}}{#1}}
 
+\newcommand{\deqdepglob}[5]{\ensuremath{#1 \vdash #2\mathbin{\downarrow}#3%
+\, \equiv \, #4\mathbin{\downarrow}#5}}
 \newcommand{\wfdepglob}[4]%
   {\ensuremath{{#1} \vdash {#2} \: \dsd{glob}^{#3}_{#4}}}
 \newcommand{\ofdepglob}[4]%
@@ -101,7 +110,9 @@
 \newcommand\idtp[3]{\ensuremath{\dsd{Id}_{#1} \ #2 \ #3}}
 \newcommand\subst[3]{\ensuremath{#1 [ #2 / #3]}}
 
-\newcommand{\deq}[3]{\ensuremath{#1\,\vdash\,\tp{#2} \, \equiv \, \tp{#3}}}
+\newcommand{\deqofdepglob}[5]{\ensuremath{#1\,\vdash\,#2 \, \equiv \, #3 \, : #4
+\downarrow #5}}
+\newcommand{\deqtype}[3]{\ensuremath{#1\,\vdash\,#2 \, \equiv \, #3 : \typ i}}
 \newcommand{\deqctx}[2]{\ensuremath{#1 \equiv #2}}
 
 
@@ -230,7 +241,7 @@
 \newcommand{\lApppppp}[7]{\dcd{#2[#3][#4][#5][#6][#7]_{#1}}}
 
 % with a level marker
-\newcommand{\pair}[2]{\ensuremath{\dcd{\langle #1,#2\rangle}}}
+\newcommand{\pair}[2]{\ensuremath{\langle #1,#2\rangle}}
 \newcommand{\fst}[1]{\app{\dsd{fst}}{#1}}
 \newcommand{\snd}[1]{\app{\dsd{snd}}{#1}}
 
@@ -264,7 +275,7 @@
 \newcommand{\subtp}[2]{\ensuremath{\dcd{#1} <: \dcd{#2}}}
 
 % definitional equality
-\newcommand{\deqtm}[4]{\ensuremath{#1\,\vdash\,\dcd{#2} \, \equiv \, \dcd{#3} \, \dcd{:} \, \tp{#4}}}
+\newcommand{\deqtm}[4]{\ensuremath{#1\,\vdash\,\dcd{#2} \, \equiv \, \dcd{#3} \, \dcd{:} \, #4}}
 
 %types
 \newcommand{\deqtp}[3]{\ensuremath{#1\,\vdash\,\tp{#2} \, \equiv \, \tp{#3} \, \dsd{type}}}
