@@ -538,6 +538,11 @@ The definition of $\dsd{Ap}$ is the following:
 
 We have the following definitional equality when $N_2$ is a 0-cell:
 \[ \apd{(\tptm xB.N_1)}{N_2} \equiv N_1[N_2/x] \]
+In this case, the types are equal because for $N_2:(\teltm xA.\tptm
+xB)\downarrow \tel M$,
+\[ \Apd{(\tptm xB.N_1)}{(\teltm xA.\tptm xB)} := (\teltm xA,\tptm xB).C \]
+and it suffices to observe that $C[\tel M/\tel x,N_2/x]\equiv (C[N_2/x])[\tel
+M/\tel x]$.
 
 \subsection{Sigma}
 
@@ -650,35 +655,26 @@ and $\snd-$ pointwise.
 \FIXME{actually define them}
 
 
+\subsection{Pi}
 
+\[
+\infer
+  {\ofdepglob{\Gamma}{\ev{N_1}{N_2}}{B[N_2/x]}{\unitglobelt 0}}
+  {\ofdepglob{\Gamma}{N_1}{(\picl xAB)}{\unitglobelt 0}
+  &\ofdepglob{\Gamma}{N_2}{A}{\unitglobelt 0}}
+\]
 
+\FIXME{sadly, this rule is wrong}
+\begin{small}\[
+\infer
+  {\ofdepglob{\Gamma}{\lam xAN}{H}{\tel M}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+  &\ofglob{\Gamma}{\tel M}{\tel G}
+  &\wfdepglob{\Gamma}{H}{\tel A.(\picl xAB)}{\tel G}
+  &\ofdepglob{\Gamma,\tptm xA}{N}{\Ev Hx}{\tel M}}
+\]\end{small}
 
-
-
-
-
-%\subsection{Pi}
-%
-%\begin{small}
-%  \[
-%  \infer{\ofglob{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
-%  {\ofglob{\Gamma}{M}{\picl{x}{A}{B}} & \ofglob{\Gamma}{N}{A}} \qquad
-%  \infer{\ofglob{\Gamma}{\ulam{x}{\alpha}}{G}}
-%  {\wfglob{\Gamma}{G}{\picl{x}{A}{B}}n &
-%    \ofglob{\Gamma,\tptm{x}{A}}{\alpha}{\Ap{(f.\app{f}{x})}{G}}}
-%  \]
-%\[
-%  \begin{array}{rcl}
-%  \ap{(f.\app f M)}{(\ulam{x}{\alpha})} & \equiv & \tsubst{\alpha}{M/x} \\
-%
-%\alpha & \equiv & \ulam{x}{\ap{(f.\app f x)}{\alpha}} \text{ (\FIXME{Can we get away without $\eta$ definitionally?})} \\
-%
-%\coh{\Delta.J}{\picl{x}{A}{B}}{\delta} & \equiv & \ulam{x}{\coh{\Delta.J}{B}{\ap{(f.\app f x)}{\delta}}} \\
-% 
-%\end{array}
-%\]
-%\end{small}
-%\end{document}
+\end{document}
 
 %%% Local Variables: 
 %%% mode: latex
