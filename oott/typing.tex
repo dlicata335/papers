@@ -447,102 +447,67 @@ one. The rules are:
 \]
 
 \[
-\inferfour
-  {\deqdepglob{\Gamma}{(\dhomj{H}{N_1}{N_2}{\blank})}{\tel{M}}
-   {(\dhomj{K}{N_1'}{N_2'}{\blank})}{\tel{M'}}}
-  {\deqdepglob{\Gamma}{H}{\lhs{\tel M}}{K}{\lhs{\tel M'}}}
-  {\deqdepglob{\Gamma}{H}{\rhs{\tel M}}{K}{\rhs{\tel M'}}}
-  {\deqofdepglob{\Gamma}{N_1}{N_1'}{H}{\lhs{\tel M}}}
-  {\deqofdepglob{\Gamma}{N_2}{N_2'}{H}{\rhs{\tel M}}}
+\deqdepglob{\Gamma}
+  {(\dhomj{H}{N_1}{N_2}{\blank})}
+  {(\tel{M_1},\ap{(\tel y.N)}{\tel M},\tel{M_2})}
+  {(\dhomj{H[\tel M/x_i]}{N_1'}{N_2'}{\blank})}
+  {(\tel{M_1},\tel M,\tel{M_2})}
 \]
 
-\subsection{Telescopic ap}
+\FIXME{what does the substitution in $H$ in this rule mean?}
 
-\begin{small}
-  \[\infer{\ofdepglob{\Gamma}{\aptel{(\teltm xA.N)}{\tel M}}
-    {(\Aptel{(\teltm xA.N)}{\tel G})}{\tel M}}
-  {\wfglob{\Gamma}{\tel G}{\tel A}n
-    & \ofglob{\Gamma}{\tel M}{\tel G}
-    & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
+\FIXME{do we want $N_1\equiv N_1'$ or not?}
 
-  where $\tel{\dsd{Ap}}$ is a meta-operation such that
+\subsection{Ap}
 
-  \[\infer{\wfdepglob{\Gamma}{(\Aptel{(\teltm xA.N)}{\tel G})}
-    {\tel A.B}{\tel G}}
-  {\wfglob{\Gamma}{\tel G}{\tel A}n
-    & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
-
-  The definition of $\tel{\dsd{Ap}}$ is the following:
-
-\[\begin{aligned}
-  \Aptel{(\teltm xA.N)}{\tel G} & := \tel A.B
-  \text{ where $\wfglob{\Gamma}{\tel G}{\tel A}0$} \\
-  \Aptel{(\teltm xA.N)}{\tel G} & := 
-    \dhomj
-      {\Aptel{(\teltm xA.N)}{\mhs{\tel G}}}
-      {\aptel{(\teltm xA.N)}{\lhs{\tel G}}}
-      {\aptel{(\teltm xA.N)}{\rhs{\tel G}}}{\blank}
-\end{aligned}\]
-\end{small}
-
-In a closed term, for any term $\aptel{(\teltm xA.N)}{\tel M}$, $N$ normalizes to
-either
-\begin{itemize}
-\item a variable bound in $\tel{x}$ this will reduce to some component of
-  $\tel{M}$.
-\item an intro. For negatives we
-  need a reduction rule which will do it pointwise. For positives, it’s
-  canonical. For coherences, we will need to change the coherence.
-\item an elimination context. We need a reduction rule generalizing the rules we
-  have for now. For instance
-
-\[\aptel{(f.E[f M])}{(\ulam{x}{N})} \equiv \aptel{(x.E[x])}{(\subst{N}{M}{x})}\]
-\end{itemize}
-
-\FIXME{Why are the other ones provable, for instance when $f$ is in the context
-  \[\aptel{(x.f(M,x))}{N}\equiv\aptel{(u.f)}{(\aptel{(x.M)}{N},N)}\]}
-
-\FIXME{Is the telescopic ap defined in terms of the dependent ap?}
-
-\subsection{Dependent ap}
-
-\[
-\infer
-  {\ofdepglob{\Gamma}{\apd{(\tptm xB.N_1)}{N_2}}
-             {\Apd{(\tptm xB.N_1)}{H}}{(\tel M,N_2)}}
-  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
-  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
-  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}
-  &\ofglob{\Gamma}{\tel M}{\tel G}
-  &\ofdepglob{\Gamma}{N_2}{H}{\tel M}}
-\]
+\[\infer{\ofdepglob{\Gamma}{\ap{(\teltm xA.N)}{\tel M}}
+  {(\Ap{(\teltm xA.N)}{\tel G})}{\tel M}}
+{\wfglob{\Gamma}{\tel G}{\tel A}n
+  & \ofglob{\Gamma}{\tel M}{\tel G}
+  & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
 
 where $\dsd{Ap}$ is a meta-operation such that
-\[\infer
-  {\wfdepglob{\Gamma}{(\Apd{(\tptm xB.N_1)}{H})}{\tel A,B.C}{(\tel G,H)}}
-  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
-  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
-  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}}
-\]
+
+\[\infer{\wfdepglob{\Gamma}{(\Ap{(\teltm xA.N)}{\tel G})}
+  {\tel A.B}{\tel G}}
+{\wfglob{\Gamma}{\tel G}{\tel A}n
+  & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
 
 The definition of $\dsd{Ap}$ is the following:
 
 \[\begin{aligned}
-  \Apd{(\tptm xB.N_1)}{(\tel A.B)} & := (\tel A,B).C\\
-  \Apd{(\tptm xB.N_1)}{(\dhomj{H}{N}{N'}{\blank})} & :=
-    \dhomj
-      {\Apd{(\tptm xB.N_1)}{H}}
-      {\apd{(\tptm xB.N_1)}{N}}
-      {\apd{(\tptm xB.N_1)}{N'}}{\blank}
+\Ap{(\teltm xA.N)}{\tel G} & := \tel A.B
+\text{ where $\wfglob{\Gamma}{\tel G}{\tel A}0$} \\
+\Ap{(\teltm xA.N)}{\tel G} & := 
+  \dhomj
+    {\Ap{(\teltm xA.N)}{\mhs{\tel G}}}
+    {\ap{(\teltm xA.N)}{\lhs{\tel G}}}
+    {\ap{(\teltm xA.N)}{\rhs{\tel G}}}{\blank}
 \end{aligned}\]
 
-We have the following definitional equality when $N_2$ is a 0-cell:
-\[ \apd{(\tptm xB.N_1)}{N_2} \equiv N_1[N_2/x] \]
-In this case, the types are equal because for $N_2:(\teltm xA.\tptm
-xB)\downarrow \tel M$,
-\[ \Apd{(\tptm xB.N_1)}{(\teltm xA.\tptm xB)} := (\teltm xA,\tptm xB).C \]
-and it suffices to observe that $C[\tel M/\tel x,N_2/x]\equiv (C[N_2/x])[\tel
-M/\tel x]$.
+When $\wfglob{\Gamma}{\tel G}{\tel A}0$ we have the following definitional
+equality:
+\[ \ap{(\teltm xA.N)}{\tel M} \equiv N[\tel M/\tel x] \]
+The types of these expressions are equal because
+$\Ap{(\teltm xA.N)}{\tel G} := \teltm xA.B$,
+and $B[\tel M/\tel x]$ is also the type of the right-hand side, $N[\tel M/\tel
+x]$.
+
+In a closed term, for any term $\ap{(\teltm xA.N)}{\tel M}$, $N$ normalizes
+to either
+\begin{itemize}
+\item a variable bound in $\tel{x}$. This will reduce to some component of
+$\tel{M}$.
+\item an intro. For negatives we need a reduction rule which will do it
+pointwise. For positives, it’s canonical. For coherences, we will need to change
+the coherence.
+\item an elimination context. We need a reduction rule generalizing the rules we
+have for now. For instance
+\[\ap{(f.E[f M])}{(\ulam{x}{N})} \equiv \ap{(x.E[x])}{(\subst{N}{M}{x})}\]
+\end{itemize}
+
+\FIXME{Why are the other ones provable, for instance when $f$ is in the context
+  \[\ap{(x.f(M,x))}{N}\equiv\ap{(u.f)}{(\ap{(x.M)}{N},N)}\]}
 
 \subsection{Sigma}
 
@@ -552,8 +517,8 @@ M/\tel x]$.
   {\wfglob{\Gamma}{\tel G}{\tel A}n
   &\ofglob{\Gamma}{\tel M}{\tel G}
   &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
-  &\ofdepglob{\Gamma}{N_1}{\Fstsigma H}{\tel M}
-  &\ofdepglob{\Gamma}{N_2}{\Sndsigma H}{(\tel M,N_1)}}
+  &\ofdepglob{\Gamma}{N_1}{\Fstsigma H{\tel M}}{\tel M}
+  &\ofdepglob{\Gamma}{N_2}{\Sndsigma H{\tel M}}{(\tel M,N_1)}}
 \]\end{small}
 \[
 \infer
@@ -567,74 +532,80 @@ M/\tel x]$.
   {\ofdepglob{\Gamma}{N}{\sigmacl xAB}{\unitglobelt 0}}
 \]
 
-Where $\Fstsigma H$ and $\Sndsigma H$ are meta-operations of type
+Where $\Fstsigma H{\tel M}$ and $\Sndsigma H{\tel M}$ are meta-operations of type
 \[
 \infer
-  {\wfdepglob{\Gamma}{\Fstsigma H}{\tel A.A}{\tel G}}
-  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}}
+  {\wfdepglob{\Gamma}{\Fstsigma H{\tel M}}{\tel A.A}{\tel G}}
+  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofglob{\Gamma}{\tel M}{\tel G}}
 \qquad\qquad
 \infer
-  {\wfdepglob{\Gamma}{\Sndsigma H}{\tel A,A.B}{(\tel G,\Fstsigma H)}}
-  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}}
+  {\wfdepglob{\Gamma}{\Sndsigma H{\tel M}}{\tel A,A.B}{(\tel G,\Fstsigma H{\tel M})}}
+  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofglob{\Gamma}{\tel M}{\tel G}}
 \]
 defined as:
 \[\begin{aligned}
-\Fstsigma{\tel A.\sigmacl xAB} &:= \tel A.A \\
-\Fstsigma{\dhomj{H}{N_1}{N_2}{\blank}} &:=
-\dhomj{\Fstsigma H}{\apd{(x.\fst x)}{N_1}}{\apd{(x.\fst x)}{N_2}}{\blank}
+\Fstsigma{\tel A.\sigmacl xAB}{\tel M} &:= \tel A.A \\
+\Fstsigma{\dhomj{H}{N_1}{N_2}{\blank}}{\tel M} &:=
+\dhomj{\Fstsigma H{\tel M}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_1)}}{\ap{(\tel
+x,x.\fst x)}{(\tel M,N_2)}}{\blank}
 &\\
-\Sndsigma{\tel A.\sigmacl xAB} &:= \tel A,A.B \\
-\Sndsigma{\dhomj{H}{N_1}{N_2}{\blank}} &:=
-\dhomj{\Sndsigma H}{\apd{(x.\snd x)}{N_1}}{\apd{(x.\snd x)}{N_2}}{\blank}
+\Sndsigma{\tel A.\sigmacl xAB}{\tel M} &:= \tel A,A.B \\
+\Sndsigma{\dhomj{H}{N_1}{N_2}{\blank}}{\tel M} &:=
+\dhomj{\Sndsigma H{\tel M}}{\ap{(\tel x,x.\snd x)}{(\tel M,N_1)}}{\ap{(\tel
+x,x.\snd x)}{(\tel M,N_2)}}{\blank}
 \end{aligned}\]
 
 To see that these operations are well-typed, we must show two things:
 
+\FIXME{these proofs have not been updated!}
+
 \begin{lem}
-$\deqdepglob\Gamma{\Fstsigma H}{\tel M}{\Apd{(x.\fst x)}H}{(\tel M,N)}$ for any
+$\deqdepglob\Gamma{\Fstsigma H{\tel M}}{\tel M}{\Ap{(x.\fst x)}H}{(\tel M,N)}$ for any
 $\ofdepglob\Gamma NH{\tel M}$.
 \end{lem}
 \begin{proof}
 There are two cases. If $H=\teltm xA.(\sigmacl xAB)$,
 \[\begin{aligned}
-\Fstsigma{\teltm xA.(\sigmacl xAB)}\downarrow\tel M
+\Fstsigma{\teltm xA.(\sigmacl xAB)}{\tel M}\downarrow\tel M
 &:= \teltm xA.A\downarrow\tel M \\
-\Apd{(x.\fst x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
+\Ap{(x.\fst x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
 &:= \teltm xA,\tptm y{(\sigmacl xAB)}.A \downarrow(\tel M,N)
 \end{aligned}\]
 For these to be definitionally equal, we must show $A[\tel M/\tel x]\equiv
 A[\tel M/\tel x,N/y]$, but $y$ does not occur in $A$ so these are equal.
 \[\begin{aligned}
-\Fstsigma{\dhomj H{N_1}{N_2}\blank}\downarrow\tel M
-&:= \dhomj{\Fstsigma H}{\apd{(x.\fst x)}{N_1}}{\apd{(x.\fst x)}{N_2}}{\blank}
+\Fstsigma{\dhomj H{N_1}{N_2}\blank}{\tel M}\downarrow\tel M
+&:= \dhomj{\Fstsigma H{\tel M}}{\ap{(x.\fst x)}{N_1}}{\ap{(x.\fst x)}{N_2}}{\blank}
 \downarrow \tel M \\
-\Apd{(x.\fst x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
-&:= \dhomj{\Apd{(x.\fst x)} H}{\apd{(x.\fst x)}{N_1}}{\apd{(x.\fst x)}{N_2}}{\blank}
+\Ap{(x.\fst x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
+&:= \dhomj{\Ap{(x.\fst x)} H}{\ap{(x.\fst x)}{N_1}}{\ap{(x.\fst x)}{N_2}}{\blank}
 \downarrow (\tel M,N)
 \end{aligned}\]
 By the inductive hypothesis these are the same.
 \end{proof}
 
 \begin{lem}
-$\deqdepglob\Gamma{\Sndsigma H}{(\tel M,\apd{(x.\fst x)}N)}{\Apd{(x.\snd x)}H}{(\tel M,N)}$ for any
+$\deqdepglob\Gamma{\Sndsigma H}{(\tel M,\ap{(x.\fst x)}N)}{\Ap{(x.\snd x)}H}{(\tel M,N)}$ for any
 $\ofdepglob\Gamma NH{\tel M}$.
 \end{lem}
 \begin{proof}
 There are two cases. If $H=\teltm xA.(\sigmacl xAB)$,
 \[\begin{aligned}
-\Sndsigma{\teltm xA.(\sigmacl xAB)}\downarrow(\tel M,\apd{(x.\fst x)}N)
+\Sndsigma{\teltm xA.(\sigmacl xAB)}\downarrow(\tel M,\ap{(x.\fst x)}N)
 &:= \teltm xA,\tptm xA.B\downarrow(\tel M,\fst N) \\
-\Apd{(x.\snd x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
+\Ap{(x.\snd x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
 &:= \teltm xA,\tptm y{(\sigmacl xAB)}.B[\fst y/x] \downarrow(\tel M,N)
 \end{aligned}\]
 But the former amounts to $B[\tel M/\tel x,\fst N/x]$ and the latter to $B[\fst
 y/x][\tel M/\tel x,N/y]$, but these are equal.
 \[\begin{aligned}
-\Sndsigma{\dhomj H{N_1}{N_2}\blank}\downarrow\tel M
-&:= \dhomj{\Sndsigma H}{\apd{(x.\snd x)}{N_1}}{\apd{(x.\snd x)}{N_2}}{\blank}
+\Sndsigma{\dhomj H{N_1}{N_2}\blank}{\tel M}\downarrow\tel M
+&:= \dhomj{\Sndsigma H{\tel M}}{\ap{(x.\snd x)}{N_1}}{\ap{(x.\snd x)}{N_2}}{\blank}
 \downarrow\tel M \\
-\Apd{(x.\snd x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
-&:= \dhomj{\Apd{(x.\snd x)} H}{\apd{(x.\snd x)}{N_1}}{\apd{(x.\snd x)}{N_2}}{\blank}
+\Ap{(x.\snd x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
+&:= \dhomj{\Ap{(x.\snd x)} H}{\ap{(x.\snd x)}{N_1}}{\ap{(x.\snd x)}{N_2}}{\blank}
 \downarrow(\tel M,N)
 \end{aligned}\]
 By the inductive hypothesis these are the same.
@@ -653,7 +624,6 @@ where $\mapfst\eta$ and $\mapsnd\eta$ are meta-operations which apply $\fst-$
 and $\snd-$ pointwise.
 
 \FIXME{actually define them}
-
 
 \subsection{Pi}
 
@@ -675,6 +645,40 @@ and $\snd-$ pointwise.
 \]\end{small}
 
 \end{document}
+
+%\newcommand{\Ap}[2]{\ensuremath{\dsd{Ap} \: {#1} \: {#2}}}
+%\newcommand{\apd}[2]{\ensuremath{\dsd{ap} \: {#1} \: {#2}}}
+%\subsection{Dependent ap}
+%
+%\[
+%\infer
+%  {\ofdepglob{\Gamma}{\apd{(\tptm xB.N_1)}{N_2}}
+%             {\Ap{(\tptm xB.N_1)}{H}}{(\tel M,N_2)}}
+%  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
+%  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
+%  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}
+%  &\ofglob{\Gamma}{\tel M}{\tel G}
+%  &\ofdepglob{\Gamma}{N_2}{H}{\tel M}}
+%\]
+%
+%where $\dsd{Ap}$ is a meta-operation such that
+%\[\infer
+%  {\wfdepglob{\Gamma}{(\Ap{(\tptm xB.N_1)}{H})}{\tel A,B.C}{(\tel G,H)}}
+%  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
+%  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
+%  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}}
+%\]
+%
+%The definition of $\dsd{Ap}$ is the following:
+%
+%\[\begin{aligned}
+%  \Ap{(\tptm xB.N_1)}{(\tel A.B)} & := (\tel A,B).C\\
+%  \Ap{(\tptm xB.N_1)}{(\dhomj{H}{N}{N'}{\blank})} & :=
+%    \dhomj
+%      {\Ap{(\tptm xB.N_1)}{H}}
+%      {\apd{(\tptm xB.N_1)}{N}}
+%      {\apd{(\tptm xB.N_1)}{N'}}{\blank}
+%\end{aligned}\]
 
 %%% Local Variables: 
 %%% mode: latex

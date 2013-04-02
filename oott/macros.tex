@@ -53,8 +53,8 @@
 
 \newcommand{\fstinterp}[1]{\dsd{[fst]}(#1)}
 \newcommand{\sndinterp}[1]{\dsd{[snd]}(#1)}
-\newcommand{\Fstsigma}[1]{\dsd{Fst}(#1)}
-\newcommand{\Sndsigma}[1]{\dsd{Snd}(#1)}
+\newcommand{\Fstsigma}[2]{\dsd{Fst}(#1,#2)}
+\newcommand{\Sndsigma}[2]{\dsd{Snd}(#1,#2)}
 \newcommand{\mapfst}[1]{\app{\dsd{mapfst}}{#1}}
 \newcommand{\mapsnd}[1]{\app{\dsd{mapsnd}}{#1}}
 
@@ -68,10 +68,8 @@
 \newcommand{\ofdepglob}[4]%
   {\ensuremath{{#1} \vdash {#2} : {#3}\mathbin{\downarrow}{#4}}}
 
-\newcommand{\Aptel}[2]{\ensuremath{\tel{\dsd{Ap}} \: {#1} \: {#2}}}
-\newcommand{\aptel}[2]{\ensuremath{\tel{\dsd{ap}} \: {#1} \: {#2}}}
-\newcommand{\Apd}[2]{\ensuremath{\dsd{Ap} \: {#1} \: {#2}}}
-\newcommand{\apd}[2]{\ensuremath{\dsd{ap} \: {#1} \: {#2}}}
+\newcommand{\Ap}[2]{\ensuremath{\dsd{Ap} \: {#1} \: {#2}}}
+\newcommand{\ap}[2]{\ensuremath{\dsd{ap} \: {#1} \: {#2}}}
 
 \newcommand{\coh}[3]{\ensuremath{\dsd{coh}_{#1} ({#2};{#3})}}
 \newcommand{\depcoh}[3]{\ensuremath{\dsd{depcoh}_{#1} ({#2};{#3})}}
