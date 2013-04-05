@@ -450,7 +450,7 @@ one. The rules are:
 \deqdepglob{\Gamma}
   {(\dhomj{H}{N_1}{N_2}{\blank})}
   {(\tel{M_1},\ap{(\tel y.N)}{\tel M},\tel{M_2})}
-  {(\dhomj{H[\tel M/x_i]}{N_1'}{N_2'}{\blank})}
+  {(\dhomj{H[N/x_i]}{N_1'}{N_2'}{\blank})}
   {(\tel{M_1},\tel M,\tel{M_2})}
 \]
 
@@ -575,19 +575,24 @@ There are two cases. If $H=\teltm xA.(\sigmacl xAB)$,
 \end{aligned}\]
 For these to be definitionally equal, we must show $A[\tel M/\tel x]\equiv
 A[\tel M/\tel x,N/y]$, but $y$ does not occur in $A$ so these are equal.
-\[\begin{aligned}
+\begin{small}\[\begin{aligned}
 \Fstsigma{\dhomj H{N_1}{N_2}\blank}{\tel M}\downarrow\tel M
-&:= \dhomj{\Fstsigma H{\tel M}}{\ap{(x.\fst x)}{N_1}}{\ap{(x.\fst x)}{N_2}}{\blank}
+&:= \dhomj{\Fstsigma H{\tel M}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_1)}}{\ap{(\tel
+x,x.\fst x)}{(\tel M,N_2)}}{\blank}
 \downarrow \tel M \\
 \Ap{(x.\fst x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
-&:= \dhomj{\Ap{(x.\fst x)} H}{\ap{(x.\fst x)}{N_1}}{\ap{(x.\fst x)}{N_2}}{\blank}
-\downarrow (\tel M,N)
-\end{aligned}\]
+&:= \dhomj{\Ap{(\tel x,x.\fst x)} H}{\ap{(\tel x,x.\fst x)}{(\tel
+M,N_1)}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_2)}}{\blank}
+\downarrow (\tel M,N) \\
+&\equiv \dhomj{\Ap{(\tel x,x.\fst x)} H}{\ap{(\tel x,x.\fst x)}{(\tel
+M,N_1)}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_2)}}{\blank}
+\downarrow (\tel M,\ap{(\emptytel.N)}{\unitglobelt 0})
+\end{aligned}\]\end{small}
 By the inductive hypothesis these are the same.
 \end{proof}
 
 \begin{lem}
-$\deqdepglob\Gamma{\Sndsigma H}{(\tel M,\ap{(x.\fst x)}N)}{\Ap{(x.\snd x)}H}{(\tel M,N)}$ for any
+$\deqdepglob\Gamma{\Sndsigma H{\tel M}}{(\tel M,\ap{(x.\fst x)}N)}{\Ap{(x.\snd x)}H}{(\tel M,N)}$ for any
 $\ofdepglob\Gamma NH{\tel M}$.
 \end{lem}
 \begin{proof}
