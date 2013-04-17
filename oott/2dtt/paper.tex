@@ -1,0 +1,83 @@
+\documentclass[11pt]{article}
+\usepackage{times}
+
+\usepackage{fullpage}
+\usepackage{ifthen}
+\usepackage{latexsym,amsmath,amsfonts,amssymb,stmaryrd,amsthm}
+\usepackage{verbatim,fancyvrb}
+\usepackage{multicol}
+\usepackage{proof}
+\usepackage[numbers,square]{natbib}
+
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+\input{macros}
+
+\renewcommand{\cite}[1]{\citep{#1}}
+
+%% small tightcode, with space around it
+\newenvironment{stcode}
+{\smallskip
+\begin{small}
+\begin{tightcode}}
+{\end{tightcode}
+\end{small}
+\smallskip}
+
+\DeclareUnicodeCharacter{9001}{$\langle$} %% 〈
+\DeclareUnicodeCharacter{9002}{$\rangle$} %%  〉
+\DeclareUnicodeCharacter{12314}{$\llbracket$} %% 〚
+\DeclareUnicodeCharacter{12315}{$\rrbracket$}  %% 〛
+\DeclareUnicodeCharacter{8872}{$\vDash$} %% ⊢ 
+\DeclareUnicodeCharacter{9656}{\!\!\!}  %% ▸
+\DeclareUnicodeCharacter{9657}{$\triangleright$} %% ▹
+\DeclareUnicodeCharacter{8594}{$\shortrightarrow$} %% →
+\DeclareUnicodeCharacter{8675}{$\downshift$} %% ⇣
+\DeclareUnicodeCharacter{8593}{$\upshift$} %% ↑
+\DeclareUnicodeCharacter{9711}{$\bigcirc$} %% ◯
+\DeclareUnicodeCharacter{8667}{$^\shortrightarrow$} %% ⇛
+\DeclareUnicodeCharacter{8596}{$^\leftrightarrow$} %% ↔
+\DeclareUnicodeCharacter{10224}{$\uparrow$} %% ⟰
+\DeclareUnicodeCharacter{10225}{$\downarrow$} %% ⟱
+
+\newcommand\textPsi{\ensuremath{\Psi}}
+\newcommand\textXi{$\Xi$}
+\newcommand\textDelta{$\Delta$}
+\newcommand\textGamma{$\Gamma$}
+\newcommand\textsigma{$\sigma$}
+\newcommand\textSigma{$\Sigma$}
+\newcommand\textTheta{$\Theta$}
+\newcommand\texttheta{$\theta$}
+\newcommand\textPi{$\Pi$}
+\newcommand\textrho{$\rho$}
+\newcommand\textphi{$\varphi$}
+\newcommand\textlambda{$\lambda$}
+\newcommand\texttau{$\tau$}
+\newcommand\texteta{$\eta$}
+%% FIXME renewcommand when using hyperref
+\newcommand\textmu{$\mu$}
+\newcommand\textalpha{$\alpha$}
+\newcommand\textepsilon{$\epsilon$}
+\newcommand\textkappa{$\kappa$}
+\newcommand\textOmega{$\Omega$}
+\newcommand\textmho{$\mho$}
+\newcommand\textgamma{$\gamma$}
+\newcommand\textpi{$\varpi$}
+\newcommand\textpsi{\ensuremath{\psi}}
+
+\DefineVerbatimEnvironment{code}{Verbatim}{fontsize=\small,fontfamily=tt}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}[section]
+
+\begin{document}
+\title{2DTT}
+\author{DRL \qquad GB \qquad CA}
+\maketitle
+
+\input{typing}
+
+\end{document}

@@ -1,0 +1,691 @@
+\section{Judgments}
+
+We have a lot of judgments:
+
+\paragraph{Coherences}
+
+\begin{small}
+\begin{itemize}
+\item $\wfdiagctx{\diag\Gamma}$
+\item $\wfdiag{\Delta}$
+\item $\wfdiaglob{\diag\Gamma}{\diag G}n$ (requires $\wfdiagctx{\diag\Gamma}$)
+\item $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$
+(requires $\wfdiaglob{\diag\Gamma}{\diag G}n$)
+\item $\substdiaglob{\diag\Gamma}{\diag \delta}{\diag{\Gamma'}}$
+(requires $\wfdiagctx{\diag\Gamma}$ and $\wfdiagctx{\diag{\Gamma'}}$)
+\end{itemize}
+\end{small}
+
+%\paragraph{Basics}
+%\begin{small}
+%\begin{itemize}
+%\item $\wfsub{\Gamma}{\theta}{\Gamma'}$ (requires $\wfctx{\Gamma}$ and
+%      $\wfctx{\Gamma'}$)
+%\end{itemize}
+%\end{small}
+
+\paragraph{Telescopes}
+
+\begin{small}
+\begin{itemize}
+\item $\wfctx{\Gamma}$
+\item $\wftel{\Gamma}{\tel A}$ (requires $\wfctx{\Gamma}$)
+\item $\wfglob{\Gamma}{\tel G}{\tel A}n$ (requires $\wftel{\Gamma}{\tel A}$)
+\item $\ofglob{\Gamma}{\tel M}{\tel G}$
+(requires $\wfglob{\Gamma}{\tel G}{\tel A}n$)
+\end{itemize}
+\end{small}
+
+\paragraph{Diagram interpretation and dependent globs}
+
+\begin{small}
+\begin{itemize}
+\item $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+(requires $\wfdiagctx{\diag\Gamma}$ and $\wftel{\Gamma}{\tel A}$)
+\item $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$
+(requires $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
+\item $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
+(requires $\wfglob{\Gamma}{\tel G}{\tel A}n$ and $\wftype{\Gamma,\teltm xA}{B}$)
+\item $\ofdepglob{\Gamma}{N}{H}{\tel M}$
+(requires $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
+and $\ofglob{\Gamma}{\tel M}{\tel G}$)
+\end{itemize}
+\end{small}
+
+\section{Diagram calculus}
+
+\subsection{Contexts}
+
+\begin{small}
+  \[
+  \infer{\wfdiagctx{\emptyctx}}{}
+  \qquad\qquad
+  \infer
+  {\wfdiagctx{\diag\Gamma,\tptm{x}{\diag G}}}
+  {\wfdiagctx{\diag\Gamma} & \wfdiaglob{\diag\Gamma}{\diag G}n}\]
+\end{small}
+
+\subsection{Diagrams (contractible contexts)}
+
+\begin{small}
+  \[
+  \infer{\wfdiag{\tptm{x}{\diagbase}}}{}
+  \qquad\qquad
+  \infer{\wfdiag{\Delta,\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}}}}
+  {\wfdiaglob{\Delta}{\diag G}n
+    & (\tptm{x}{\diag{G}}) \in \Delta}\]
+\end{small}
+
+\subsection{Types}
+
+\begin{small}
+  \[
+  \infer{\wfdiaglob{\diag\Gamma}{\diagbase}0}{}
+  \qquad\qquad
+  \infer
+    {\wfdiaglob{\diag\Gamma}{\homj{\diag G}{\diag M}{\diag N}}{n+1}}
+    {\wfdiaglob{\diag\Gamma}{\diag G}n
+    &\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}
+    &\ofdiaglob{\diag\Gamma}{\diag N}{\diag G}}
+  \]
+\end{small}
+
+\subsection{Terms}
+
+\begin{small}
+  \[
+  \infer{\ofdiaglob{\diag\Gamma}{x}{\diag G}}
+  {(\tptm{x}{\diag G})\in\diag\Gamma}
+  \qquad\qquad
+  \infer{\ofdiaglob{\diag\Gamma}{\diagcoh{\Delta.\diag G}{\diag\delta}}
+    {\diag G[\diag\delta]}}
+  {\wfdiag{\Delta} 
+    & \wfdiaglob{\Delta}{\diag G}n
+    & \substdiaglob{\diag\Gamma}{\diag\delta}{\Delta}}
+  \]
+\end{small}
+
+\subsection{Substitutions}
+
+\begin{small}
+  \[
+  \infer{\substdiaglob{\diag\Gamma}{()}{\emptyctx}}
+  {}
+  \qquad
+  \infer{\substdiaglob{\diag\Gamma}{(\diag \delta,\diag N/x)}
+    {(\diag{\Gamma'},\tptm{x}{\diag G})}}
+  {\substdiaglob{\diag\Gamma}{\diag \delta}{\diag{\Gamma'}}
+    & \ofdiaglob{\diag\Gamma}{\diag N}{\tsubst{\diag G}{\diag \delta}}}
+  \]
+\end{small}
+
+\section{Type theory}
+
+\subsection{Contexts}
+
+\begin{small}
+  \[
+  \infer{\wfctx{\varnothing}}{}
+  \qquad\qquad
+  \infer{\wfctx{\Gamma,x:A}}
+  {\wfctx{\Gamma}
+    & \wftype{\Gamma}{A}
+    & (x\not\in\Gamma)}
+  \]
+
+\[
+\infer{\ofdepglob{\Gamma}{x}{A}{\unitglobelt 0}}{(\tptm xA)\in\Gamma}
+\]
+\end{small}
+
+\subsection{Telescopes}
+
+\begin{small}
+  \[
+  \infer{\wftel{\Gamma}{\emptytel}}{}
+  \qquad\qquad
+  \infer
+    {\wftel{\Gamma}{(\tel A,\tptm{x}{B})}}
+    {\wftel{\Gamma}{\tel A}
+    & \wftype{\Gamma,\teltm xA}{B}}
+  \]
+\end{small}
+
+\subsection{Telescopic globs}
+
+\begin{small}
+  \[
+  \infer
+    {\wfglob{\Gamma}{\unitglob n}{\emptytel}n}
+    {}
+  \qquad\qquad
+  \infer
+    {\wfglob{\Gamma}{(\tel G,H)}{\tel A,B}n}
+    {\wfglob{\Gamma}{\tel G}{\tel A}n
+    &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}}
+  \]
+\end{small}
+
+\subsection{Telescopic terms}
+
+\begin{small}
+  \[
+  \infer
+    {\ofglob{\Gamma}{\unitglobelt n}{\unitglob n}}
+    {}
+  \qquad\qquad
+  \infer
+    {\ofglob{\Gamma}{(\tel M,N)}{(\tel G,H)}}
+    {\ofglob{\Gamma}{\tel M}{\tel G}
+    &\ofdepglob{\Gamma}{N}{H}{\tel M}}
+  \]
+\end{small}
+
+\subsection{Depglobs}
+
+\begin{small}
+\[
+\infer
+  {\wfdepglob{\Gamma}{(\tel A.B)}{\tel{A}.B}{\tel{G}}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}0}
+\]
+
+\[
+\infer
+  {\wfdepglob{\Gamma}{\dhomj{H}{N_1}{N_2}{\blank}}{\tel A.B}{\tel G}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}
+  &\wfdepglob{\Gamma}{H}{\tel A.B}{\mhs{\tel G}}
+  &\ofdepglob{\Gamma}{N_1}{H}{\lhs{\tel G}}
+  &\ofdepglob{\Gamma}{N_2}{H}{\rhs{\tel G}}}
+\]
+\end{small}
+
+where $\lhs{\tel G}$, $\rhs{\tel G}$, and $\mhs{\tel G}$ are meta-operations
+such that:
+
+\[
+\infer
+  {\wfglob{\Gamma}{\mhs{\tel G}}{\tel A}n}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}}
+\qquad\qquad
+\infer
+  {\ofglob{\Gamma}{\lhs{\tel G}}{\mhs{\tel G}}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}}
+\qquad\qquad
+\infer
+  {\ofglob{\Gamma}{\rhs{\tel G}}{\mhs{\tel G}}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}{n+1}}
+\]
+
+and are defined by induction:
+
+\[\begin{aligned}
+\mhs{\unitglob{n+1}} &= \unitglob n \\
+\mhs{\tel G,\dhomj{H}{N_1}{N_2}{\blank}} &= (\mhs{\tel G},H) \\
+&\\
+\lhs{\unitglob{n+1}} &= \unitglobelt{n+1} \\
+\lhs{\tel G,\dhomj{H}{N_1}{N_2}{\blank}} &= (\lhs{\tel G},N_1) \\
+&\\
+\rhs{\unitglob{n+1}} &= \unitglobelt{n+1} \\
+\rhs{\tel G,\dhomj{H}{N_1}{N_2}{\blank}} &= (\rhs{\tel G},N_1)
+\end{aligned}\]
+
+Then we derive the normal notion of a glob in a type as a dependent glob in an
+empty telescope:
+\begin{itemize}
+\item A term in $A$ is an element of $A$ regarded as a $0$-glob in itself. \\
+We may write $\oftp{\Gamma}{M}{A}$ as shorthand for
+$\ofdepglob{\Gamma}{M}{A}{\unitglobelt 0}$.
+
+\item A well-formed $n$-glob $G$ in $A$ is 
+$\wfdepglob{\Gamma}{G}{\emptyctx.A}{\unitglob n}$.
+
+\item An element of an $n$-glob $G$ in $A$ is
+$\ofdepglob{\Gamma}{M}{G}{\unitglobelt n}$.
+\end{itemize}
+
+\subsection{Interpretation of diagram contexts into telescopes}
+
+\begin{small}
+\[\infer
+    {\ofinterp{\Gamma}{()}{\diag\Gamma}{\emptytel}}
+    {\wfdiagctx{\diag\Gamma}}
+  \qquad
+  \infer
+    {\ofinterp{\Gamma}{(\delta,\eta)}{\diag\Gamma}{\tel A,B}}
+    {\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}
+    &\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}}
+\]
+\end{small}
+
+We have following the operations whenever
+$\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$:
+
+\begin{itemize}
+\item $\wfglob{\Gamma}{\interpglob{\diag G}{\tel A}{\delta}}{\tel A}n$ 
+whenever $\wfdiaglob{\diag\Gamma}{\diag G}n$
+
+\item $\ofglob{\Gamma}{\interpglob{\diag M}{\tel A}{\delta}}
+{\interpglob{\diag G}{\tel A}{\delta}}$
+whenever $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$
+
+\item $\ofglob{\Gamma}{\interpglob{\diag\delta}{\tel A}{\delta}}
+{\interpglob{\diag\Gamma'}{\tel A}{\delta}}$
+whenever $\substdiaglob{\diag\Gamma}{\diag\delta}{\diag\Gamma'}$
+\end{itemize}
+
+\[\begin{aligned}
+\interpglob{\diag G}{\emptytel}{()} &:=
+\unitglob n \text{ where $\wfdiaglob{\diag\Gamma}{\diag G}{n}$} \\
+\interpglob{\diag G}{\tel A,B}{(\delta,\eta)} & :=
+(\interpglob{\diag G}{\tel A}{\delta},\interpdepglob{\diag G}{\tel A.B}{\eta})\\
+&\\
+\interpglob{\diag M}{\emptytel}{()} &:=
+\unitglobelt n \text{ where $\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$ and 
+$\wfdiaglob{\diag\Gamma}{\diag G}{n}$} \\
+\interpglob{\diag M}{\tel A,B}{(\delta,\eta)} & :=
+(\interpglob{\diag M}{\tel A}{\delta},\interpdepglob{\diag M}{\tel A.B}{\eta})\\
+&\\
+\interpglob{\diag\delta}{\emptytel}{()} &:= () \\
+\interpglob{\diag\delta}{\tel A,B}{(\delta,\eta)} & :=
+(\interpglob{\diag\delta}{\tel A}{\delta},\interpdepglob{\diag\delta}{\tel A.B}{\eta})
+\end{aligned}\]
+
+\subsection{Dependent interpretation of diagram contexts}
+
+\[\infer
+  {\ofinterpdep{\Gamma}{()}{\emptyctx}{\tel A.B}{\delta}}
+  {\ofinterp{\Gamma}{\delta}{\emptyctx}{\tel A}}
+\]
+
+\[
+\infer
+  {\ofinterpdep{\Gamma}{(\eta,\epsilon/x)}
+   {\diag\Gamma,\tptm{x}{\diag G}}{\tel A.B}{\delta}}
+  {\ofinterp{\Gamma}{\delta}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}
+  &\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\fstinterp\delta}
+  &\ofdepglob{\Gamma}{\epsilon}
+   {\interpdepglob{\diag G}{\tel A.B}{\eta}}{\sndinterp\delta}}
+\]
+
+We have the following operations whenever
+$\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$ and
+$\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$:
+
+\begin{itemize}
+\item
+$\wfdepglob{\Gamma}{\interpdepglob{\diag G}{\tel A.B}{\eta}}{\tel A.B}
+  {\interpglob{\diag G}{\tel A}{\delta}}$
+whenever
+$\wfdiaglob{\diag\Gamma}{\diag G}n$.
+
+\item
+$\ofdepglob{\Gamma}{\interpdepglob{\diag M}{\tel A.B}{\eta}}
+ {\interpdepglob{\diag G}{\tel A.B}{\eta}}
+ {\interpglob{\diag M}{\tel A}{\delta}}$
+whenever
+$\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}$.
+
+\item
+$\ofinterpdep{\Gamma}
+  {\interpdepglob{\diag\delta}{\tel A.B}{\eta}}{\diag{\Gamma'}}{\tel A.B}
+  {\interpglob{\diag\delta}{\tel A}{\delta}}$
+whenever
+$\ofdiaglob{\diag\Gamma}{\diag\delta}{\diag{\Gamma'}}$.
+\end{itemize}
+
+\[\begin{aligned}
+\interpdepglob{\diagbase}{\tel A.B}{\eta} & := \tel A.B \\
+\interpdepglob{\homj{\diag G}{\diag{M_1}}{\diag{M_2}}}
+  {\tel A.B}{\eta} & :=
+\dhomj
+  {\interpdepglob{\diag G}{\tel A.B}{\eta}}
+  {\interpdepglob{\diag{M_1}}{\tel A.B}{\eta}}
+  {\interpdepglob{\diag{M_2}}{\tel A.B}{\eta}}
+  {\blank} \\
+&\\
+\interpdepglob{x}{\tel A.B}{\eta} & := \eta(x) \\
+\interpdepglob
+  {\diagcoh{\Delta.\diag{G}}{\diag \delta'}}{\tel A.B}{\eta} & :=
+\depcoh{\Delta.\diag G}{\tel A.B}
+  {\interpdepglob{\diag\delta'}{\tel A.B}{\eta}} \\
+&\\
+\interpdepglob{()}{\tel A.B}{\eta} & := () \\
+\interpdepglob{\diag\delta,\diag M/x}{\tel A.B}{\eta} & :=
+(\interpdepglob{\diag\delta}{\tel A.B}{\eta},\interpdepglob{\diag
+M}{\tel A.B}{\eta}/x)
+\end{aligned}\]
+
+Where $\fstinterp{\delta}$ and $\sndinterp{\delta}$ are metaoperations with the
+type:
+\[
+\infer
+  {\ofinterp{\Gamma}{\fstinterp\delta}{\diag\Gamma}{\tel A}}
+  {\ofinterp{\Gamma}{\delta}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}}
+\qquad\qquad
+\infer
+  {\ofglob{\Gamma}{\sndinterp\delta}
+   {\interpglob{\diag G}{\tel A}{\fstinterp\delta}}}
+  {\ofinterp{\Gamma}{\delta}{\diag\Gamma,\tptm{x}{\diag G}}{\tel A}}
+\]
+
+and are defined:
+
+\[\begin{aligned}
+\fstinterp{()} &:= () \\
+\fstinterp{(\delta,(\eta,\epsilon))} &:=
+(\fstinterp\delta,\eta) \\
+&\\
+\sndinterp{()} &:= \unitglobelt n
+\text{ where $\wfdiaglob{\Gamma}{\diag G}n$} \\
+\sndinterp{(\delta,(\eta,\epsilon))} &:=
+(\sndinterp\delta,\epsilon) \\
+\end{aligned}\]
+
+\subsection{Dependent coherences}
+
+\begin{small}
+\[
+\infer
+  {\ofdepglob{\Gamma}{\depcoh{\Delta.\diag G}{\tel A.B}{\eta}}
+    {\interpdepglob{\diag G}{\tel A.B}{\eta}}{\coh{\Delta.\diag
+    G}{\tel A}{\delta}}}
+  {\wfdiag{\Delta}
+  &\wfdiaglob{\Delta}{\diag G}n
+  &\wftype{\Gamma,\teltm xA}{B}
+  &\ofinterp{\Gamma}{\delta}{\Delta}{\tel A}
+  &\ofinterpdep{\Gamma}{\eta}{\Delta}{\tel A.B}{\delta}}
+\]
+\end{small}
+
+Ordinary coherences are a derived notion of the type:
+\begin{small}
+  \[
+  \infer{\ofglob{\Gamma}{\coh{{\Delta}.\diag{G}}{\tel A}{\delta}}
+    {\interpglob{\diag{G}}{\tel A}{\delta}}}
+  {\wfdiag{\Delta}
+    & \wfdiaglob{\Delta}{\diag G}n
+    & \wftel{\Gamma}{\tel A}
+    & \ofinterp{\Gamma}{\delta}{\Delta}{\tel A}}
+  \]
+\end{small}
+
+defined as follows:
+\[\begin{aligned}
+\coh{{\Delta}.\diag G}{\emptytel}{()} &:=
+\unitglobelt n
+\text{ where $\wfdiaglob{\diag\Gamma}{\diag G}n$} \\
+\coh{{\Delta}.\diag G}{\tel A,B}{(\delta,\eta)} &:=
+(\coh{{\Delta}.\diag G}{\tel A}{\delta},
+\depcoh{{\Delta}.\diag G}{\tel A.B}{\eta})
+\end{aligned}\]
+
+\subsubsection{Useful coherences}
+
+\[\idt{A}{M}:=\coh{x:\diagbase.\homj{\diagbase}{x}{x}}{A}{M/x}\]
+
+\subsection{Conversion between dependent globs}
+
+We have judgmental equalities between dependent globs
+$\deqdepglob{\Gamma}H{\tel{M}}K{\tel{M'}}$. Such equalities can be used as
+follows:
+\[
+\infer
+  {\ofdepglob{\Gamma}{N}{K}{\tel{M'}}}
+  {\deqdepglob{\Gamma}H{\tel{M}}K{\tel{M'}}
+  &\ofdepglob{\Gamma}{N}{H}{\tel{M}}}
+\]
+but moreover, we can replace a dependent glob inside another glob by an equal
+one. The rules are:
+
+\[
+\infer
+  {\deqdepglob{\Gamma}{(\teltm xA.B)}{\tel{M}}
+   {(\teltm{x'}{A'}.B')}{\tel{M'}}}
+  {\deqtype{\Gamma}{B[\tel{M}/\tel{x}]}{B'[\tel{M'}/\tel{x'}]}}
+\]
+
+\[
+\deqdepglob{\Gamma}
+  {(\dhomj{H}{N_1}{N_2}{\blank})}
+  {(\tel{M_1},\ap{(\tel y.N)}{\tel M},\tel{M_2})}
+  {(\dhomj{H[N/x_i]}{N_1'}{N_2'}{\blank})}
+  {(\tel{M_1},\tel M,\tel{M_2})}
+\]
+
+\FIXME{what does the substitution in $H$ in this rule mean?}
+
+\FIXME{do we want $N_1\equiv N_1'$ or not?}
+
+\subsection{Ap}
+
+\[\infer{\ofdepglob{\Gamma}{\ap{(\teltm xA.N)}{\tel M}}
+  {(\Ap{(\teltm xA.N)}{\tel G})}{\tel M}}
+{\wfglob{\Gamma}{\tel G}{\tel A}n
+  & \ofglob{\Gamma}{\tel M}{\tel G}
+  & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
+
+where $\dsd{Ap}$ is a meta-operation such that
+
+\[\infer{\wfdepglob{\Gamma}{(\Ap{(\teltm xA.N)}{\tel G})}
+  {\tel A.B}{\tel G}}
+{\wfglob{\Gamma}{\tel G}{\tel A}n
+  & \ofglob{\Gamma,\teltm xA}{N}{B}}\]
+
+The definition of $\dsd{Ap}$ is the following:
+
+\[\begin{aligned}
+\Ap{(\teltm xA.N)}{\tel G} & := \tel A.B
+\text{ where $\wfglob{\Gamma}{\tel G}{\tel A}0$} \\
+\Ap{(\teltm xA.N)}{\tel G} & := 
+  \dhomj
+    {\Ap{(\teltm xA.N)}{\mhs{\tel G}}}
+    {\ap{(\teltm xA.N)}{\lhs{\tel G}}}
+    {\ap{(\teltm xA.N)}{\rhs{\tel G}}}{\blank}
+\end{aligned}\]
+
+When $\wfglob{\Gamma}{\tel G}{\tel A}0$ we have the following definitional
+equality:
+\[ \ap{(\teltm xA.N)}{\tel M} \equiv N[\tel M/\tel x] \]
+The types of these expressions are equal because
+$\Ap{(\teltm xA.N)}{\tel G} := \teltm xA.B$,
+and $B[\tel M/\tel x]$ is also the type of the right-hand side, $N[\tel M/\tel
+x]$.
+
+In a closed term, for any term $\ap{(\teltm xA.N)}{\tel M}$, $N$ normalizes
+to either
+\begin{itemize}
+\item a variable bound in $\tel{x}$. This will reduce to some component of
+$\tel{M}$.
+\item an intro. For negatives we need a reduction rule which will do it
+pointwise. For positives, it’s canonical. For coherences, we will need to change
+the coherence.
+\item an elimination context. We need a reduction rule generalizing the rules we
+have for now. For instance
+\[\ap{(f.E[f M])}{(\ulam{x}{N})} \equiv \ap{(x.E[x])}{(\subst{N}{M}{x})}\]
+\end{itemize}
+
+\FIXME{Why are the other ones provable, for instance when $f$ is in the context
+  \[\ap{(x.f(M,x))}{N}\equiv\ap{(u.f)}{(\ap{(x.M)}{N},N)}\]}
+
+\subsection{Sigma}
+
+\begin{small}\[
+\infer
+  {\ofdepglob{\Gamma}{\pair{N_1}{N_2}}{H}{\tel M}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+  &\ofglob{\Gamma}{\tel M}{\tel G}
+  &\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofdepglob{\Gamma}{N_1}{\Fstsigma H{\tel M}}{\tel M}
+  &\ofdepglob{\Gamma}{N_2}{\Sndsigma H{\tel M}}{(\tel M,N_1)}}
+\]\end{small}
+\[
+\infer
+  {\ofdepglob{\Gamma}{\fst N}{A}{\unitglobelt 0}}
+  {\ofdepglob{\Gamma}{N}{\sigmacl xAB}{\unitglobelt 0}}
+\]
+
+\[
+\infer
+  {\ofdepglob{\Gamma}{\snd N}{B[\fst N/x]}{\unitglobelt 0}}
+  {\ofdepglob{\Gamma}{N}{\sigmacl xAB}{\unitglobelt 0}}
+\]
+
+Where $\Fstsigma H{\tel M}$ and $\Sndsigma H{\tel M}$ are meta-operations of type
+\[
+\infer
+  {\wfdepglob{\Gamma}{\Fstsigma H{\tel M}}{\tel A.A}{\tel G}}
+  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofglob{\Gamma}{\tel M}{\tel G}}
+\qquad\qquad
+\infer
+  {\wfdepglob{\Gamma}{\Sndsigma H{\tel M}}{\tel A,A.B}{(\tel G,\Fstsigma H{\tel M})}}
+  {\wfdepglob{\Gamma}{H}{\tel A.(\sigmacl xAB)}{\tel G}
+  &\ofglob{\Gamma}{\tel M}{\tel G}}
+\]
+defined as:
+\[\begin{aligned}
+\Fstsigma{\tel A.\sigmacl xAB}{\tel M} &:= \tel A.A \\
+\Fstsigma{\dhomj{H}{N_1}{N_2}{\blank}}{\tel M} &:=
+\dhomj{\Fstsigma H{\tel M}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_1)}}{\ap{(\tel
+x,x.\fst x)}{(\tel M,N_2)}}{\blank}
+&\\
+\Sndsigma{\tel A.\sigmacl xAB}{\tel M} &:= \tel A,A.B \\
+\Sndsigma{\dhomj{H}{N_1}{N_2}{\blank}}{\tel M} &:=
+\dhomj{\Sndsigma H{\tel M}}{\ap{(\tel x,x.\snd x)}{(\tel M,N_1)}}{\ap{(\tel
+x,x.\snd x)}{(\tel M,N_2)}}{\blank}
+\end{aligned}\]
+
+To see that these operations are well-typed, we must show two things:
+
+\FIXME{these proofs have not been updated!}
+
+\begin{lem}
+$\deqdepglob\Gamma{\Fstsigma H{\tel M}}{\tel M}{\Ap{(x.\fst x)}H}{(\tel M,N)}$ for any
+$\ofdepglob\Gamma NH{\tel M}$.
+\end{lem}
+\begin{proof}
+There are two cases. If $H=\teltm xA.(\sigmacl xAB)$,
+\[\begin{aligned}
+\Fstsigma{\teltm xA.(\sigmacl xAB)}{\tel M}\downarrow\tel M
+&:= \teltm xA.A\downarrow\tel M \\
+\Ap{(x.\fst x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
+&:= \teltm xA,\tptm y{(\sigmacl xAB)}.A \downarrow(\tel M,N)
+\end{aligned}\]
+For these to be definitionally equal, we must show $A[\tel M/\tel x]\equiv
+A[\tel M/\tel x,N/y]$, but $y$ does not occur in $A$ so these are equal.
+\begin{small}\[\begin{aligned}
+\Fstsigma{\dhomj H{N_1}{N_2}\blank}{\tel M}\downarrow\tel M
+&:= \dhomj{\Fstsigma H{\tel M}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_1)}}{\ap{(\tel
+x,x.\fst x)}{(\tel M,N_2)}}{\blank}
+\downarrow \tel M \\
+\Ap{(x.\fst x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
+&:= \dhomj{\Ap{(\tel x,x.\fst x)} H}{\ap{(\tel x,x.\fst x)}{(\tel
+M,N_1)}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_2)}}{\blank}
+\downarrow (\tel M,N) \\
+&\equiv \dhomj{\Ap{(\tel x,x.\fst x)} H}{\ap{(\tel x,x.\fst x)}{(\tel
+M,N_1)}}{\ap{(\tel x,x.\fst x)}{(\tel M,N_2)}}{\blank}
+\downarrow (\tel M,\ap{(\emptytel.N)}{\unitglobelt 0})
+\end{aligned}\]\end{small}
+By the inductive hypothesis these are the same.
+\end{proof}
+
+\begin{lem}
+$\deqdepglob\Gamma{\Sndsigma H{\tel M}}{(\tel M,\ap{(x.\fst x)}N)}{\Ap{(x.\snd x)}H}{(\tel M,N)}$ for any
+$\ofdepglob\Gamma NH{\tel M}$.
+\end{lem}
+\begin{proof}
+There are two cases. If $H=\teltm xA.(\sigmacl xAB)$,
+\[\begin{aligned}
+\Sndsigma{\teltm xA.(\sigmacl xAB)}\downarrow(\tel M,\ap{(x.\fst x)}N)
+&:= \teltm xA,\tptm xA.B\downarrow(\tel M,\fst N) \\
+\Ap{(x.\snd x)}{(\teltm xA.(\sigmacl xAB))}\downarrow(\tel M,N)
+&:= \teltm xA,\tptm y{(\sigmacl xAB)}.B[\fst y/x] \downarrow(\tel M,N)
+\end{aligned}\]
+But the former amounts to $B[\tel M/\tel x,\fst N/x]$ and the latter to $B[\fst
+y/x][\tel M/\tel x,N/y]$, but these are equal.
+\[\begin{aligned}
+\Sndsigma{\dhomj H{N_1}{N_2}\blank}{\tel M}\downarrow\tel M
+&:= \dhomj{\Sndsigma H{\tel M}}{\ap{(x.\snd x)}{N_1}}{\ap{(x.\snd x)}{N_2}}{\blank}
+\downarrow\tel M \\
+\Ap{(x.\snd x)}{(\dhomj H{N_1}{N_2}\blank)}\downarrow(\tel M,N)
+&:= \dhomj{\Ap{(x.\snd x)} H}{\ap{(x.\snd x)}{N_1}}{\ap{(x.\snd x)}{N_2}}{\blank}
+\downarrow(\tel M,N)
+\end{aligned}\]
+By the inductive hypothesis these are the same.
+\end{proof}
+
+
+We have the definitional equalities:
+\[\begin{aligned}
+\fst{(a,b)} &\equiv a \\
+\snd{(a,b)} &\equiv b \\
+\depcoh{\Delta.\diag G}{\tel A.(\sigmacl xAB)}{\eta} &\equiv
+(\depcoh{\Delta.\diag G}{\tel A.A}{\mapfst\eta},
+\depcoh{\Delta.\diag G}{\tel A,A.B}{\mapsnd\eta}) \\
+\end{aligned}\]
+where $\mapfst\eta$ and $\mapsnd\eta$ are meta-operations which apply $\fst-$
+and $\snd-$ pointwise.
+
+\FIXME{actually define them}
+
+\subsection{Pi}
+
+\[
+\infer
+  {\ofdepglob{\Gamma}{\ev{N_1}{N_2}}{B[N_2/x]}{\unitglobelt 0}}
+  {\ofdepglob{\Gamma}{N_1}{(\picl xAB)}{\unitglobelt 0}
+  &\ofdepglob{\Gamma}{N_2}{A}{\unitglobelt 0}}
+\]
+
+\FIXME{sadly, this rule is wrong}
+\begin{small}\[
+\infer
+  {\ofdepglob{\Gamma}{\lam xAN}{H}{\tel M}}
+  {\wfglob{\Gamma}{\tel G}{\tel A}n
+  &\ofglob{\Gamma}{\tel M}{\tel G}
+  &\wfdepglob{\Gamma}{H}{\tel A.(\picl xAB)}{\tel G}
+  &\ofdepglob{\Gamma,\tptm xA}{N}{\Ev Hx}{\tel M}}
+\]\end{small}
+
+\end{document}
+
+%\newcommand{\Ap}[2]{\ensuremath{\dsd{Ap} \: {#1} \: {#2}}}
+%\newcommand{\apd}[2]{\ensuremath{\dsd{ap} \: {#1} \: {#2}}}
+%\subsection{Dependent ap}
+%
+%\[
+%\infer
+%  {\ofdepglob{\Gamma}{\apd{(\tptm xB.N_1)}{N_2}}
+%             {\Ap{(\tptm xB.N_1)}{H}}{(\tel M,N_2)}}
+%  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
+%  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
+%  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}
+%  &\ofglob{\Gamma}{\tel M}{\tel G}
+%  &\ofdepglob{\Gamma}{N_2}{H}{\tel M}}
+%\]
+%
+%where $\dsd{Ap}$ is a meta-operation such that
+%\[\infer
+%  {\wfdepglob{\Gamma}{(\Ap{(\tptm xB.N_1)}{H})}{\tel A,B.C}{(\tel G,H)}}
+%  {\ofglob{\Gamma,\tptm xB}{N_1}{C}
+%  &\wfglob{\Gamma}{\tel G}{\tel A}{n}
+%  &\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}}
+%\]
+%
+%The definition of $\dsd{Ap}$ is the following:
+%
+%\[\begin{aligned}
+%  \Ap{(\tptm xB.N_1)}{(\tel A.B)} & := (\tel A,B).C\\
+%  \Ap{(\tptm xB.N_1)}{(\dhomj{H}{N}{N'}{\blank})} & :=
+%    \dhomj
+%      {\Ap{(\tptm xB.N_1)}{H}}
+%      {\apd{(\tptm xB.N_1)}{N}}
+%      {\apd{(\tptm xB.N_1)}{N'}}{\blank}
+%\end{aligned}\]
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "paper"
+%%% End: 
