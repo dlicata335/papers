@@ -1,6 +1,6 @@
 \section{Judgments}
 
-We have a lot of judgments:
+We have fewer judgments:
 
 \paragraph{Coherences}
 
@@ -24,34 +24,32 @@ We have a lot of judgments:
 %\end{itemize}
 %\end{small}
 
-\paragraph{Telescopes}
+\paragraph{Types}
 
 \begin{small}
 \begin{itemize}
 \item $\wfctx{\Gamma}$
-\item $\wftel{\Gamma}{\tel A}$ (requires $\wfctx{\Gamma}$)
-\item $\wfglob{\Gamma}{\tel G}{\tel A}n$ (requires $\wftel{\Gamma}{\tel A}$)
-\item $\ofglob{\Gamma}{\tel M}{\tel G}$
-(requires $\wfglob{\Gamma}{\tel G}{\tel A}n$)
+\item $\wftp{\Gamma}{A}$
+\item $\oftp{\Gamma}{M}{A}$ (requires $\wftp{\Gamma}{A}$)
 \end{itemize}
 \end{small}
 
-\paragraph{Diagram interpretation and dependent globs}
+%% \paragraph{Diagram interpretation and dependent globs}
 
-\begin{small}
-\begin{itemize}
-\item $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
-(requires $\wfdiagctx{\diag\Gamma}$ and $\wftel{\Gamma}{\tel A}$)
-\item $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$
-(requires $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
-and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
-\item $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
-(requires $\wfglob{\Gamma}{\tel G}{\tel A}n$ and $\wftype{\Gamma,\teltm xA}{B}$)
-\item $\ofdepglob{\Gamma}{N}{H}{\tel M}$
-(requires $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
-and $\ofglob{\Gamma}{\tel M}{\tel G}$)
-\end{itemize}
-\end{small}
+%% \begin{small}
+%% \begin{itemize}
+%% \item $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+%% (requires $\wfdiagctx{\diag\Gamma}$ and $\wftel{\Gamma}{\tel A}$)
+%% \item $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$
+%% (requires $\ofinterp{\Gamma}{\delta}{\diag\Gamma}{\tel A}$
+%% and $\ofinterpdep{\Gamma}{\eta}{\diag\Gamma}{\tel A.B}{\delta}$)
+%% \item $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
+%% (requires $\wfglob{\Gamma}{\tel G}{\tel A}n$ and $\wftype{\Gamma,\teltm xA}{B}$)
+%% \item $\ofdepglob{\Gamma}{N}{H}{\tel M}$
+%% (requires $\wfdepglob{\Gamma}{H}{\tel A.B}{\tel G}$
+%% and $\ofglob{\Gamma}{\tel M}{\tel G}$)
+%% \end{itemize}
+%% \end{small}
 
 \section{Diagram calculus}
 
@@ -121,6 +119,78 @@ and $\ofglob{\Gamma}{\tel M}{\tel G}$)
 \end{small}
 
 \section{Type theory}
+
+\subsection{Contexts}
+
+\begin{small}
+  \[
+  \infer{\wfctx{\varnothing}}{}
+  \qquad\qquad
+  \infer{\wfctx{\Gamma,x:A}}
+  {\wfctx{\Gamma}
+    & \wftype{\Gamma}{A}
+    & (x\not\in\Gamma)}
+  \]
+\end{small}
+
+\subsection{Types}
+
+\begin{small}
+\[
+\begin{array}{l}
+\infer{\wftp{\Gamma}{\picl{x}{A}{B}}}
+      {\wftp{\Gamma}{A} & \wftp{\Gamma,\tptm{x}{A}}{B}}
+\qquad
+\infer{\wftp{\Gamma}{\sigmacl{x}{A}{B}}}
+      {\wftp{\Gamma}{A} & \wftp{\Gamma,\tptm{x}{A}}{B}}
+\qquad
+\infer{\wftp{\Gamma}{1}}{}
+\\ \\ 
+\infer{\wftp{\Gamma}{\set}}{}
+\qquad
+\infer{\wftp{\Gamma}{\el{S}}}{\oftp{\Gamma}{S}{\set}}
+\\ \\
+\infer{\wftp{\Gamma}{\iid{A}{M_1}{M_2}}}
+      {\wftp{\Gamma}{A} &
+       \oftp{\Gamma}{M_1}{A} & 
+       \oftp{\Gamma}{M_2}{A}}
+\qquad
+\infer{\wftp{\Gamma}{\iidover{x.B}{\alpha}{N_1}{N_2}}}
+      {\begin{array}{l}
+       \wftp{\Gamma}{A} \qquad
+       \oftp{\Gamma}{\{M_1,M_2\}}{A}  \qquad
+       \oftp{\Gamma}{\alpha}{\iid{A}{M_1}{M_2}} \\ 
+       \oftp{\Gamma}{N_1}{\subst{B}{M_1}{x}} \qquad
+       \oftp{\Gamma}{N_1}{\subst{B}{M_2}{x}} 
+        \end{array}
+        }
+\\ \\
+\infer{\wftp{\Gamma}{\sone}}{}
+\qquad
+\infer{\wftp{\Gamma}{\sm{A}{B}}}{\wftp{\Gamma}{A} & \wftp{\Gamma}{B}}
+\end{array}
+\]
+\end{small}
+
+\subsection{Type Equalities}
+
+\newcommand{\whnf}[1]{\underbar{#1}}
+\newcommand{\neu}[1]{\overline{#1}}
+
+WHNFs:
+\[
+\begin{array}{rcl}
+G\ep & ::= & {\sone} \mid \sm{A}{B} \mid {\id{G\ep}{M}{N}} \\
+\whnf{A} & ::= & G\ep \mid P \mid \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \unit \mid \set \mid \\
+  &     & 
+\end{array}
+\]
+
+\bigskip
+
+\hrule
+
+Old stuff below here
 
 \subsection{Contexts}
 
