@@ -174,17 +174,70 @@ We have fewer judgments:
 
 \subsection{Type Equalities}
 
-\newcommand{\whnf}[1]{\underbar{#1}}
-\newcommand{\neu}[1]{\overline{#1}}
+\newcommand{\whnf}[1]{\ensuremath{\underbar{\ensuremath{#1}}}}
+\newcommand{\neu}[1]{\ensuremath{\overline{\ensuremath{#1}}}}
+\newcommand{\hd}[1]{\ensuremath{\mathit{hd}(#1)}}
+\newcommand{\equivset}[2]{\ensuremath{#1 \cong #2}}
 
 WHNFs:
 \[
 \begin{array}{rcl}
-G\ep & ::= & {\sone} \mid \sm{A}{B} \mid {\id{G\ep}{M}{N}} \\
-\whnf{A} & ::= & G\ep \mid P \mid \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \unit \mid \set \mid \\
-  &     & 
+G\ep & ::= & {\sone} \mid \sm{A}{B} \mid {\iid{G\ep}{M}{N}} \\
+\neu{A}  & ::= & \el{\neu{M}} \mid \iid{\neu{A}}{M}{N} \mid {\iidover{x.\neu{B}}{\alpha}{M}{N}} \text{(when $\hd{B} \neq x$)} \\
+\whnf{A} & ::= & G\ep \mid \neu{A} \mid \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \unit \mid \set \mid \\
 \end{array}
 \]
+
+All of these are really typed definitional equality rules, but we write
+them algorithmically:
+
+\begin{small}
+\[
+\begin{array}{rclll}
+\el{S} & \mapsto & \el{S'} & \text{if} & S \mapsto S' \\
+\el{\picd{S}{T}} & \mapsto & \picl{x}{\el{S}}{\el{\app T x}} \\
+\el{\sigmacd{S}{T}} & \mapsto & \sigmacl{x}{\el{S}}{\el{\app T x}} \\
+\el{\unitcd} & \mapsto & \unit \\
+\el{\smcd{S}{T}} & \mapsto & \sm{\el{S}}{\el{T}} \\
+\el{\idcd{S}{M}{N}} & \mapsto & \iid{\el{S}}{M}{N} 
+\\ \\
+
+\iid{A}{M}{N} & \mapsto & \iid{A'}{M}{N} & \text{if} & A \mapsto A' \\
+\iid{\picl{x}{A}{B}}{M}{N} & \mapsto & \picl{x}{A}{\iid{B}{\app M x}{\app N x}} & \\
+\iid{\sigmacl{x}{A}{B}}{M}{N} & \mapsto & \sigmacl{p}{\iid{A}{\fst M}{\fst N}}{\iidover{x.B}{p}{\snd M}{\snd N}} & \\
+\iid{\unit}{M}{N} & \mapsto & \unit \\
+\iid{\set}{S}{T} & \mapsto & \equivset{S}{T} 
+\\ \\
+
+\iidover{x.B}{\alpha}{M}{N} & \mapsto & \iidover{x.B'}{\alpha}{M}{N} & \text{if} & \tptm{x}{A} \vdash B \mapsto B'\\
+\iidover{x.\picl{y}{B}{C}}{\tptm{\alpha}{\iid{}{M_1}{M_2}}}{N_1}{N_2} & \mapsto & \picl{y_1}{\subst{A}{M_1}{x}}{\subst{A}{M_2}{x}}{\picl{y_2}{\subst{A}{M_2}{x}}{\picl{p}{\iidover{x.B}{\alpha}{y_1}{y_2}}{\iidover{(x,y).C}{(\alpha,p)}{N_1}{N_2}}}} \\
+\iidover{x.\sigmacl{y}{B}{C}}{\alpha}{N_1}{N_2} & \mapsto & \sigmacl{p}{\iidover{x.B}{\alpha}{\fst{N_1}}{\fst{N_2}}}{\iidover{(x,y).C}{(\alpha,p)}{\snd{M_1}}{\snd{M_2}}} \\
+\iidover{x.\unit}{\alpha}{N_1}{N_2} & \mapsto & \iid{\unit}{N_1}{N_2} \\
+\iidover{x.\set}{\alpha}{N_1}{N_2} & \mapsto & \iid{\set}{N_1}{N_2} \\
+\iidover{x.G\ep}{\alpha}{N_1}{N_2} & \mapsto & \iid{}{\transport{x.G\ep}{\alpha}{N_1}}{N_2} \\
+\iidover{x.\neu{A}}{\alpha}{N_1}{N_2} & \mapsto & \iid{}{\transport{x.G\ep}{\alpha}{N_1}}{N_2} \\\end{array}
+\]
+\end{small}
+
+Admissible rules:
+
+fusion
+
+constant fibration cancelling
+
+\subsection{Terms}
+
+transport
+
+transport/pathover equivalences
+
+coh
+
+ap
+
+depcoh
+
+apcoh or something
 
 \bigskip
 
