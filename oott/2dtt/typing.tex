@@ -183,7 +183,7 @@ WHNFs:
 \[
 \begin{array}{rcl}
 G\ep & ::= & {\sone} \mid \sm{A}{B} \mid {\iid{G\ep}{M}{N}} \\
-\neu{A}  & ::= & \el{\neu{M}} \mid \iid{\neu{A}}{M}{N} \mid {\iidover{x.\neu{B}}{\alpha}{M}{N}} \text{(when $\hd{B} \neq x$)} \\
+\neu{A}  & ::= & \el{\neu{M}} \mid \iid{\neu{A}}{M}{N} \mid {\iidover{x.\neu{B}}{\alpha}{M}{N}} \text{(when $\hd{\neu B} \neq x$)} \\
 \whnf{A} & ::= & G\ep \mid \neu{A} \mid \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \unit \mid \set \mid \\
 \end{array}
 \]
@@ -215,15 +215,43 @@ them algorithmically:
 \iidover{x.\unit}{\alpha}{N_1}{N_2} & \mapsto & \iid{\unit}{N_1}{N_2} \\
 \iidover{x.\set}{\alpha}{N_1}{N_2} & \mapsto & \iid{\set}{N_1}{N_2} \\
 \iidover{x.G\ep}{\alpha}{N_1}{N_2} & \mapsto & \iid{}{\transport{x.G\ep}{\alpha}{N_1}}{N_2} \\
-\iidover{x.\neu{A}}{\alpha}{N_1}{N_2} & \mapsto & \iid{}{\transport{x.G\ep}{\alpha}{N_1}}{N_2} \\\end{array}
+\iidover{x.\neu{A}}{\alpha}{N_1}{N_2} & \mapsto &
+\iid{}{\transport{x.\neu{A}}{\alpha}{N_1}}{N_2} & \text{if} & \hd{\neu{A}} = x\\
+\end{array}
 \]
 \end{small}
 
 Admissible rules:
 
-fusion
+\[
+\infer{\deqtp{\Gamma}{\iidover{(x,y).B}{(\alpha,\ap{x.M}{\alpha})}{N_1}{N_2}}
+                     {\iidover{x.\subst{B}{M}{y}}{\alpha}{N_1}{N_2}}}
+      {}
+\]
 
-constant fibration cancelling
+Would be nice, but probably only propositionally true, without adding a
+critical pair:
+\[
+\infer{\deqtm{\Gamma}{\transport{x.B}{\alpha}{N_1}}
+                     {N_2}}
+      {x \# B}
+\]
+Does it need to be a generic program giving a path?
+
+\FIXME{what primitive rules do we need to make these admissible?}
+
+Note:
+\[
+\infer{\deqtp{\Gamma}{\iidover{x.B}{\alpha}{N_1}{N_2}}
+                     {\iid{B}{N_1}{N_2}}}
+      {x \# B}
+\]
+doesn't work because it equates single funext with triple funext.  
+
+Guiding principle for what rules we add:
+reduction should be stable under substitution: \\
+If $x \vdash M \mapsto M'$ then $\subst{M}{N}{x} \mapsto
+\subst{M'}{N}{x}$.  
 
 \subsection{Terms}
 
@@ -238,6 +266,34 @@ ap
 depcoh
 
 apcoh or something
+
+\subsection{Equations for Terms}
+
+\begin{small}
+\[
+\begin{array}{l}
+\neu{A} ::= \ap{(x.y)}{\alpha} \text{ when $x \# y$ } \mid \\
+\end{array}
+\]
+\end{small}
+
+\begin{small}
+\[
+\begin{array}{rclll}
+\ap{(x.M)}{\alpha} & \mapsto & \ap{(x.M')}{\alpha} & \text{if} & x \vdash M \mapsto M'\\ 
+\ap{(x.x)}{\alpha} & \mapsto & \text{some adjustment of $\alpha$} & & \text{requires pathover in constant fib to be constant}\\ 
+\ap{(x.\ulam{y}{M})}{\alpha} & \mapsto & \ulam{y_1}{\ulam{y_2}{\ulam{p}{\ap{((x,y).M)}{(\alpha,p)}}}}\\
+\ap{(x.\app M N)}{\alpha} & \mapsto & \apppp {(\ap{(x.M)}{\alpha})}{\_}{\_}{(\ap{(x.N)}{\alpha})} & &\text{requires reassoc to type check}\\ 
+\ap{(x.(M,N))}{\alpha} & \mapsto & (\ap{(x.M)}{\alpha}, \ap{(x.N)}{\alpha}) & & \text{requires reassoc to type check}\\ 
+\ap{(x.\fst M)}{\alpha} & \mapsto & \fst {(\ap{(x.M)}{\alpha})} & & \\ 
+\ap{(x.\snd M)}{\alpha} & \mapsto & \snd {(\ap{(x.M)}{\alpha})} & & \text{requires reassoc and previous rule to type check}\\ 
+\ap{(x.\mt)}{\alpha} & \mapsto & \mt & \\ 
+\end{array}
+\]
+\end{small}
+
+For elements of \set, can just use transport at unfolding of $El$?  
+
 
 \bigskip
 
