@@ -210,7 +210,7 @@ them algorithmically:
 \\ \\
 
 \iidover{x.B}{\alpha}{M}{N} & \mapsto & \iidover{x.B'}{\alpha}{M}{N} & \text{if} & \tptm{x}{A} \vdash B \mapsto B'\\
-\iidover{x.\picl{y}{B}{C}}{\tptm{\alpha}{\iid{}{M_1}{M_2}}}{N_1}{N_2} & \mapsto & \picl{y_1}{\subst{A}{M_1}{x}}{\subst{A}{M_2}{x}}{\picl{y_2}{\subst{A}{M_2}{x}}{\picl{p}{\iidover{x.B}{\alpha}{y_1}{y_2}}{\iidover{(x,y).C}{(\alpha,p)}{N_1}{N_2}}}} \\
+\iidover{x.\picl{y}{B}{C}}{\tptm{\alpha}{\iid{}{M_1}{M_2}}}{N_1}{N_2} & \mapsto & \picl{y_1}{\subst{A}{M_1}{x}}{\picl{y_2}{\subst{A}{M_2}{x}}{\picl{p}{\iidover{x.B}{\alpha}{y_1}{y_2}}{\iidover{(x,y).C}{(\alpha,p)}{N_1}{N_2}}}} \\
 \iidover{x.\sigmacl{y}{B}{C}}{\alpha}{N_1}{N_2} & \mapsto & \sigmacl{p}{\iidover{x.B}{\alpha}{\fst{N_1}}{\fst{N_2}}}{\iidover{(x,y).C}{(\alpha,p)}{\snd{M_1}}{\snd{M_2}}} \\
 \iidover{x.\unit}{\alpha}{N_1}{N_2} & \mapsto & \iid{\unit}{N_1}{N_2} \\
 \iidover{x.\set}{\alpha}{N_1}{N_2} & \mapsto & \iid{\set}{N_1}{N_2} \\
@@ -255,7 +255,7 @@ If $x \vdash M \mapsto M'$ then $\subst{M}{N}{x} \mapsto
 
 \subsection{Terms}
 
-transport
+transport (and inverse transport?)
 
 transport/pathover equivalences
 
@@ -294,10 +294,20 @@ apcoh or something that implies it (only on refl?)
 
 For elements of \set, can just use transport at unfolding of $El$?  
 
+\subsection{Open questions}
+
+Do we want 
+\[
+(\iidover{x.C~x~M}{\alpha}{N[x_1]}{N[x_2]})
+\equiv
+(\iidover{(x,y).C~x~y}{(\alpha,\ap{(x.M)}{\alpha})}{N[x_1]}{N[x_2]})
+\]
+
+Do we want $\ap{(x.\star)}{\alpha}$ to be neutral?
 
 \bigskip
-
 \hrule
+\bigskip
 
 Old stuff below here
 
