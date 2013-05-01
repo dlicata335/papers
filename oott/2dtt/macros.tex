@@ -77,6 +77,11 @@
 
 \newcommand{\unit}{\dsd{1}}
 \newcommand{\mt}{\dsd{()}}
+\newcommand{\unitcase}[2]{\dsd{case}_{\unit}(#1,\mt.#2)}
+
+\newcommand{\inl}[1]{\app{\dsd{inl}}{#1}}
+\newcommand{\inr}[1]{\app{\dsd{inr}}{#1}}
+\newcommand{\smcase}[4]{\dsd{case}_{#1}(#2,#3,#4)}
 
 \newcommand{\sone}{\dsd{S^1}}
 \newcommand{\base}[1]{\dsd{base}_{#1}}

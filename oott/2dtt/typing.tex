@@ -255,6 +255,70 @@ If $x \vdash M \mapsto M'$ then $\subst{M}{N}{x} \mapsto
 
 \subsection{Terms}
 
+\begin{small}
+\[
+\begin{array}{l}
+% pi
+\infer{\oftp{\Gamma}{\lam{x}{A}{M}}{\picl{x}{A}{B}}}
+      {\oftp{\Gamma,\tptm{x}{A}}{M}{B}}
+\qquad
+\infer{\oftp{\Gamma}{\app{M}{N}}{\subst{B}{N}{x}}}
+      {\oftp{\Gamma}{M}{\picl{x}{A}{B}} & \oftp{\Gamma}{N}{A}}
+\\ \\
+% sigma
+\infer{\oftp{\Gamma}{\pair{M}{N}}{\sigmacl{x}{A}{B}}}
+      {\wftp{\Gamma,\tptm{x}{A}}{B} &
+       \oftp{\Gamma}{M}{A} & \oftp{\Gamma}{N}{\subst{B}{M}{x}}}
+\qquad
+\infer{\oftp{\Gamma}{\fst{M}}{A}}
+      {\oftp{\Gamma}{M}{\sigmacl{x}{A}{B}}}
+\qquad
+\infer{\oftp{\Gamma}{\snd{M}}{\subst{B}{\fst{M}}{x}}}
+      {\oftp{\Gamma}{M}{\sigmacl{x}{A}{B}}}
+\\ \\
+% unit
+\infer{\oftp{\Gamma}{\mt}{\unit}}
+      {}
+\qquad
+\infer{\oftp{\Gamma}{\unitcase{M}{N}}{C}}
+      {\oftp{\Gamma}{M}{\unit} & \oftp{\Gamma}{N}{C}}
+\\ \\
+% sum
+\infer{\oftp{\Gamma}{\inl{M}}{\sm{A}{B}}}
+      {\oftp{\Gamma}{M}{A}}
+\qquad
+\infer{\oftp{\Gamma}{\inr{M}}{\sm{A}{B}}}
+      {\oftp{\Gamma}{M}{B}}
+\qquad
+\infer{\oftp{\Gamma}{\smcase{\sm{A}{B}}{M}{x.N_1}{y.N_2}}{C}}
+      {\oftp{\Gamma}{M}{\sm{A}{B}} &
+       \oftp{\Gamma,\tptm{x}{A}}{N_1}{C} &
+       \oftp{\Gamma,\tptm{y}{B}}{N_2}{C}}
+\\ \\
+% set
+\infer{\oftp{\Gamma}{\picd{S}{T}}{\set}}
+      {\oftp{\Gamma}{S}{\set} & \oftp{\Gamma}{T}{\set\to\set}} %FIXME ??
+\qquad
+\infer{\oftp{\Gamma}{\sigmacd{S}{T}}{\set}}
+      {\oftp{\Gamma}{S}{\set} & \oftp{\Gamma}{T}{\set\to\set}} %FIXME ??
+\qquad
+\infer{\oftp{\Gamma}{\unitcd}{\set}}{}
+\\ \\ 
+\infer{\oftp{\Gamma}{\idcd{S}{M_1}{M_2}}{\set}}
+      {\oftp{\Gamma}{S}{\set} &
+       \oftp{\Gamma}{M_1}{\el{S}} & 
+       \oftp{\Gamma}{M_2}{\el{S}}}
+\qquad
+\infer{\oftp{\Gamma}{\smcd{S}{T}}{\set}}
+      {\oftp{\Gamma}{S}{\set} & \oftp{\Gamma}{T}{\set}}
+\\ \\
+% ap
+\infer{\oftp{\Gamma}{\ap{(x.M)}{N}}{\iidover{x.B}{N}{\subst{M}{N_1}{x}}{\subst{M}{N_2}{x}}}}
+      {\oftp{\Gamma,\tptm{x}{A}}{M}{B} & \oftp{\Gamma}{N}{\iid{A}{N_1}{N_2}}}
+\end{array}
+\]
+\end{small}
+
 transport (and inverse transport?)
 
 transport/pathover equivalences
