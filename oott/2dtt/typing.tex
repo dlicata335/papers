@@ -311,7 +311,14 @@ If $x \vdash M \mapsto M'$ then $\subst{M}{N}{x} \mapsto
 \qquad
 \infer{\oftp{\Gamma}{\smcd{S}{T}}{\set}}
       {\oftp{\Gamma}{S}{\set} & \oftp{\Gamma}{T}{\set}}
-\\ \\
+\end{array}
+\]
+\end{small}
+
+\paragraph{Ap}
+\begin{small}
+\[
+\begin{array}{l}
 % ap
 \infer{\oftp{\Gamma}{\ap{(x.M)}{N}}{\iidover{x.B}{N}{\subst{M}{N_1}{x}}{\subst{M}{N_2}{x}}}}
       {\oftp{\Gamma,\tptm{x}{A}}{M}{B} & \oftp{\Gamma}{N}{\iid{A}{N_1}{N_2}}}
@@ -360,7 +367,7 @@ For elements of \set, can just use transport at unfolding of $El$?
 
 \subsection{Open questions}
 
-Do we want $\ap{(x.\star)}{\alpha}$ to be neutral?
+Do we want $\ap{(x.\mt)}{\alpha}$ to be neutral?
 
 \bigskip
 \hrule
