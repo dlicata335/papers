@@ -61,7 +61,7 @@ We have fewer judgments:
   \qquad\qquad
   \infer
   {\wfdiagctx{\diag\Gamma,\tptm{x}{\diag G}}}
-  {\wfdiagctx{\diag\Gamma} & \wfdiaglob{\diag\Gamma}{\diag G}n}\]
+  {\wfdiagctx{\diag\Gamma} & \wfdiagtp{\diag\Gamma}{\diag G}}\]
 \end{small}
 
 \subsection{Diagrams (contractible contexts)}
@@ -70,22 +70,24 @@ We have fewer judgments:
   \[
   \infer{\wfdiag{\tptm{x}{\diagbase}}}{}
   \qquad\qquad
-  \infer{\wfdiag{\Delta,\tptm{y}{\diag G},\tptm{p}{\homj{\diag{G}}{x}{y}}}}
-  {\wfdiaglob{\Delta}{\diag G}n
-    & (\tptm{x}{\diag{G}}) \in \Delta}\]
+  \infer{\wfdiag{\Delta,\tptm{y}{\diagbase},\tptm{p}{\iid{\diagbase}{x}{y}}}}
+  {(\tptm{x}{\diagbase}) \in \Delta}\]
 \end{small}
 
 \subsection{Types}
 
 \begin{small}
   \[
-  \infer{\wfdiaglob{\diag\Gamma}{\diagbase}0}{}
-  \qquad\qquad
+  \infer{\wfdiagtp{\diag\Gamma}{\diagbase}}{}
+  \qquad
   \infer
-    {\wfdiaglob{\diag\Gamma}{\homj{\diag G}{\diag M}{\diag N}}{n+1}}
-    {\wfdiaglob{\diag\Gamma}{\diag G}n
-    &\ofdiaglob{\diag\Gamma}{\diag M}{\diag G}
-    &\ofdiaglob{\diag\Gamma}{\diag N}{\diag G}}
+    {\wfdiagtp{\diag\Gamma}{\iid{\diagbase}{\diag{M_1}}{\diag{M_2}}}}
+    {\ofdiagtp{\diag\Gamma}{\{\diag{M_1},\diag{M_2}\}}{\diagbase}}
+  \qquad
+  \infer
+    {\wfdiagtp{\diag\Gamma}{\iid{\iid{\diagbase}{\diag{M_1}}{\diag{M_2}}}{\diag{N_1}}{\diag{N_2}}}}
+    {\ofdiagtp{\diag\Gamma}{\{\diag{M_1},\diag{M_2}\}}{\diagbase}
+    &\ofdiagtp{\diag\Gamma}{\{\diag{N_1},\diag{N_2}\}}{\iid{\diagbase}{\diag{M_1}}{\diag{M_2}}}}
   \]
 \end{small}
 
@@ -94,13 +96,21 @@ We have fewer judgments:
 \begin{small}
   \[
   \infer{\ofdiaglob{\diag\Gamma}{x}{\diag G}}
-  {(\tptm{x}{\diag G})\in\diag\Gamma}
+        {(\tptm{x}{\diag G})\in\diag\Gamma}
   \qquad\qquad
-  \infer{\ofdiaglob{\diag\Gamma}{\diagcoh{\Delta.\diag G}{\diag\delta}}
-    {\diag G[\diag\delta]}}
-  {\wfdiag{\Delta} 
-    & \wfdiaglob{\Delta}{\diag G}n
-    & \substdiaglob{\diag\Gamma}{\diag\delta}{\Delta}}
+  \def\diagG{\iid{\diagbase}{\diag{M_1}}{\diag{M_2}}}
+  \infer{\ofdiaglob{\diag\Gamma}{\diagcoh{\Delta.\diagG}{\diag\delta}}{(\diagG)[\diag\delta]}}
+        {\wfdiag{\Delta} 
+        &\wfdiagtp{\Delta}{\diagG}
+        &\substdiaglob{\diag\Gamma}{\diag\delta}{\Delta}}
+  \]
+  \\
+  \[
+  \def\diagG{\iid{(\iid{\diagbase}{\diag{M_1}}{\diag{M_2}})}{\diag{N_1}}{\diag{N_2}}}
+  \infer{\ofdiaglob{\diag\Gamma}{\diagcoh{\Delta.\diagG}{\diag\delta}}{(\diagG)[\diag\delta]}}
+        {\wfdiag{\Delta} 
+        &\wfdiagtp{\Delta}{\diagG}
+        &\substdiaglob{\diag\Gamma}{\diag\delta}{\Delta}}
   \]
 \end{small}
 
@@ -229,15 +239,6 @@ Admissible rules:
       {}
 \]
 
-Would be nice, but probably only propositionally true, without adding a
-critical pair:
-\[
-\infer{\deqtm{\Gamma}{\transport{x.B}{\alpha}{N_1}}
-                     {N_2}}
-      {x \# B}
-\]
-Does it need to be a generic program giving a path?
-
 \FIXME{what primitive rules do we need to make these admissible?}
 
 Note:
@@ -252,6 +253,30 @@ Guiding principle for what rules we add:
 reduction should be stable under substitution: \\
 If $x \vdash M \mapsto M'$ then $\subst{M}{N}{x} \mapsto
 \subst{M'}{N}{x}$.  
+
+\subsection{Interpretation of diagram contexts}
+
+We have meta-operations $\interpdiag{\diag\Gamma}{A}$ and $\interpdiag{\diag
+G}{A}$ of the following types:
+\begin{small}
+\[
+\infer{\wfctx{\interpdiag{\diag\Gamma}{A}}}
+      {\wfdiagctx{\diag\Gamma}}
+\]
+\end{small}
+
+% TODO
+
+\begin{small}
+\[\begin{aligned}
+\interpdiag{\emptyctx}{A} &:= \emptyctx \\
+\interpdiag{\diag\Gamma,\tptm{x}{\diag G}}{A} &:=
+\interpdiag{\diag\Gamma}{A},\tptm{x}{\interpdiaglob{\diag G}{A}} \\
+&\\
+\interpdiaglob{\diagbase}{A} &:= A \\
+\interpdiaglob{\iid{\diag G}{x}{y}}{A} &:= \iid{\interpdiaglob{\diag G}{A}}{x}{y} \\
+\end{aligned}\]
+\end{small}
 
 \subsection{Terms}
 
@@ -315,24 +340,44 @@ If $x \vdash M \mapsto M'$ then $\subst{M}{N}{x} \mapsto
 \]
 \end{small}
 
+\paragraph{Coh}
+
+
+
 \paragraph{Ap}
 \begin{small}
 \[
 \begin{array}{l}
-% ap
 \infer{\oftp{\Gamma}{\ap{(x.M)}{N}}{\iidover{x.B}{N}{\subst{M}{N_1}{x}}{\subst{M}{N_2}{x}}}}
       {\oftp{\Gamma,\tptm{x}{A}}{M}{B} & \oftp{\Gamma}{N}{\iid{A}{N_1}{N_2}}}
 \end{array}
 \]
 \end{small}
 
-transport (and inverse transport?)
+\paragraph{Transport}
+
+\ \\
+(Do we want inverse transport?)
+
+\begin{small}
+\[
+\begin{array}{l}
+\infer{\oftp{\Gamma}{\transport{x.B}{M}{N}}{\subst{B}{M_2}{x}}}
+      {\wftp{\Gamma,\tptm{x}{A}}{B} &
+       \oftp{\Gamma}{M}{\iid{A}{M_1}{M_2}} &
+       \oftp{\Gamma}{N}{\subst{B}{M_1}{x}}}
+\\ \\
+\infer{\oftp{\Gamma}{\transportinv{x.B}{M}{N}}{\subst{B}{M_1}{x}}}
+      {\wftp{\Gamma,\tptm{x}{A}}{B} &
+       \oftp{\Gamma}{M}{\iid{A}{M_1}{M_2}} &
+       \oftp{\Gamma}{N}{\subst{B}{M_2}{x}}}
+\end{array}
+\]
+\end{small}
 
 transport/pathover equivalences
 
 coh
-
-ap
 
 depcoh and factoring
 
@@ -364,6 +409,14 @@ apcoh or something that implies it (only on refl?)
 \end{small}
 
 For elements of \set, can just use transport at unfolding of $El$?  
+
+Would be nice, but probably only propositionally true, without adding a
+critical pair:
+\[
+\infer{\deqtm{\Gamma}{\transport{x.B}{\alpha}{N_1}}{N_2}{}}
+      {x \# B}
+\]
+Does it need to be a generic program giving a path?
 
 \subsection{Open questions}
 

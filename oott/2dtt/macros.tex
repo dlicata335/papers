@@ -18,6 +18,10 @@
 \newcommand{\diag}[1]{\ensuremath{\overline{#1}}}
 \newcommand{\wfdiag}[1]{\ensuremath{#1 \: \dsd{diag}}}
 \newcommand{\wfdiagctx}[1]{\ensuremath{{#1} \: \dsd{diagctx}}}
+\newcommand{\wfdiagtp}[2]{\ensuremath{{#1} \vdash {#2} \: \dsd{diagtype}}}
+\newcommand{\ofdiagtp}[3]{\ensuremath{{#1} \vdash {#2} : {#3}}}
+\newcommand{\substdiagtp}[3]{\ensuremath{{#1} \vdash {#2} : {#3}}}
+
 \newcommand{\wfdiaglob}[3]{\ensuremath{{#1} \vdash {#2} \: \dsd{diaglob}_{#3}}}
 \newcommand{\ofdiaglob}[3]{\ensuremath{{#1} \vdash {#2} : {#3}}}
 \newcommand{\substdiaglob}[3]{\ensuremath{{#1} \vdash {#2} : {#3}}}
@@ -36,6 +40,8 @@
 \newcommand\dhomj[4]{\ensuremath{#2 =^{#1}_{#4} #3}}
 
 \newcommand{\interpdiag}[2]{\ensuremath{[ #1 ]_{#2}}}
+\newcommand{\interpdiaglob}[2]{[{#1}]_{#2}}
+
 \newcommand{\ofinterp}[4]{\ofglob{#1}{#2}{\interpdiag{#3}{#4}}}
 \newcommand{\interpglob}[3]{[{#1}]_{#2}^{#3}}
 
@@ -76,7 +82,7 @@
 \newcommand{\diagcoh}[2]{\ensuremath{\dsd{\diag{coh}}_{#1}(#2)}}
 
 \newcommand{\unit}{\dsd{1}}
-\newcommand{\mt}{\dsd{()}}
+\newcommand{\mt}{\dsd{\langle\rangle}}
 \newcommand{\unitcase}[2]{\dsd{case}_{\unit}(#1,\mt.#2)}
 
 \newcommand{\inl}[1]{\app{\dsd{inl}}{#1}}
@@ -112,6 +118,7 @@
 %% \newcommand\ofhom[5]{\ensuremath{#1 \vdash #2 : \homj{#3}{#4}{#5}}}
 
 \newcommand\transport[3]{\ensuremath{\dsd{transport}_{#1} \ #2 \ #3}}
+\newcommand\transportinv[3]{\ensuremath{\dsd{transport}_{#1}^\dsd{-1} \ #2 \ #3}}
 
 \newcommand\set[0]{\dsd{set}}
 \newcommand\typ[1]{\dsd{Type}_{#1}}
