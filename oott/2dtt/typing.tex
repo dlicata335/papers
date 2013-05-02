@@ -194,7 +194,7 @@ WHNFs:
 \begin{array}{rcl}
 G\ep & ::= & {\sone} \mid \sm{A}{B} \mid {\iid{G\ep}{M}{N}} \\
 \neu{A}  & ::= & \el{\neu{M}} \mid \iid{\neu{A}}{M}{N} \mid {\iidover{x.\neu{B}}{\alpha}{M}{N}} \text{(when $\hd{\neu B} \neq x$)} \\
-\whnf{A} & ::= & G\ep \mid \neu{A} \mid \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \unit \mid \set \mid \\
+\whnf{A} & ::= & G\ep \mid \neu{A} \mid \picl{x}{A}{B} \mid \sigmacl{x}{A}{B} \mid \unit \mid \set \\
 \end{array}
 \]
 
@@ -256,12 +256,20 @@ If $x \vdash M \mapsto M'$ then $\subst{M}{N}{x} \mapsto
 
 \subsection{Interpretation of diagram contexts}
 
-We have meta-operations $\interpdiag{\diag\Gamma}{A}$ and $\interpdiag{\diag
-G}{A}$ of the following types:
+(FIXME: should A be an open type?)
+
+We have meta-operations $\interpdiag{\diag\Gamma}{A}$, $\interpdiag{\diag
+G}{A}$, $\interpdiag{\diag M}{A}$ of the following types:
 \begin{small}
 \[
 \infer{\wfctx{\interpdiag{\diag\Gamma}{A}}}
-      {\wfdiagctx{\diag\Gamma}}
+      {\wfdiagctx{\diag\Gamma} & \wftp{}{A}}
+\qquad\qquad
+\infer{\wftp{\interpdiag{\diag\Gamma}{A}}{\interpdiag{\diag G}{A}}}
+      {\wfdiagtp{\diag\Gamma}{\diag G} & \wftp{}{A}}
+\qquad\qquad
+\infer{\oftp{\interpdiag{\diag\Gamma}{A}}{\interpdiag{\diag M}{A}}{\interpdiag{\diag G}{A}}}
+      {\oftp{\diag\Gamma}{\diag M}{\diag G} & \wftp{}{A}}
 \]
 \end{small}
 
@@ -273,8 +281,13 @@ G}{A}$ of the following types:
 \interpdiag{\diag\Gamma,\tptm{x}{\diag G}}{A} &:=
 \interpdiag{\diag\Gamma}{A},\tptm{x}{\interpdiaglob{\diag G}{A}} \\
 &\\
-\interpdiaglob{\diagbase}{A} &:= A \\
-\interpdiaglob{\iid{\diag G}{x}{y}}{A} &:= \iid{\interpdiaglob{\diag G}{A}}{x}{y} \\
+\interpdiag{\diagbase}{A} &:= A \\
+\interpdiag{\iid{\diag G}{\diag M}{\diag N}}{A} &:= \iid{\interpdiag{\diag
+G}{A}}{\interpdiag{\diag M}A}{\interpdiag{\diag N}A} \\
+&\\
+\interpdiag{x}{A} &:= x \\
+\interpdiag{\diagcoh{\Delta.\diag G}{\diag\delta}}{A} &:= 
+\coh{\Delta.\diag G}{A}{\diag\delta}
 \end{aligned}\]
 \end{small}
 
@@ -342,6 +355,19 @@ G}{A}$ of the following types:
 
 \paragraph{Coh}
 
+\begin{small}
+\[
+\begin{array}{l}
+\infer
+  {\oftp{\interpdiag{\diag\Gamma}{A}}
+        {\coh{\Delta.\diag G}{A}{\diag\delta}}
+        {\interpdiag{\diag G[\diag\delta]}{A}}}
+  {\wftp{}{A}
+  &\oftp{\diag\Gamma}{\diagcoh{\Delta.\diag G}{\diag\delta}}{\diag
+    G[\diag\delta]}}
+\end{array}
+\]
+\end{small}
 
 
 \paragraph{Ap}
@@ -376,8 +402,6 @@ G}{A}$ of the following types:
 \end{small}
 
 transport/pathover equivalences
-
-coh
 
 depcoh and factoring
 
