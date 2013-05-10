@@ -83,19 +83,20 @@
 
 \newcommand{\unit}{\dsd{1}}
 \newcommand{\mt}{\dsd{\langle\rangle}}
-\newcommand{\unitcase}[2]{\dsd{case}_{\unit}(#1,\mt.#2)}
+\newcommand{\unitind}[2]{\dsd{ind}_{\unit}(#1,#2)}
 
 \newcommand{\inl}[1]{\app{\dsd{inl}}{#1}}
 \newcommand{\inr}[1]{\app{\dsd{inr}}{#1}}
-\newcommand{\smcase}[4]{\dsd{case}_{#1}(#2,#3,#4)}
+\newcommand{\smind}[4]{\dsd{ind}_{#1}(#2,#3,#4)}
 
 \newcommand{\sone}{\dsd{S^1}}
-\newcommand{\base}[1]{\dsd{base}_{#1}}
-\newcommand{\lp}[1]{\dsd{loop}_{#1}}
+\newcommand{\base}{\dsd{base}}
+\newcommand{\lp}{\dsd{loop}}
 \newcommand{\baseT}{\dsd{base_T}}
 \newcommand{\pT}{\dsd{p_T}}
 \newcommand{\qT}{\dsd{q_T}}
 \newcommand{\fT}{\dsd{f_T}}
+\newcommand{\sind}[3]{\dsd{ind}_{\sone}(#1,#2,#3)}
 \newcommand{\srec}[5]{\dsd{S^{#1}\text{-}rec}_{#2}(#3,#4,#5)}
 
 \newcommand\cons[3]{\ensuremath{#1 \mathbin{,} \tptmns{#2}{#3}}}

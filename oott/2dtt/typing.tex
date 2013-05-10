@@ -318,8 +318,9 @@ G}{A}}{\interpdiag{\diag M}A}{\interpdiag{\diag N}A} \\
 \infer{\oftp{\Gamma}{\mt}{\unit}}
       {}
 \qquad
-\infer{\oftp{\Gamma}{\unitcase{M}{N}}{C}}
-      {\oftp{\Gamma}{M}{\unit} & \oftp{\Gamma}{N}{C}}
+\infer{\oftp{\Gamma}{\unitind{M}{N}}{\subst{C}{M}{x}}}
+      {\wftp{\Gamma,\tptm x\unit}{C} &
+       \oftp{\Gamma}{M}{\unit} & \oftp{\Gamma}{N}{\subst{C}{\mt}{x}}}
 \\ \\
 % sum
 \infer{\oftp{\Gamma}{\inl{M}}{\sm{A}{B}}}
@@ -327,11 +328,12 @@ G}{A}}{\interpdiag{\diag M}A}{\interpdiag{\diag N}A} \\
 \qquad
 \infer{\oftp{\Gamma}{\inr{M}}{\sm{A}{B}}}
       {\oftp{\Gamma}{M}{B}}
-\qquad
-\infer{\oftp{\Gamma}{\smcase{\sm{A}{B}}{M}{x.N_1}{y.N_2}}{C}}
-      {\oftp{\Gamma}{M}{\sm{A}{B}} &
-       \oftp{\Gamma,\tptm{x}{A}}{N_1}{C} &
-       \oftp{\Gamma,\tptm{y}{B}}{N_2}{C}}
+\\ \\
+\infer{\oftp{\Gamma}{\smind{\sm{A}{B}}{M}{y.N_1}{z.N_2}}{\subst{C}{M}{x}}}
+      {\wftp{\Gamma,\tptm{x}{\sm{A}{B}}}{C} &
+       \oftp{\Gamma}{M}{\sm{A}{B}} &
+       \oftp{\Gamma,\tptm{y}{A}}{N_1}{\subst{C}{\inl{y}}{x}} &
+       \oftp{\Gamma,\tptm{z}{B}}{N_2}{\subst{C}{\inr{z}}{x}}}
 \\ \\
 % set
 \infer{\oftp{\Gamma}{\picd{S}{T}}{\set}}
@@ -349,6 +351,24 @@ G}{A}}{\interpdiag{\diag M}A}{\interpdiag{\diag N}A} \\
 \qquad
 \infer{\oftp{\Gamma}{\smcd{S}{T}}{\set}}
       {\oftp{\Gamma}{S}{\set} & \oftp{\Gamma}{T}{\set}}
+\end{array}
+\]
+\end{small}
+
+\paragraph{\sone}
+
+\begin{small}
+\[
+\begin{array}{l}
+\infer{\oftp{\Gamma}{\base}{\sone}}{}
+\qquad
+\infer{\oftp{\Gamma}{\lp}{\iid{\sone}{\base}{\base}}}{}
+\\ \\
+\infer{\oftp{\Gamma}{\sind{M}{b}{\ell}}{\subst{C}{M}{x}}}
+      {\wftp{\Gamma,\tptm{x}{\sone}}{C}
+      &\oftp{\Gamma}{M}{\sone}
+      &\oftp{\Gamma}{b}{\subst{C}{\base}{x}}
+      &\oftp{\Gamma}{\ell}{\iidover{x.C}{\lp}{b}{b}}}
 \end{array}
 \]
 \end{small}
