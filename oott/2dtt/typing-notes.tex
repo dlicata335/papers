@@ -1,0 +1,42 @@
+How does the definition
+\[ \iidover{x.B}{\alpha}{N_1}{N_2}
+\quad := \quad
+\iid{\subst{B}{M_2}{x}}{\transport{x.A}{\alpha}{N_1}}{N_2} \]
+compare to the pathover definitions above?
+
+\begin{small}
+\[\begin{array}{rclll}
+% pi
+\iidover{x.\picl{y}{B}{C}}{\tptm{\alpha}{\iid{}{M_1}{M_2}}}{N_1}{N_2}
+&:=& \iid{\subst{(\picl yBC)}{M_2}{x}}{\transport{x.\picl yBC}{\alpha}{N_1}}{N_2} \\
+&\mapsto& \picl{y}{\subst{B}{M_2}{x}}{\iid{\subst{C}{M_2}{x}}{(\transport{x.\picl
+yBC}{\alpha}{N_1})~y}{N_2~y}} \\
+&\mathbf{vs}& \picl{y_1}{\subst{B}{M_1}{x}}{\picl{y_2}{\subst{B}{M_2}{x}}{
+\picl{p}{\iid{\subst{B}{M_2}{x}}{\transport{x.B}{\alpha}{y_1}}{y_2}}}} \\
+&&\iid{\subst{C}{(M_2,y_2)}{(x,y)}}
+{\transport{(x,y).C}{(\alpha,p)}{(N_1~y_1)}}{N_2~y_2} \\
+&&\\
+% sigma
+\iidover{x.\sigmacl{y}{B}{C}}{\alpha}{N_1}{N_2}
+&:=& \iid{\subst{(\sigmacl yBC)}{M_2}{x}}{\transport{x.\sigmacl yBC}{\alpha}{N_1}}{N_2} \\
+&\mapsto& \sigmacl{p}{\iid{\subst{B}{M_2}{x}}{\fst{(\transport{x.\sigmacl
+yBC}{\alpha}{N_1})}}{\fst{N_2}}}{} \\
+&&\iid{\subst{\subst{C}{M_2}{x}}{\fst{N_2}}{y}}{\transport{y.C}{p}{(\snd{(\transport{x.\sigmacl
+yBC}{\alpha}{N_1})})}}{\snd{N_2}} \\
+&\mathbf{vs}&
+\sigmacl{p}{\iid{\subst{B}{M_2}{x}}{\transport{x.B}{\alpha}{(\fst{N_1})}}{\fst{N_2}}}{}
+\\
+&&\iid{\subst{C}{(M_2,\fst{N_2})}{(x,y)}}{\transport{(x,y).C}{(\alpha,p)}{(\snd{N_1})}}{\snd{N_2}} \\
+&&\\
+% unit
+\iidover{x.\unit}{\alpha}{N_1}{N_2}
+&:=& \iid{\unit}{\transport{x.\unit}{\alpha}{N_1}}{N_2} \\
+&\mathbf{vs}& \iid{\unit}{N_1}{N_2} \\
+&&\\
+% set
+\iidover{x.\set}{\alpha}{N_1}{N_2}
+&:=& \iid{\set}{\transport{x.\set}{\alpha}{N_1}}{N_2} \\
+&\mathbf{vs}& \iid{\set}{N_1}{N_2} \\
+\end{array}\]
+\end{small}
+
